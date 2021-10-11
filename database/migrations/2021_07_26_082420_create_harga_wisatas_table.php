@@ -17,7 +17,7 @@ class CreateHargaWisatasTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('wisata_id')->unsigned();
             $table->foreign('wisata_id')->references('id')->on('wisatas');
-            $table->enum('jenis_harga',['weekday','weekend']);
+            $table->enum('jenis_harga',['Weekday','Weekend']);
             $table->double('harga_masuk');
             $table->string('keterangan');
             $table->timestamps();

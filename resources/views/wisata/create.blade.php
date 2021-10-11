@@ -14,13 +14,13 @@
                 <div class="row">
                       <div class="col-md-5">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Nama Wisata</label>
+                        <label class="exampleFormControlInput1">Nama Wisata</label>
                         <input class="form-control" type="text" name="nama" id="nama" placeholder="Masukan nama tempat wisata">
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Alamat Wisata</label>
+                        <label class="exampleFormControlInput1">Alamat Wisata</label>
                         <input class="form-control" type="text" id="from_places" name="alamat" placeholder="Masukan nama tempat wisata">
                         <input type="hidden" id="long" name="lng">
                         <input type="hidden" id="lat" name="lat">
@@ -29,7 +29,7 @@
                       <div class="col-md-3">
                         <div class="form-group">
 
-                          <label for="exampleFormControlInput1">Rating Wisata</label>
+                          <label class="exampleFormControlInput1">Rating Wisata</label>
                           <input class="form-control" type="text"name="rating" id="rating" placeholder="Masukan rating tempat wisata" />
                         </div>
                       </div>
@@ -38,7 +38,7 @@
                       <div class="row">
                       <div class="col-md-3">
                         <div class="form-group">
-                        <label class="bmd-label-floating">Tipe Wisata</label>
+                        <label class="exampleFormControlInput1">Tipe Wisata</label>
                           <select class="form-control" name="tipe" required>
                             <option value=""> Pilih Tipe Wisata </option>
                                 @foreach ($listtipe as $tipe)
@@ -49,7 +49,7 @@
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                        <label class="bmd-label-floating">Kabupaten/Kota</label>
+                        <label class="exampleFormControlInput1">Kabupaten/Kota</label>
                         <select class="form-control dynamic"  id="kabupaten" name="kabupaten" data-dependent="kecamatan" required>
                         <option value=""> Pilih Kabupaten/Kota </option>
                             @foreach ($kabupaten as $kab)
@@ -61,7 +61,7 @@
                 
                       <div class="col-md-3">
                         <div class="form-group">
-                        <label class="bmd-label-floating">Kecamatan</label>
+                        <label class="exampleFormControlInput1">Kecamatan</label>
                         <select class="form-control dynamic"  id="kecamatan" name="kecamatan" data-dependent="kelurahan" required>
                         <option value=""> Pilih Kecamatan </option>
                             @foreach ($kecamatan as $kec)
@@ -72,7 +72,7 @@
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                        <label class="bmd-label-floating">Kelurahan</label>
+                        <label class="exampleFormControlInput1">Kelurahan</label>
                         <select class="form-control dynamic"  id="kelurahan" name="kelurahan" required>
                         <option value=""> Pilih Kelurahan </option>
                             @foreach ($kelurahan as $kel)
@@ -85,13 +85,13 @@
                     <!-- <div class="row"> -->
                       <!-- <div class="col-md-6">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Longitude</label>
+                        <label class="exampleFormControlInput1">Longitude</label>
                         <input class="form-control" type="text" name="long" placeholder="Masukan longitude tempat wisata" required>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Latitude</label>
+                        <label class="exampleFormControlInput1">Latitude</label>
                         <input class="form-control" type="text" name="lat" placeholder="Masukan latitude tempat wisata" required>
                         </div>
                       </div>
@@ -105,7 +105,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Jam Tutup</label>
+                        <label class="exampleFormControlInput1">Jam Tutup</label>
                             <input class="form-control" type="time" name="tutup" id="tutup" onmouseout="updateOperasional()"required>
                         </div>
                       </div>
@@ -119,7 +119,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Harga Weekend</label>
+                        <label class="exampleFormControlInput1">Harga Weekend</label>
                             <input class="form-control" type="number" name="weekend" id="weekend"  onmouseout="cekharga()"required>
                         </div>
                       </div>
@@ -128,29 +128,29 @@
                       <div class="col-md-8">
                         <div class="form-group">
                           <div class="form-group">
-                          <label for="exampleFormControlInput1">Keterangan</label>
-                            <textarea class="form-control" rows="5" name="keterangan" placeholder="Masukan keterangan tempat wisata"></textarea>
+                          <label class="exampleFormControlInput1">Deskripsi Wisata</label>
+                            <textarea class="form-control" rows="5" name="keterangan" placeholder="Masukan keterangan tempat wisata" required></textarea>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <label for="exampleFormControlInput1">Pilih Gambar Wisata</label>
-                        <input type="file" name="filename[]" id="filename" accept="image/*" multiple=""/>
+                        <label class="exampleFormControlInput1">Pilih Gambar Wisata</label>
+                        <input type="file" name="filename[]" id="filename" accept=".jpg, .jpeg, .png" multiple=""/>
                       </div>
                     </div>
                   
                     <div class="row">
                     <div class="col-md-10">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Fasilitas yg dimiliki</label>
+                        <label class="exampleFormControlInput1">Fasilitas yg dimiliki</label>
                         </div>
                       </div>
                     @foreach ($listdetailkriteria as $detkrit)
 
                             <div class="col-md-4">
-                              <div class="form-group">
-                              <input  type="checkbox" name="fasi[]" value="{{$detkrit->id}}" class='z' onclick="updateCount()">
-                              <label class="exampleFormControlInput1">{{$detkrit->nama_detail}} </label>
+                              <div class="form-check">
+                              <label class="exampleFormControlInput1"><input  type="checkbox" id="fasi" name="fasi[]" value="{{$detkrit->id}}" class='z' onclick="updateCount()">
+                              {{$detkrit->nama_detail}} </label>
 
                               </div>
                             </div>
@@ -193,9 +193,17 @@
                     </div>
 
                 @endforeach
+                 
                 <div class="col-sm-4">
                   <div id="map" style="height: 400px; width: 450px" ></div>
                 </div> 
+                <div class="row">
+                  <div class="slider">
+                    <ul id="frames" class="frames"></ul>
+                    <div class="nav-dots">
+                    </div>
+                  </div>
+                </div>
               </div>
               </div>
               </form>
@@ -204,29 +212,29 @@
           </div>
         </div>
       </div>
+
 <script>
 $(document).ready(function(){
+  $('#kabupaten').change(function(){
+        let id=$(this).val();
+        console.log(id);
+        $('#kecamatan').empty();
+        $('#kecamatan').append(' <option value="" disabled selected>Processing...</option>');
+        $.ajax({
+            type: 'GET',
+            url: 'getKecamatan/'+ id,
+            success: function(response){
+                var response = JSON.parse(response);
+                console.log(response);
+                $('#kecamatan').empty();
+                $('#kecamatan').append(' <option value="" disabled selected>Pilih Kecamatan</option>');
+                response.forEach(element => {
+                $('#kecamatan').append(`<option value="${element['id']}">${element['nama_kecamatan']}</option>`);
 
- $('#kabupaten').change(function(){
-    let id=$(this).val();
-    console.log(id);
-  $('#kecamatan').empty();
-  $('#kecamatan').append(' <option value="" disabled selected>Processing...</option>');
-  $.ajax({
-      type: 'GET',
-      url: 'getKecamatan/'+ id,
-      success: function(response){
-          var response = JSON.parse(response);
-          console.log(response);
-          $('#kecamatan').empty();
-          $('#kecamatan').append(' <option value="" disabled selected>Pilih Kecamatan</option>');
-          response.forEach(element => {
-            $('#kecamatan').append(`<option value="${element['id']}">${element['nama_kecamatan']}</option>`);
-
-          });
-      }
-  });
- });
+                });
+            }
+            });
+        });
 
 //  $('#kabupaten').change(function(){
 //   var kabID = $(this).val();  
@@ -391,7 +399,7 @@ $(function() {
             })
             const succesfulLooku = (position) => {
                       const {latitude, longitude} = position.coords;
-                      fetch('https://api.opencagedata.com/geocode/v1/json?q=LAT+LNG&key=AIzaSyCkYnXZ4w1JidfCF9nspLGP5VqNGJ8EgOc')
+                      fetch('https://api.opencagedata.com/geocode/v1/json?q=LAT+LNG&key=AIzaSyBqwxhpF3R8QeWPGUrTlsUzt_WXmnJGpns')
                       .then(response => response.json())
                       .then(data => console.log(data));
             }
@@ -528,6 +536,67 @@ $(function() {
         });
 
 });
+
+
+$('#filename').on('change', function () {
+    handleFileSelect();
+});
+
+function handleFileSelect() {
+    //Check File API support
+    if (window.File && window.FileList && window.FileReader) {
+
+        var files = event.target.files; //FileList object
+        var output = document.getElementById("frames");
+        var dots = $('.nav-dots');
+        var arrFilesCount = [];
+        var start = $(output).find('li').length;
+        var end = start+ files.length;
+        var nonImgCount = 0;
+        for (var i = start; i < end; i++) {
+            arrFilesCount.push(i);
+        }
+        
+        if(start !== 0){
+            $(output).find('li > nav > a.prev').first().attr('href','#slide-' + (end-1));
+            $(output).find('li > nav > a.next').last().attr('href','#slide-'+start);
+        }
+        
+        for (var i = 0; i < files.length; i++) {
+
+            var file = files[i];
+
+            //Only pics
+            if (!file.type.match('image')) {nonImgCount++; continue;}
+
+            var picReader = new FileReader();
+            picReader.addEventListener("load", function (event) {
+                var picFile = event.target;
+
+                current_i = arrFilesCount.shift();
+                if (current_i === 0) {
+                    prev_i = files.length - 1;
+                } else {
+                    prev_i = current_i - 1;
+                }
+                if (arrFilesCount.length - nonImgCount === 0) {
+                    next_i = 0;
+                } else {
+                    next_i = current_i + 1;
+                }
+
+                output.innerHTML = output.innerHTML + '<li id="slide-' + current_i + '" class="slide">' + "<img src='" + picFile.result + "'" + "title=''/>" + '<nav>' + '<a class="prev" href="#slide-' + prev_i + '">&larr;</a>' + '<a class="next" href="#slide-' + next_i + '">&rarr;</a>' + '</nav>' + '</li>'; // TODO: Enter Title
+                
+                $(dots).append('<a class="dot" href="#slide-' + current_i + '" />');
+                
+            });
+            //Read the image
+            picReader.readAsDataURL(file);
+        }
+    } else {
+        console.log("Your browser does not support File API");
+    }
+}
 
 </script>
 

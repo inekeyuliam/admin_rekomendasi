@@ -13,7 +13,7 @@
           <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Nama Kriteria</label>
+                        <label class="exampleFormControlInput1">Nama Kriteria</label>
                         <input class="form-control" type="text" name="kriteria" value="{{$itemkriteria->kriteria}}"  >
                     </div>
                 </div>
@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="bmd-label-floating">Jenis Kriteria</label>
+                        <label class="exampleFormControlInput1">Jenis Kriteria</label>
                         <select class="form-control" name="jenis" required>
                         <option value=""> Pilih Jenis Kriteria </option>
                         @foreach ($listjenis as $jen)
@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="bmd-label-floating">Tipe Kriteria</label>
+                        <label class="exampleFormControlInput1">Tipe Kriteria</label>
                         <select class="form-control" name="tipe" required>
                         <option value=""> Pilih Tipe Kriteria </option>
                                 <option value="Benefit"@if($itemkriteria->tipe_kriteria == 'Benefit') selected ='selected' @endif>Benefit</option>

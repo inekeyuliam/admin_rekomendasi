@@ -27,21 +27,21 @@ class LoginController extends Controller
      * @var string
      */
         protected function redirectTo()
-    {
-        if(Auth::user()->tipe_admin =='hotel')
         {
-            return '/home/hotel';
-    
+            if(Auth::user()->tipe_admin =='hotel')
+            {
+                return '/home/hotel';
+        
+            }
+            elseif(Auth::user()->tipe_admin =='persewaan')
+            {
+                return '/home/persewaan';
+            }
+            else
+            {
+                return '/home';    
+            }
         }
-        elseif(Auth::user()->tipe_admin =='persewaan')
-        {
-            return '/home/persewaan';
-        }
-        else
-        {
-            return '/home';    
-        }
-    }
     
 
     /**

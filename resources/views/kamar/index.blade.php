@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                <label class="bmd-label-floating">Cari </label>
+                                <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
                             </div>
@@ -26,8 +26,9 @@
                                 <thead >
                                         <tr>
                                             <th>No.</th>
-                                            <th>Nomor Kamar</th>
+                                            <!-- <th>Nomor Kamar</th> -->
                                             <th>Jenis Kamar</th>
+                                            <th>Harga Kamar</th>
                                             <th>Action Edit</th>
                                             <th>Action Delete</th>
                                         </tr>
@@ -36,8 +37,8 @@
                                     @foreach ($listkamar as $key=>$item)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$item->nomor_kamar}}</td>
-                                            <td>{{$item->jenis_kamars->nama_jenis_kamar}}</td>
+                                            <td>{{$item->nama_jenis_kamar}}</td>
+                                            <td>{{number_format($item->biaya_permalam,2)}}</td>
                                             <td>
                                             <a href="{{url('kamar/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
                                             </td>                         

@@ -10,15 +10,23 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <div class="form-group">
-                                <label class="bmd-label-floating">Cari </label>
+                                <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
+                            </div>
+                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Download Laporan
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item"  href="{{url('export/wisata')}}"> Laporan Excel</a>
+                            <a class="dropdown-item" href="cetak_pdf/wisata" target="_blank"> Laporan PDF</a>
                             </div>
                             <div class="col-md-2">
                             <a class="btn btn-primary btn-md pull-right" href="{{url('wisata/create')}}">Tambah Wisata</a> 
                             </div>
+                        
                             </div>
                             <table class="table table-striped table-no-bordered table-hover dataTable dtr-inline" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -26,6 +34,7 @@
                                         <th>No.</th>
                                         <th>Nama Wisata</th>
                                         <th>Jenis Wisata</th>
+                                        <th>Kabupaten / Kota</th>
                                         <th>Action Edit</th>
                                         <th>Action Delete</th>
                                     </tr>
@@ -36,6 +45,7 @@
                                         <td>{{$key+1}}</td>
                                         <td>{{$item->nama_wisata}}</td>
                                         <td>{{$item->tipe_wisatas->nama_tipe}}</td>
+                                        <td>{{$item->kelurahans->kecamatans->kabupatens->nama_kabupaten}}</td>
                                         <td>
                                         <a href="{{url('wisata/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
                                         </td>                         

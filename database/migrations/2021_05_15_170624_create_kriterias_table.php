@@ -19,6 +19,7 @@ class CreateKriteriasTable extends Migration
             $table->foreign('jenis_kriteria_id')->references('id')->on('jenis_kriterias');
             $table->enum('tipe_kriteria',['Benefit','Cost']);
             $table->string('kriteria');
+            $table->string('satuan')->nullable();
             $table->timestamps();
         });
     }

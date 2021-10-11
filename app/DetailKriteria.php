@@ -11,4 +11,7 @@ class DetailKriteria extends Model
     public function kriterias(){
         return $this->belongsTo("App\Kriteria","kriteria_id");
     }
+    public function wisatas(){
+        return $this->belongsToMany("App\Wisata",'detail_kriteria_wisatas','wisata_id','detail_kriteria_id');
+    }
 }

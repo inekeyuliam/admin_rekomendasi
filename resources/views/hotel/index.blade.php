@@ -12,13 +12,18 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                <label class="bmd-label-floating">Cari </label>
+                                <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                            <!-- <a class="btn btn-primary btn-md pull-right" href="{{url('pengguna/create')}}">Tambah Hotel</a>  -->
+                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Download Laporan
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item"  href="{{url('export/hotel/terverifikasi')}}"> Laporan Excel</a>
+                            <a class="dropdown-item" href="cetak_pdf/hotel/terverifikasi" target="_blank"> Laporan PDF</a>
                             </div>
+                       
                             </div>
 
                             <div class="table-responsive">
@@ -27,8 +32,8 @@
                                         <tr>
                                         <th>No.</th>
                                         <th>Nama Hotel</th>
-                                        <th>No Telp Hotel</th>
-                                        <th>Email</th>
+                                        <th>No Telp</th>
+                                        <th>Alamat</th>
                                         <th>Status</th>
                                         <th>Action Edit</th>
                                         <th>Action Delete</th>
@@ -40,14 +45,13 @@
                                         <td>{{$key+1}}</td>
                                         <td><a href="{{url('hotel/'.$item->id)}}">{{$item->nama_hotel}}</a></td>
                                         <td>{{$item->no_telp}}</td>
-                                        <td>{{$item->email}}</td>
+                                        <td>{{$item->alamat}}</td>
                                         <td>@if($item->status == 'aktif')
                                         <a class="badge badge-pill badge-warning"> Terverifikasi <i class="material-icons">verified</i></a>
                                         @else
                                         <a class="badge badge-pill badge-warning"> Belum Terverifikasi</a>
                                         @endif
                                         </td>
-
                                         <td>
                                         <a href="{{url('hotel/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
                                         </td>                         

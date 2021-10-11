@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-10">
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Nama Merk Kendaraan</label>
+                        <label class="exampleFormControlInput1">Nama Merk Kendaraan</label>
                         <input class="form-control" type="text" name="nama" placeholder="Masukan nama merk">
                     </div>                   
                     </div>

@@ -5,7 +5,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use App\Kendaraan;
 use App\Persewaan;
-use App\MerkKendaraan;
+use App\ModelKendaraan;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -29,10 +29,11 @@ class KendaraanController extends Controller
         ->count();
         if($hot == 1)
         {
-            $listmerk = MerkKendaraan::all();
+            $listmerk = ModelKendaraan::all();
             $listkend = DB::table('persewaans')
             ->join('kendaraans','kendaraans.persewaan_id','=','persewaans.id')
-            ->join('merk_kendaraans','merk_kendaraans.id','=','kendaraans.merk_id')
+            ->join('model_kendaraans','model_kendaraans.id','=','kendaraans.model_id')
+            ->join('merk_kendaraans','merk_kendaraans.id','=','model_kendaraans.merk_id')
             ->join('users','persewaans.user_id','=','users.id')
             ->where('users.id','=',$iduser)
             ->get();
@@ -53,9 +54,9 @@ class KendaraanController extends Controller
      */
     public function create()
     {
-        $merk = MerkKendaraan::all();
+        $model = ModelKendaraan::all();
 
-        return view('kendaraan.create', ['listmerk'=>$merk]);  
+        return view('kendaraan.create', ['listmod'=>$model]);  
     }
 
     /**
@@ -72,7 +73,7 @@ class KendaraanController extends Controller
         $file = $request->get('filename');
         $namamodel = $request->get('nama');
         $jenis = $request->get('jenis');
-        $merk = $request->get('merk');
+        $model = $request->get('model');
         $tahun = $request->get('tahun');
         $suratuji = $request->get('uji');
         $kapasitas = $request->get('kapasitas');
@@ -82,13 +83,9 @@ class KendaraanController extends Controller
         $kend = new Kendaraan();
         $kend->persewaan_id = $persewaan_id;
         $kend->filename_gambar = $file;
-        $kend->nama_model_kendaraan = $namamodel;
-        $kend->jenis_kendaraan=$jenis;
-        $kend->surat_uji = $suratuji;
-        $kend->merk_id = $merk;
+        $kend->model_id = $model;
         $kend->tahun_keluaran = $tahun;
         $kend->biaya_perhari=$biaya;
-        $kend->kapasitas_penumpang = $kapasitas;
         $kend->keterangan=$ket;
         $kend->save();
         return redirect('kendaraan')->withSuccessMessage('Kendaraan Berhasil ditambahkan!');
@@ -125,7 +122,27 @@ class KendaraanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $iduser = Auth::user()->id;
+        $persewaan_id = Persewaan::where('user_id', $iduser)->pluck('id')->first();
+        $file = $request->get('filename');
+        $namamodel = $request->get('nama');
+        $jenis = $request->get('jenis');
+        $model = $request->get('model');
+        $tahun = $request->get('tahun');
+        $suratuji = $request->get('uji');
+        $kapasitas = $request->get('kapasitas');
+        $biaya = $request->get('biaya');
+        $ket = $request->get('ket');
+        
+        $kend = Kendaraan::find($id);
+        $kend->persewaan_id = $persewaan_id;
+        $kend->filename_gambar = $file;
+        $kend->model_id = $model;
+        $kend->tahun_keluaran = $tahun;
+        $kend->biaya_perhari=$biaya;
+        $kend->keterangan=$ket;
+        $kend->save();
+        return redirect('kendaraan')->withSuccessMessage('Kendaraan Berhasil diubah!');
     }
 
     /**
@@ -136,6 +153,8 @@ class KendaraanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $kend = Kendaraan::find($id);
+        $kend->delete();
+        return redirect('kamar');
     }
 }

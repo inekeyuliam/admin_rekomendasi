@@ -27,7 +27,13 @@ class TipeWisataSeeder extends Seeder
             "nama_tipe" => "Wisata Kuliner"
         ]);
         DB::table('tipe_wisatas')->insert([
-            "nama_tipe" => "Wisata Religi atau Sejarah"
+            "nama_tipe" => "Wisata Religi"
+        ]);
+        DB::table('tipe_wisatas')->insert([
+            "nama_tipe" => "Wisata Taman Hiburan"
+        ]);
+        DB::table('tipe_wisatas')->insert([
+            "nama_tipe" => "Wisata Sejarah"
         ]);
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 use RealRashid\SweetAlert\Facades\Alert;
+use Validator,Redirect,Response,File;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\WisataExport;
 use Illuminate\Http\Request;
 use App\TipeWisata;
 use App\GambarWisata;
-use Validator,Redirect,Response,File;
 use App\Wisata;
 use App\Kecamatan;
 use App\KotaKabupaten;
@@ -13,10 +16,10 @@ use App\Kelurahan;
 use App\DetailKriteriaWisata;
 use App\DetailKriteria;
 use App\Kriteria;
-use Illuminate\Support\Facades\Auth;
+use App\WisataPunyaDetailKriteria;
 use App\Utilities\GoogleMaps;
 use GuzzleHttp\Client;
-
+use PDF;
 use DB;
 class WisataController extends Controller
 {
@@ -29,12 +32,13 @@ class WisataController extends Controller
     {
         if(session('success_message')){
             Alert::success('Success!', session('success_message'));
-
         }
-
         $listtipe = TipeWisata::all();
         $listwisata = Wisata::all();
-        return view('wisata.index', ['listtipe'=>$listtipe, 'listwisata'=>$listwisata]);  
+        $listkota = KotaKabupaten::all();
+
+        return view('wisata.index', ['listtipe'=>$listtipe, 'listwisata'=>$listwisata, 
+        'listkot'=>$listkota]);  
     }
 
     /**
@@ -51,11 +55,13 @@ class WisataController extends Controller
         $kelurahan = Kelurahan::all();
         $listtipe = TipeWisata::all();
         $listkriteria = Kriteria::where('jenis_kriteria_id',1)->get();
-
         $listdetailkriteria = DB::table('detail_kriterias')
+        ->select('detail_kriterias.nama_detail','detail_kriterias.id')
         ->join('kriterias','kriterias.id','=','detail_kriterias.kriteria_id')
         ->where('kriterias.id','=',1)
         ->get();
+        // dd($listdetailkriteria);
+
         return view('wisata.create', ['listtipe'=>$listtipe, 'listdetailkriteria' => $listdetailkriteria, 'kabupaten'=>$kabupaten, 'kecamatan'=>$kecamatan, 'kelurahan'=>$kelurahan, 'listkriteria'=>$listkriteria]);  
     
     }
@@ -117,6 +123,14 @@ class WisataController extends Controller
                 
             ]);
         }
+        $detail_krit =$request->get('fasi');
+        // dd($detail_krit);
+        foreach($request->input('fasi') as $key => $value) {
+            WisataPunyaDetailKriteria::create([
+                'wisata_id'=>$id,
+                'detail_kriteria_id'=>$value
+            ]);
+        }
         
         $files = $request->file('filename');
         if(! is_null(request('filename')))
@@ -140,6 +154,7 @@ class WisataController extends Controller
         }
         return redirect('wisata')->withSuccessMessage('Wisata Berhasil ditambahkan!');
     }
+
     public function getKecamatan($id){
         echo json_encode(DB::table('kecamatans')->where("kabupaten_id", $id)->get());
     }
@@ -230,7 +245,6 @@ class WisataController extends Controller
                 'nilai'=>  $request->input('nilai_kriteria')[$key],
                     'wisata_id'=>$id,
                     'kriteria_id'=>$key
-                
             ]);
         }
         return redirect('wisata')->withSuccessMessage(' Wisata Berhasil diubah!');
@@ -247,5 +261,17 @@ class WisataController extends Controller
         $wis = Wisata::find($id);
         $wis->delete();
         return redirect('wisata');
+    }
+    public function export() 
+    {
+        return Excel::download(new WisataExport, 'DaftarWisata.xlsx');
+    }
+ 
+    public function cetak_pdf()
+    {
+        $list = Wisata::all();
+    
+        $pdf = PDF::loadview('wisata.laporan_pdf',['listwis'=>$list])->setPaper('a4', 'landscape');;
+        return $pdf->download('laporan-wisata-pdf');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\MerkKendaraan;
@@ -17,14 +18,10 @@ class MerkKendaraanController extends Controller
     {
         if(session('success_message')){
             Alert::success('Success!', session('success_message'));
-
         }
-        
         $listmerk = MerkKendaraan::all();
 
         return view('merkkendaraan.index', ['listmerk'=>$listmerk]);  
-
-        
     }
    
     /**
@@ -35,7 +32,6 @@ class MerkKendaraanController extends Controller
     public function create()
     {
         return view('merkkendaraan.create');
-
     }
 
     /**
@@ -50,7 +46,7 @@ class MerkKendaraanController extends Controller
         $merk = new MerkKendaraan();
         $merk->nama_merk_kendaraan = $nama;
         $merk->save();
-        return redirect('merkkendaraan')->withSuccessMessage('Jenis Kamar Berhasil ditambahkan!');
+        return redirect('merkkendaraan')->withSuccessMessage('Merk Kendaraan Berhasil ditambahkan!');
     }
 
     /**

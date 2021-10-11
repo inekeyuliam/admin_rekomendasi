@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PersewaanTerverifikasiExport;
+use App\Exports\PersewaanPermintaanExport;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\JenisKendaraan;
 use App\Persewaan;
@@ -11,7 +15,7 @@ use App\KotaKabupaten;
 use App\Kelurahan;
 use App\DetailKriteriaPersewaan;
 use App\Kriteria;
-use Illuminate\Support\Facades\Auth;
+use PDF;
 use DB;
 class PersewaanController extends Controller
 {
@@ -59,9 +63,9 @@ class PersewaanController extends Controller
     {
         $iduser = Auth::user()->id;
 
-        $alamat = DB::table('hotels')->where('user_id',$iduser)->pluck('alamat')->first();
-        $long = DB::table('hotels')->where('user_id',$iduser)->pluck('longitude')->first();
-        $lat = DB::table('hotels')->where('user_id',$iduser)->pluck('latitude')->first();
+        $alamat = DB::table('persewaans')->where('user_id',$iduser)->pluck('alamat')->first();
+        $long = DB::table('persewaans')->where('user_id',$iduser)->pluck('longitude')->first();
+        $lat = DB::table('persewaans')->where('user_id',$iduser)->pluck('latitude')->first();
 
         $minharga = DB::table('kendaraans')
         ->join('persewaans','persewaans.id','=','kendaraans.persewaan_id')
@@ -73,14 +77,16 @@ class PersewaanController extends Controller
         ->join('kriterias','kriterias.id','=','detail_kriterias.kriteria_id')
         ->where('kriterias.id','=',3)
         ->get();
-        return view('persewaan.bobot', [ 'listdetailkriteria' => $listdetailkriteria,  'listkriteria'=>$listkriteria, 'rating'=>$rating, 'min'=>$minharga, 'alamat'=>$alamat, 'long'=>$long, 'lat'=>$lat]);  
+        return view('persewaan.bobot', [ 'listdetailkriteria' => $listdetailkriteria,  
+        'listkriteria'=>$listkriteria, 'rating'=>$rating, 'min'=>$minharga, 'alamat'=>$alamat, 
+        'long'=>$long, 'lat'=>$lat]);  
     
     }
 
     public function nonaktif()
     {
-        $listhotel = Persewaan::where('status','=','nonaktif')->get();
-        return view('persewaan.nonaktif', ['listhotel'=>$listhotel]);
+        $listpersewaan = Persewaan::where('status','=','nonaktif')->where('alasan','=','')->get();
+        return view('persewaan.nonaktif', ['listpersewaan'=>$listpersewaan]);
     }
     public function simpan(Request $request)
     {
@@ -136,9 +142,9 @@ class PersewaanController extends Controller
         ->count();
         if($kendaraan >0)
         {
-            $jumdet =  DB::table('detail_kriteria_persewaans')
-            ->join('persewaans', 'persewaans.id', '=','detail_kriteria_persewaans.persewaan_id')
-            ->join('kriterias', 'kriterias.id', '=','detail_kriteria_persewaans.kriteria_id')
+            $jumdet =  DB::table('kriteria_persewaans')
+            ->join('persewaans', 'persewaans.id', '=','kriteria_persewaans.persewaan_id')
+            ->join('kriterias', 'kriterias.id', '=','kriteria_persewaans.kriteria_id')
             ->join('users', 'users.id', '=','persewaans.user_id')
             ->where('persewaans.user_id',$iduser)
             ->count();
@@ -173,14 +179,16 @@ class PersewaanController extends Controller
                 ->join('kriterias','kriterias.id','=','detail_kriterias.kriteria_id')
                 ->where('kriterias.id','=',3)
                 ->get();
-                return view('persewaan.bobot', [ 'listdetailkriteria' => $listdetailkriteria,  'listkriteria'=>$listkriteria, 'rating'=>$rating, 'min'=>$minharga, 'alamat'=>$alamat, 'long'=>$long, 'lat'=>$lat, 'kapasitas'=>$kapasitas, 'rata'=>$rata2]);  
+                return view('persewaan.bobot', [ 'listdetailkriteria' => $listdetailkriteria,  'listkriteria'=>$listkriteria,
+                'rating'=>$rating, 'min'=>$minharga, 'alamat'=>$alamat, 'long'=>$long, 'lat'=>$lat, 
+                'kapasitas'=>$kapasitas, 'rata'=>$rata2]);  
             
             }
             else
             {
-                $listkriteria =  DB::table('detail_kriteria_persewaans')
-                ->join('persewaans', 'persewaans.id', '=','detail_kriteria_persewaans.persewaan_id')
-                ->join('kriterias', 'kriterias.id', '=','detail_kriteria_persewaans.kriteria_id')
+                $listkriteria =  DB::table('kriteria_persewaans')
+                ->join('persewaans', 'persewaans.id', '=','kriteria_persewaans.persewaan_id')
+                ->join('kriterias', 'kriterias.id', '=','kriteria_persewaans.kriteria_id')
                 ->join('users', 'users.id', '=','persewaans.user_id')
                 ->where('persewaans.user_id',$iduser)
                 ->get();
@@ -190,9 +198,25 @@ class PersewaanController extends Controller
         else
         {
             Alert::info('Bobot Persewaan Belum Tersedia!', 'Silahkan Masukan Data Kendaraan Persewaan Terlebih Dahulu');
-            // return view('homehotel',['listhotel'=>$listhotel, 'detailhotel'=>$detailhotel]);
             return redirect('kendaraan');
         }
+    }
+    public function ubahbobot(Request $request)
+    {
+        $iduser = Auth::user()->id;
+        $hotel = Persewaan::where('status','=','aktif')->where('user_id',$iduser)->first();
+
+        $nilais = $request->nilai_kriteria;
+        foreach($request->input('nilai_kriteria') as $key => $value) {
+            DetailKriteriaHotel::update([
+                'nilai'=>  $request->input('nilai_kriteria')[$key],
+                'hotel_id'=>$hotel->id,
+                'kriteria_id'=>$key
+                
+            ]);
+        }
+        return redirect('lihatbobot/persewaan')->withSuccessMessage('Bobot Persewaan Kendaraan Berhasil diubah!');
+
     }
     public function kendaraan()
     {
@@ -230,8 +254,7 @@ class PersewaanController extends Controller
         $jamtutup = $request->get('tutup');
         $rating = $request->get('rating');
         $ket = $request->get('ket');
-        
-
+    
         $sewa = new Persewaan();
         $sewa->user_id = $iduser;
         $sewa->nama_persewaan = $nama_persewaan;
@@ -251,11 +274,9 @@ class PersewaanController extends Controller
         $sewa->save();
         $id = $sewa->id;
     
-        // $hotels = Hotel::with('peoples')->where('id',$id);    
-
-        // $hot = DB::table('hotels')->where('id',$id)->first();
          return redirect('home/persewaan');
     }
+
     public function getKecamatan($id){
         echo json_encode(DB::table('kecamatans')->where("kabupaten_id", $id)->get());
     }
@@ -313,7 +334,17 @@ class PersewaanController extends Controller
      */
     public function show($id)
     {
-        //
+        $iduser = Auth::user()->id;
+        $persewaan =  DB::table('persewaans')
+        ->join('kelurahans', 'persewaans.kelurahan_id', '=','kelurahans.id')
+        ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
+        ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
+        ->first();
+        $gambarpersewaan = DB::table('persewaans')
+        ->join('gambar_persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
+        ->where('persewaans.id',$id)
+        ->get();
+        return view('persewaan.show',['list' => $persewaan, 'listgambar' => $gambarpersewaan]);
     }
 
     /**
@@ -324,7 +355,12 @@ class PersewaanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $persewaan =  DB::table('persewaans')
+        ->join('kelurahans', 'persewaans.kelurahan_id', '=','kelurahans.id')
+        ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
+        ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
+        ->first();
+        return view('persewaan.edit',['hot' => $persewaan]);
     }
 
     /**
@@ -336,7 +372,27 @@ class PersewaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $iduser = Auth::user()->id;
+
+        $nama_hot = $request->get('nama');
+        $email = $request->get('email');
+        $tipe_hot = $request->get('tipe');
+        $kelurahan = $request->get('kelurahan');
+        $long = $request->get('long');
+        $lat = $request->get('lat');
+        $notlp = $request->get('notlp');
+    
+        $persewaan = Persewaan::find($iduser);
+        $persewaan->user_id = $iduser;
+        $email->email = $email;
+        $persewaan->nama_persewaan = $nama_hot;
+        $persewaan->kelurahan_id = $kelurahan;
+        $persewaan->longitude = $long;
+        $persewaan->latitude = $lat;
+        $persewaan->no_telp = $notlp;
+        $persewaan->status = 'nonaktif';
+        $persewaan->save();
+        $id = $persewaan->id;
     }
 
     /**
@@ -348,5 +404,46 @@ class PersewaanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function createalasan($id)
+    {
+        $data = DB::table('persewaans')->where('id',$id)->first();
+
+        return view('persewaan.alasan', ['hotel'=>$data]);
+    }
+    public function storealasan(Request $request, $id)
+    {
+        $alasan = $request->get('alasan');
+        DB::table('persewaans')->where('id',$id)->update([
+            'alasan'=>$alasan
+        ]);
+        alert()->success('Persewaan Berhasil Ditolak!', 'Alasan Persewaan Berhasil Terkirim!');
+        return redirect('/pengajuan/persewaan');
+    }
+
+    public function export_terverifikasi() 
+    {
+        return Excel::download(new PersewaanTerverifikasiExport, 'DaftarPersewaanTerverifikasi.xlsx');
+    }
+ 
+    public function cetak_pdf_terverifikasi()
+    {
+        $listpersewaan = Persewaan::where('status','=','aktif')->get();
+    
+        $pdf = PDF::loadview('persewaan.laporan_pdf_terverifikasi',['listpersewaan'=>$listpersewaan])->setPaper('a4', 'landscape');;
+        return $pdf->download('laporan-persewaan-terverifikasi-pdf');
+    }
+    public function export_permintaan() 
+    {
+        return Excel::download(new PersewaanPermintaanExport, 'DaftarPermintaanPersewaan.xlsx');
+    }
+ 
+    public function cetak_pdf_permintaan()
+    {
+        $listpersewaan = Persewaan::where('status','=','nonaktif')->get();
+    
+        $pdf = PDF::loadview('persewaan.laporan_pdf_permintaan',['listpersewaan'=>$listpersewaan])->setPaper('a4', 'landscape');;
+        return $pdf->download('laporan-persewaan-permintaan-pdf');
     }
 }

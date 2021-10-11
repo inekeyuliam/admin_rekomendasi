@@ -15,12 +15,15 @@ class Wisata extends Model
         return $this->belongsTo("App\TipeWisata","tipe_wisata_id");
     }
     public function kriterias(){
-        return $this->belongsToMany("App\Kriteria",'detail_kriteria_wisatas','wisata_id','kriteria_id');
+        return $this->belongsToMany("App\Kriteria",'kriteria_wisatas','wisata_id','kriteria_id');
     }
     public function gambar_wisatas(){
         return $this->hasMany("App\GambarWisata");
     }
     public function review_wisatas(){
         return $this->hasMany("App\ReviewWisata");
+    }
+    public function detail_kriterias(){
+        return $this->belongsToMany("App\DetailKriteria",'detail_kriteria_wisatas','wisata_id','detail_kriteria_id');
     }
 }

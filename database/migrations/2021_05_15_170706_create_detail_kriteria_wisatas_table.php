@@ -13,12 +13,12 @@ class CreateDetailKriteriaWisatasTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_kriteria_wisatas', function (Blueprint $table) {
+        Schema::create('kriteria_wisatas', function (Blueprint $table) {
             $table->bigInteger('kriteria_id')->unsigned();
             $table->foreign('kriteria_id')->references('id')->on('kriterias');
             $table->bigInteger('wisata_id')->unsigned();
             $table->foreign('wisata_id')->references('id')->on('wisatas');
-            $table->integer('nilai');
+            $table->double('nilai');
             $table->string('keterangan')->nullable();;
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreateDetailKriteriaWisatasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_kriteria_wisatas');
+        Schema::dropIfExists('kriteria_wisatas');
     }
 }

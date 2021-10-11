@@ -40,7 +40,7 @@ class KamarController extends Controller
         }
         else
         {
-            Alert::info('Mohon Maaf Menu Belum Dapat Diakses!', 'Silahkan Tunggu Hingga Hotel Diverifikasi');
+            Alert::info('Mohon Maaf Menu Belum Dapat Diakses!', 'Silahkan Cek Status Pengajuan Mitra Anda');
             // return view('homehotel',['listhotel'=>$listhotel, 'detailhotel'=>$detailhotel]);
             return redirect('home/hotel');
         }
@@ -69,24 +69,17 @@ class KamarController extends Controller
     public function store(Request $request)
     {
         $iduser = Auth::user()->id;
-     
         $hotel_id = Hotel::where('user_id', $iduser)->pluck('id')->first();
-      
-        // $hot_id = $hotel->id;
-        $nomor_kamar = $request->get('nomor');
         $jenis_kamar_id = $request->get('jenis_id');
         $kapasitas = $request->get('kapasitas');
         $biaya_permalam = $request->get('biaya');
-
         $krit = new Kamar();
         $krit->hotel_id = $hotel_id;
-        $krit->nomor_kamar = $nomor_kamar;
         $krit->jenis_kamar_id=$jenis_kamar_id;
         $krit->kapasitas = $kapasitas;
         $krit->biaya_permalam=$biaya_permalam;
         $krit->save();
         return redirect('kamar')->withSuccessMessage('Kamar Berhasil ditambahkan!');
-
     }
 
     /**
@@ -108,7 +101,9 @@ class KamarController extends Controller
      */
     public function edit($id)
     {
-        //
+        $kamar = Kamar::find($id);
+
+        return view('kamar.edit', ['kamar' => $kamar]);
     }
 
     /**
@@ -120,7 +115,17 @@ class KamarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      
+        $jenis_kamar_id = $request->get('jenis_id');
+        $kapasitas = $request->get('kapasitas');
+        $biaya_permalam = $request->get('biaya');
+
+        $kmr = JenisKamar::find($id);
+        $kmr->jenis_kamar_id=$jenis_kamar_id;
+        $kmr->kapasitas = $kapasitas;
+        $kmr->biaya_permalam=$biaya_permalam;
+        $kmr->save();
+        return redirect('kamar')->withSuccessMessage('Kamar Berhasil diubah!');
     }
 
     /**

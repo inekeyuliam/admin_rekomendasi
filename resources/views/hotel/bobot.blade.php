@@ -14,18 +14,17 @@
                     <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Fasilitas Hotel</label>
+                        <label class="exampleFormControlInput1">Fasilitas Hotel</label>
                         </div>
                       </div>
                     @foreach ($listdetailkriteria as $detkrit)
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                               <div class="form-group">
                               <input  type="checkbox" name="fasi[]" value="{{$detkrit->id}}" class='z' onclick="updateCount()">
                                 <label class="exampleFormControlInput1">{{$detkrit->nama_detail}} </label>
                               </div>
                             </div>
                     @endforeach
-                  
                   </div>
                   <div class="col-sm-6">
                         <div id="map" style="height: 520px; width: 900px" ></div>
@@ -47,11 +46,8 @@
                 <div class="row">
                 <div class="col-md-12">
                         <div class="form-group">
-                            <label class="label-floating">{{$krit->kriteria}}</label>
-                       
-                         
+                            <label class="label-floating">{{$krit->kriteria}}</label>                         
                             <input class="form-control" name="nilai_kriteria[{{$krit->id}}]" id="nilai_kriteria{{$krit->id}}" readonly>
-                        
                           </div>
                     </div>
                 </div>
@@ -167,7 +163,7 @@ $(function() {
           var marker = new google.maps.Marker({
             position: pyrmont,
             map: map,
-            label: 'A'
+            label: 'Current Position'
           });
         
           var request = {

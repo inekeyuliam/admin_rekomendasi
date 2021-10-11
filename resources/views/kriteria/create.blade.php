@@ -13,11 +13,11 @@
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             <div class="form-group">
-                <label for="exampleFormControlInput1">Nama Kriteria</label>
+                <label class="exampleFormControlInput1">Nama Kriteria</label>
                 <input class="form-control" type="text" name="kriteria" placeholder="Masukan nama kriteria">
             </div>
             <div class="form-group">
-                <label class="bmd-label-floating">Jenis Kriteria</label>
+                <label class="exampleFormControlInput1">Jenis Kriteria</label>
                 <select class="form-control" name="jenis" required>
                 <option value=""> Pilih Jenis Kriteria </option>
                     @foreach ($list_jenis as $jenis)
@@ -26,12 +26,17 @@
                 </select>
             </div>
             <div class="form-group">
-                <label class="bmd-label-floating">Tipe Kriteria</label>
+                <label class="exampleFormControlInput1">Tipe Kriteria</label>
                 <select class="form-control" name="tipe" required>
                 <option value=""> Pilih Tipe Kriteria </option>
                               <option value="Benefit">Benefit</option>
                               <option value="Cost">Cost</option>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label class="exampleFormControlInput1">Satuan Kriteria</label>
+                <input class="form-control" type="text" name="satuan" placeholder="Masukan satuan kriteria">
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">Simpan</button>

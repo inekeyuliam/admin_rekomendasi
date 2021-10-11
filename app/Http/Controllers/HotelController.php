@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\HotelPermintaanExport;
+use App\Exports\HotelTerverifikasiExport;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use App\TipeWisata;
@@ -13,8 +17,7 @@ use App\DetailKriteriaHotel;
 use App\Kriteria;
 use App\JenisKamar;
 use App\Kamar;
-
-use Illuminate\Support\Facades\Auth;
+use PDF;
 use DB;
 class HotelController extends Controller
 {
@@ -48,7 +51,7 @@ class HotelController extends Controller
         ->count();
         if($hot >0)
         {
-            Alert::info('Pengajuan Hanya Dapat Digunakan Satu Kali!', 'Silahkan Cek Status Pengajuan Mitra Anda');
+            // Alert::info('Pengajuan Hanya Dapat Digunakan Satu Kali!', 'Silahkan Cek Status Pengajuan Mitra Anda');
             // return view('homehotel',['listhotel'=>$listhotel, 'detailhotel'=>$detailhotel]);
             return redirect('home/hotel');
         }
@@ -58,6 +61,8 @@ class HotelController extends Controller
             $kecamatan = Kecamatan::all();
             $kelurahan = Kelurahan::all();
             $listkriteria = Kriteria::where('jenis_kriteria_id',2)->get();
+            Alert::info('Anda Belum Melakukan Pengajuan Mitra', 'Silahkan Isi Form Pengajuan Mitra!');
+
             return view('hotel.create', ['kabupaten'=>$kabupaten, 'kecamatan'=>$kecamatan, 
             'kelurahan'=>$kelurahan, 'listkriteria'=>$listkriteria]);  
         }
@@ -160,14 +165,17 @@ class HotelController extends Controller
         ->join('kriterias','kriterias.id','=','detail_kriterias.kriteria_id')
         ->where('kriterias.id','=',2)
         ->get();
-        return view('hotel.bobot', [ 'listdetailkriteria' => $listdetailkriteria,  'listkriteria'=>$listkriteria, 'rating'=>$rating, 'min'=>$minharga, 'alamat'=>$alamat, 'long'=>$long, 'lat'=>$lat]);  
-    
+        return view('hotel.bobot', [ 'listdetailkriteria' => $listdetailkriteria,  
+        'listkriteria'=>$listkriteria, 'rating'=>$rating, 'min'=>$minharga, 'alamat'=>$alamat, 
+        'long'=>$long, 'lat'=>$lat]);  
         
     }
+
     public function nonaktif()
     {
-        $listhotel = Hotel::where('status','=','nonaktif')->get();
-        return view('hotel.nonaktif', ['listhotel'=>$listhotel]);
+        $listhotel = Hotel::where('status','=','nonaktif')->where('alasan','=','')->get();
+        return view('hotel.nonaktif', ['listhotel'=>$listhotel])->with('success','Hotel berhasil diverifikasi successfully');
+        
     }
     public function simpan(Request $request)
     {
@@ -194,9 +202,7 @@ class HotelController extends Controller
      */
     public function status($id){
         $data = \DB::table('hotels')->where('id',$id)->first();
- 
         $status_sekarang = $data->status;
- 
         if($status_sekarang == 'nonaktif'){
             \DB::table('hotels')->where('id',$id)->update([
                 'status'=>'aktif'
@@ -207,13 +213,13 @@ class HotelController extends Controller
             ]);
         }
         $listhotel = Hotel::where('status','=','aktif')->get();
-        return view('hotel.index', ['listhotel'=>$listhotel])->withSuccessMessage(' Hotel Berhasil diverifikasi!');
-
+        return view('hotel.index', ['listhotel'=>$listhotel])
+            ->withSuccessMessage(' Hotel Berhasil diverifikasi!');
     }
+
     public function show($id)
     {
         $iduser = Auth::user()->id;
-
         $hotel =  DB::table('hotels')
         ->join('kelurahans', 'hotels.kelurahan_id', '=','kelurahans.id')
         ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
@@ -227,6 +233,7 @@ class HotelController extends Controller
         return view('hotel.show',['list' => $hotel, 'listgambar' => $gambarhotel]);
        
     }
+
     public function lihat()
     {
 
@@ -251,7 +258,7 @@ class HotelController extends Controller
             
             Alert::info('Anda Belum Mengajukan Sebagai Mitra Hotel!', 'Silahkan isi form pengajuan terlebih dahulu');
             // return view('homehotel',['listhotel'=>$listhotel, 'detailhotel'=>$detailhotel]);
-            return redirect('home/hotel');
+            return redirect('hotel/create');
         }
     }
 
@@ -266,9 +273,9 @@ class HotelController extends Controller
         ->count();
         if($kendaraan >0)
         {
-            $jumdet =  DB::table('detail_kriteria_hotels')
-            ->join('hotels', 'hotels.id', '=','detail_kriteria_hotels.hotel_id')
-            ->join('kriterias', 'kriterias.id', '=','detail_kriteria_hotels.kriteria_id')
+            $jumdet =  DB::table('kriteria_hotels')
+            ->join('hotels', 'hotels.id', '=','kriteria_hotels.hotel_id')
+            ->join('kriterias', 'kriterias.id', '=','kriteria_hotels.kriteria_id')
             ->join('users', 'users.id', '=','hotels.user_id')
             ->where('hotels.user_id',$iduser)
             ->count();
@@ -290,14 +297,15 @@ class HotelController extends Controller
                 ->join('kriterias','kriterias.id','=','detail_kriterias.kriteria_id')
                 ->where('kriterias.id','=',2)
                 ->get();
-                return view('hotel.bobot', [ 'listdetailkriteria' => $listdetailkriteria,  'listkriteria'=>$listkriteria, 'rating'=>$rating, 'min'=>$minharga, 'alamat'=>$alamat, 'long'=>$long, 'lat'=>$lat]);  
+                return view('hotel.bobot', [ 'listdetailkriteria' => $listdetailkriteria,  'listkriteria'=>$listkriteria, 
+                'rating'=>$rating, 'min'=>$minharga, 'alamat'=>$alamat, 'long'=>$long, 'lat'=>$lat]);  
             
             }
             else
             {
-                $listkriteria =  DB::table('detail_kriteria_hotels')
-                ->join('hotels', 'hotels.id', '=','detail_kriteria_hotels.hotel_id')
-                ->join('kriterias', 'kriterias.id', '=','detail_kriteria_hotels.kriteria_id')
+                $listkriteria =  DB::table('kriteria_hotels')
+                ->join('hotels', 'hotels.id', '=','kriteria_hotels.hotel_id')
+                ->join('kriterias', 'kriterias.id', '=','kriteria_hotels.kriteria_id')
                 ->join('users', 'users.id', '=','hotels.user_id')
                 ->where('hotels.user_id',$iduser)
                 ->get();
@@ -307,7 +315,6 @@ class HotelController extends Controller
         else
         {
             Alert::info('Bobot Hotel Belum Tersedia!', 'Silahkan Masukan Data Kamar Hotel Terlebih Dahulu');
-            // return view('homehotel',['listhotel'=>$listhotel, 'detailhotel'=>$detailhotel]);
             return redirect('kamar');
         }
     }
@@ -343,9 +350,9 @@ class HotelController extends Controller
     {
         $iduser = Auth::user()->id;
 
-        $listkriteria =  DB::table('detail_kriteria_hotels')
-        ->join('hotels', 'hotels.id', '=','detail_kriteria_hotels.hotel_id')
-        ->join('kriterias', 'kriterias.id', '=','detail_kriteria_hotels.kriteria_id')
+        $listkriteria =  DB::table('kriteria_hotels')
+        ->join('hotels', 'hotels.id', '=','kriteria_hotels.hotel_id')
+        ->join('kriterias', 'kriterias.id', '=','kriteria_hotels.kriteria_id')
         ->join('users', 'users.id', '=','hotels.user_id')
         ->where('hotels.user_id',$iduser)
         ->get();
@@ -429,7 +436,6 @@ class HotelController extends Controller
         $kelurahan = $request->get('kelurahan');
         $long = $request->get('long');
         $lat = $request->get('lat');
-        $harga = $request->get('harga');
         $notlp = $request->get('notlp');
     
         $hotel = Hotel::find($iduser);
@@ -439,7 +445,6 @@ class HotelController extends Controller
         $hotel->kelurahan_id = $kelurahan;
         $hotel->longitude = $long;
         $hotel->latitude = $lat;
-        $hotel->harga_permalam = $harga;
         $hotel->no_telp = $notlp;
         $hotel->status = 'nonaktif';
         $hotel->save();
@@ -465,5 +470,43 @@ class HotelController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function createalasan($id)
+    {
+        $data = DB::table('hotels')->where('id',$id)->first();
+        return view('hotel.alasan', ['hotel'=>$data]);
+    }
+    public function storealasan(Request $request, $id)
+    {
+        $alasan = $request->get('alasan');
+        DB::table('hotels')->where('id',$id)->update(['alasan'=>$alasan]);
+        alert()->success('Hotel Berhasil Ditolak!', 'Alasan Hotel Berhasil Terkirim!');
+        return redirect('/pengajuan/hotel');
+    }
+
+    public function export_terverifikasi() 
+    {
+        return Excel::download(new HotelTerverifikasiExport, 'DaftarHotelTerverifikasi.xlsx');
+    }
+ 
+    public function cetak_pdf_terverifikasi()
+    {
+        $listhotel = Hotel::where('status','=','aktif')->get();
+    
+        $pdf = PDF::loadview('hotel.laporan_pdf_terverifikasi',['listhotel'=>$listhotel])->setPaper('a4', 'landscape');;
+        return $pdf->download('laporan-hotel-terverifikasi-pdf');
+    }
+    public function export_permintaan() 
+    {
+        return Excel::download(new HotelPermintaanExport, 'DaftarHotelPermintaan.xlsx');
+    }
+ 
+    public function cetak_pdf_permintaan()
+    {
+        $listhotel = Hotel::where('status','=','nonaktif')->get();
+    
+        $pdf = PDF::loadview('hotel.laporan_pdf_permintaan',['listhotel'=>$listhotel])->setPaper('a4', 'landscape');;
+        return $pdf->download('laporan-hotel-permintaan-pdf');
     }
 }

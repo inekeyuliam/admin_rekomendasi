@@ -10,7 +10,6 @@ class KriteriaController extends Controller
     public function index()
     {
         $listkriteria = Kriteria::with('jenis_kriterias')->get();
-
         return view('kriteria.index',['listkriteria'=>$listkriteria]);
     }
 
@@ -43,7 +42,6 @@ class KriteriaController extends Controller
         $krit->tipe_kriteria=$tipe_kriteria;
         $krit->save();
         return redirect('kriteria')->withSuccessMessage('Kriteria Berhasil ditambahkan!');
-
     }
 
     /**
@@ -87,10 +85,8 @@ class KriteriaController extends Controller
         $krit->jenis_kriteria_id = $jenis_kriteria_id;
         $krit->kriteria = $nama_kriteria;
         $krit->tipe_kriteria = $tipe_kriteria;
-
         $krit->save();
         return redirect('kriteria')->withSuccessMessage('Kriteria Berhasil ditambahkan!');
-
     }
 
     /**

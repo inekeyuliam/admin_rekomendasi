@@ -12,12 +12,12 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                <label class="bmd-label-floating">Cari </label>
+                                <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
-                            <a class="btn btn-primary btn-md pull-right" href="{{url('kendaraan/create')}}">Tambah Kamar</a> 
+                            <a class="btn btn-primary btn-md pull-right" href="{{url('kendaraan/create')}}">Tambah Kendaraan</a> 
                             </div>
                             </div>
 
@@ -39,7 +39,7 @@
                                             <td>{{$key+1}}</td>
                                             <td>{{$item->nama_model_kendaraan}}</td>
                                             <td>{{$item->nama_merk}}</td>
-                                            <td>{{$item->biaya_perhari}}</td>
+                                            <td>{{number_format($item->biaya_perhari,2)}}</td>
                                             <td>
                                             <a href="{{url('kendaraan/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
                                             </td>                         

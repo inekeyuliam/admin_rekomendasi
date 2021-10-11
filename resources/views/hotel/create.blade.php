@@ -15,13 +15,13 @@
                             <div class="row">
                                 <div class="col-xl-4 col-lg-7">
                                 <div class="form-group">
-                                    <label for="bmd-label-floating">Nama Hotel</label>
+                                    <label for="exampleFormControlInput1">Nama Hotel</label>
                                     <input class="form-control" type="text" name="nama" id="nama"placeholder="Masukan nama tempat hotel">
                                 </div>
                                 </div>
                                 <div class="col-xl-4 col-md-6 mb-4">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Alamat Hotel</label>
+                                    <label for="exampleFormControlInput1">Alamat Hotel</label>
                                     <input class="form-control" type="text" id="from_place" name="alamat" placeholder="Masukan alamat hotel">
                                     <input type="hidden" id="long" name="lng">
                                     <input type="hidden" id="lat" name="lat">
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="col-xl-4 col-md-6 mb-4">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Rating Hotel</label>
+                                    <label for="exampleFormControlInput1">Rating Hotel</label>
                                     <input class="form-control" type="text" name="rating" id="rating" placeholder="Masukan rating hotel" required>
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                             <div class="row">
                                 <div class="col-xl-2 col-md-6 mb-4">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Hotel Bintang</label>
+                                    <label for="exampleFormControlInput1">Hotel Bintang</label>
                                     <select class="form-control"  id="bintang" name="bintang" required>
                                         <option value=""> Pilih Hotel Bintang </option>
                                         <option value="1">Hotel Bintang 1</option>
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="col-xl-3 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="bmd-label-floating">Kabupaten/Kota</label>
+                                        <label for="exampleFormControlInput1">Kabupaten/Kota</label>
                                         <select class="form-control dynamic"  id="kabupaten" name="kabupaten" data-dependent="kecamatan" required>
                                         <option value=""> Pilih Kabupaten/Kota </option>
                                             @foreach ($kabupaten as $kab)
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="col-xl-2 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="bmd-label-floating">Kecamatan</label>
+                                        <label for="exampleFormControlInput1">Kecamatan</label>
                                         <select class="form-control dynamic"  id="kecamatan" name="kecamatan" data-dependent="kelurahan" >
                                         <option value=""> Pilih Kecamatan </option>
                                             @foreach ($kecamatan as $kec)
@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="col-xl-2 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="bmd-label-floating">Kelurahan</label>
+                                        <label for="exampleFormControlInput1">Kelurahan</label>
                                         <select class="form-control dynamic"  id="kelurahan" name="kelurahan" required>
                                         <option value=""> Pilih Kelurahan </option>
                                             @foreach ($kelurahan as $kel)
@@ -94,13 +94,13 @@
                             <div class="row">
                                 <div class="col-xl-6 col-md-6 mb-4">
                                 <div class="form-group">
-                                        <label for="bmd-label-floating">Nomor Telp</label>
+                                        <label for="exampleFormControlInput1">Nomor Telp</label>
                                         <input class="form-control" type="text" name="notlp" id="no_tlp" placeholder="Masukan nomor telp hotel"required>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-md-6 mb-4">
                                 <div class="form-group">
-                                        <label for="bmd-label-floating">Nomor Whatsapp (Opsional)</label>
+                                        <label for="exampleFormControlInput1">Nomor Whatsapp (Opsional)</label>
                                         <input class="form-control" type="text" name="nowa" id="no_wa" placeholder="Masukan nomor telp hotel"required>
                                     </div>
                                 </div>
@@ -108,13 +108,13 @@
                              <div class="row">
                                 <div class="col-xl-6 col-md-6 mb-4">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Link Facebook (Opsional)</label>
+                                    <label for="exampleFormControlInput1">Link Facebook (Opsional)</label>
                                     <input class="form-control" type="text" name="link_fb" placeholder="Masukan link fb hotel">
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-md-6 mb-4">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Link Instagram (Opsional)</label>
+                                    <label for="exampleFormControlInput1">Link Instagram (Opsional)</label>
                                     <input class="form-control" type="text" name="link_ig" placeholder="Masukan link ig hotel">
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@
                             <div class="row">
                                 <div class="col-xl-12 col-md-6 mb-4">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Keterangan (Opsional)</label>
+                                    <label for="exampleFormControlInput1">Keterangan (Opsional)</label>
                                         <textarea class="form-control" rows="5" name="keterangan" placeholder="Masukan keterangan hotel"></textarea>
                                     </div>
                                 </div>
@@ -445,7 +445,7 @@ $(function() {
             })
             const succesfulLooku = (position) => {
                       const {latitude, longitude} = position.coords;
-                      fetch('https://api.opencagedata.com/geocode/v1/json?q=LAT+LNG&key=AIzaSyA2aqa4418YE5gZ57LRO4B2hrijIT4N-8Q')
+                      fetch('https://api.opencagedata.com/geocode/v1/json?q=LAT+LNG&key=AIzaSyBqwxhpF3R8QeWPGUrTlsUzt_WXmnJGpns')
                       .then(response => response.json())
                       .then(data => console.log(data));
             }

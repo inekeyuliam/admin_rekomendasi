@@ -12,8 +12,8 @@ class Wisatadumpseeder extends Seeder
     public function run()
     {
         // DB::table('wisatas')->insert([
-        //     "user_id" =>1,
-        //     "nama_wisata" => "Kebun Binatang Surabaya",
+        //     "nama_model" =>"Toyota Inova",
+        //     "jenis_kendaraan" => "Mobil",
         //     "tipe_wisata_id" => 1,
         //     "alamat" =>"Jl. Setail No.1, Darmo, Kec. Wonokromo, Kota SBY, Jawa Timur 60241",
         //     "kelurahan_id" => 3578110006,

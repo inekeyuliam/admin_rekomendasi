@@ -10,17 +10,19 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <div class="form-group">
-                                <label class="bmd-label-floating">Cari </label>
+                                <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
-                            <a class="btn btn-primary btn-md pull-right" href="{{url('kriteria/create')}}">Tambah Kriteria</a> 
+                                <a class="btn btn-dark btn-md pull-right" href="{{url('detailkriteria')}}">Detail Kriteria</a> 
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn btn-primary btn-md pull-right" href="{{url('kriteria/create')}}">Tambah Kriteria</a> 
                             </div>
                             </div>
-
                             <div class="table-responsive">
                                 <table class="table table-striped table-no-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="datatables_info" id="dataTable" width="100%" style="width:100px" cellspacing="0">
                                 <thead >
@@ -56,29 +58,20 @@
                                 </table>
                                 <script>
                                 $(document).ready(function() {
-                                    
-                                        // $('#dataTable').dataTable();
-                                        // $('#dataTable').dataTable({bSort: false, searching: false});
-                                        dTable = $('#dataTable').DataTable({
+                                    dTable = $('#dataTable').DataTable({
                                             "ordering" : false,
                                             "dom": "lrtip",
                                             "info" : false
-                                            //  to hide default searchbox but search feature is not disabled hence customised searchbox can be made.
-                                        });
-                                        
+                                    });
                                     $('#myCustomSearchBox').keyup(function() {
-                                    dTable.search($(this).val()).draw(); // this  is for customized searchbox with datatable search feature.
-                                })
-
+                                        dTable.search($(this).val()).draw(); 
+                                    })
                                 });
-                                
-            
                                 </script>
                             </div>
                         </div>
                     </div>
-                    </div>
-
+                </div>
             </div>
 
         </div>

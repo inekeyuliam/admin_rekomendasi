@@ -15,17 +15,21 @@ class KriteriaSeeder extends Seeder
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>1,
             "tipe_kriteria" => "Benefit",
-            "kriteria" => "Kelengkapan fasilitas"
+            "kriteria" => "Jumlah fasilitas"
         ]);
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>1,
             "tipe_kriteria" => "Benefit",
-            "kriteria" => "Waktu operasional"
+            "kriteria" => "Lama waktu operasional",
+            "satuan" => "Jam"
+
         ]);
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>1,
             "tipe_kriteria" => "Cost",
-            "kriteria" => "Harga masuk"
+            "kriteria" => "Harga masuk",
+            "satuan" => "Rupiah"
+
         ]);
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>1,
@@ -35,17 +39,23 @@ class KriteriaSeeder extends Seeder
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>1,
             "tipe_kriteria" => "Cost",
-            "kriteria" => "Jarak dari lokasi kedatangan"
+            "kriteria" => "Jarak dari lokasi kedatangan",
+            "satuan" => "Kilometer"
+
         ]);
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>1,
             "tipe_kriteria" => "Cost",
-            "kriteria" => "Jarak dengan tempat makan"
+            "kriteria" => "Jarak dengan tempat makan",
+            "satuan" => "Kilometer"
+
         ]);
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>1,
             "tipe_kriteria" => "Cost",
-            "kriteria" => "Jarak dengan toko oleh-oleh"
+            "kriteria" => "Jarak dengan toko oleh-oleh",
+            "satuan" => "Kilometer"
+
         ]);
 
 
@@ -53,7 +63,7 @@ class KriteriaSeeder extends Seeder
          DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>2,
             "tipe_kriteria" => "Benefit",
-            "kriteria" => "Kelengkapan fasilitas"
+            "kriteria" => "Jumlah fasilitas"
         ]);
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>2,
@@ -63,17 +73,23 @@ class KriteriaSeeder extends Seeder
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>2,
             "tipe_kriteria" => "Cost",
-            "kriteria" => "Harga per malam"
+            "kriteria" => "Harga per malam",
+            "satuan" => "Rupiah"
+
         ]);
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>2,
             "tipe_kriteria" => "Cost",
-            "kriteria" => "Jarak dari lokasi kedatangan"
+            "kriteria" => "Jarak dari lokasi kedatangan",
+            "satuan" => "Kilometer"
+
         ]);
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>2,
             "tipe_kriteria" => "Cost",
-            "kriteria" => "Jarak dengan tempat wisata"
+            "kriteria" => "Jarak dengan tempat wisata",
+            "satuan" => "Kilometer"
+
         ]);
         
          // Kriteria Persewaan Kendaraan
@@ -95,12 +111,14 @@ class KriteriaSeeder extends Seeder
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>3,
             "tipe_kriteria" => "Cost",
-            "kriteria" => "Biaya sewa per hari"
+            "kriteria" => "Biaya sewa per hari",
+            "satuan" => "Rupiah"
+
         ]);
         DB::table('kriterias')->insert([
             "jenis_kriteria_id" =>3,
             "tipe_kriteria" => "Benefit",
-            "kriteria" => "Jumlah Kapasitas"
+            "kriteria" => "Kapasitas Penumpang"
         ]);
   
         

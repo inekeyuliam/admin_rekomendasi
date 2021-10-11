@@ -9,13 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.1.3",
+        "barryvdh/laravel-dompdf": "^0.9.0",
         "farhanwazir/laravelgooglemaps": "dev-master",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "maatwebsite/excel": "^3.1",
         "realrashid/sweet-alert": "^2.0",
-        "spatie/geocoder": "^3.4"
+        "spatie/geocoder": "^3.4",
+        "uxweb/sweet-alert": "^2.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

@@ -19,7 +19,6 @@ class CreateKamarsTable extends Migration
             $table->foreign('hotel_id')->references('id')->on('hotels');
             $table->bigInteger('jenis_kamar_id')->unsigned();
             $table->foreign('jenis_kamar_id')->references('id')->on('jenis_kamars');
-            $table->string('nomor_kamar');
             $table->integer('kapasitas');
             $table->double('biaya_permalam');
             $table->timestamps();

@@ -14,13 +14,13 @@
                             <div class="row">
                                 <div class="col-xl-6 col-lg-7">
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Nama Hotel</label>
+                                    <label class="exampleFormControlInput1">Nama Hotel</label>
                                     <input class="form-control" type="text" name="nama" value="{{$hot->nama_hotel}}" readonly>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-7">
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">E-mail Hotel</label>
+                                    <label class="exampleFormControlInput1">E-mail Hotel</label>
                                     <input class="form-control" type="text" name="email" value="{{$hot->email}}" readonly>
                                 </div>
                             </div>
@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col-xl-3 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Kabupaten/Kota</label>
+                                        <label class="exampleFormControlInput1">Kabupaten/Kota</label>
                                         <select class="form-control dynamic"  id="kabupaten" name="kabupaten" data-dependent="kecamatan" required>
                                         <option value=""> Pilih Kabupaten/Kota </option>
                                             @foreach ($kabupaten as $kab)
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="col-xl-3 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Kecamatan</label>
+                                        <label class="exampleFormControlInput1">Kecamatan</label>
                                         <select class="form-control dynamic"  id="kecamatan" name="kecamatan" data-dependent="kelurahan" >
                                         <option value=""> Pilih Kecamatan </option>
                                             @foreach ($kecamatan as $kec)
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-xl-4 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Kelurahan</label>
+                                        <label class="exampleFormControlInput1">Kelurahan</label>
                                         <select class="form-control dynamic"  id="kelurahan" name="kelurahan" required>
                                         <option value=""> Pilih Kelurahan </option>
                                             @foreach ($kelurahan as $kel)
@@ -76,13 +76,13 @@
                             <div class="row">
                                 <div class="col-xl-5 col-lg-7">
                                     <div class="form-group">
-                                        <label for="exampleFormControlInput1">Longitude</label>
+                                        <label class="exampleFormControlInput1">Longitude</label>
                                         <input class="form-control" type="text" name="long"  value="{{$hot->longitude}}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-xl-5 col-md-6 mb-4">
                                     <div class="form-group">
-                                            <label for="exampleFormControlInput1">Latitude</label>
+                                            <label class="exampleFormControlInput1">Latitude</label>
                                             <input class="form-control" type="text" name="lat"  value="{{$hot->latitude}}" readonly>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="col-xl-5 col-md-6 mb-4">
                                     <div class="form-group">
-                                            <label for="exampleFormControlInput1">Harga Standard Permalam</label>
+                                            <label class="exampleFormControlInput1">Harga Standard Permalam</label>
                                             <input class="form-control" type="number" name="harga"  value="{{$hot->harga_permalam}}" readonly>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                 <div class="row">
                                     <div class="col-xl-11 col-md-16 mb-8">
                                         <div class="form-group">
-                                            <label for="exampleFormControlInput1">{{$krit->kriteria}}</label>
+                                            <label class="exampleFormControlInput1">{{$krit->kriteria}}</label>
                                             <input class="form-control" type="number" name="nilai_kriteria[{{$krit->id}}]" placeholder=" Masukan Nilai {{$krit->kriteria}}">
                                         </div>
                                     </div>

@@ -26,7 +26,7 @@
             </div>
             @if($detailsewa < 1)
               <div class="alert alert-warning alert-dismissible">
-                <a href="{{ url('/bobot/persewaan')}}">  <h4> <i class="material-icons-round"></i>Silahkan Isi Bobot Kriteria Anda, Klik disini! </h4></a>            
+                <a href="{{ url('/bobot/persewaan')}}">  <h3> <i class="material-icons-round"></i>Silahkan Isi Bobot Kriteria Anda </h3></a>            
               </div>
             @else
               <div class="alert alert-success alert-dismissible">

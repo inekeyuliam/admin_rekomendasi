@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'detailkriteria', 'titlePage' => __('Tambah Detail Kriteria')])
+@extends('layouts.app', ['activePage' => 'kriteria', 'titlePage' => __('Tambah Detail Kriteria')])
 @section("content")
 <div class="content">
     <div class="row">
@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-5">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Jenis Kriteria </label>
+                            <label class="exampleFormControlInput1">Jenis Kriteria </label>
                             <select class="form-control" name="jenis" id="jenis" required>
                             <option value=""> Pilih Jenis Kriteria </option>
                                 @foreach ($listjenis as $jenis)
@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-md-5">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Kriteria </label>
+                            <label class="exampleFormControlInput1">Kriteria </label>
                             <select class="form-control" name="kriteria" id="kriteria" required>
                             <option value=""> Pilih Kriteria </option>
                                 @foreach ($listkriteria as $krit)
@@ -38,7 +38,7 @@
                     <div class="row">
                         <div class="col-md-10">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Nama Detail Kriteria </label>
+                            <label class="exampleFormControlInput1">Nama Detail Kriteria </label>
                             <input class="form-control" type="text" name="nama" placeholder="Masukan nama detail kriteria">
                         </div>                   
                     </div>

@@ -14,7 +14,7 @@ class Hotel extends Model
         return $this->belongsTo("App\Kelurahan","kelurahan_id");
     }
     public function kriterias(){
-        return $this->belongsToMany("App\Kriteria", 'detail_kriteria_hotels');
+        return $this->belongsToMany("App\Kriteria", 'kriteria_hotels');
     }
     public function gambar_hotels(){
         return $this->hasMany("App\GambarHotel");

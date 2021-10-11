@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-10">
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Nama Tipe Wisata</label>
+                        <label class="exampleFormControlInput1">Nama Tipe Wisata</label>
                         <input class="form-control" type="text" name="nama" placeholder="Masukan nama tipe wisata">
                     </div>                   
                     </div>

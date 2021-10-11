@@ -12,12 +12,12 @@
             <form class="mt-2" action='{{url("kamar")}}' method="post">
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Nomor Kamar</label>
+            <!-- <div class="form-group">
+                <label class="exampleFormControlInput1">Nomor Kamar</label>
                 <input class="form-control" type="text" name="nomor" placeholder="Masukan nomor kamar">
-            </div>
+            </div> -->
             <div class="form-group">
-                <label class="bmd-label-floating">Jenis Kriteria</label>
+                <label class="exampleFormControlInput1">Jenis Kriteria</label>
                 <select class="form-control" name="jenis_id" required>
                 @foreach ($listjenis as $jenis)
                         <option value="{{$jenis->id}}">{{$jenis->nama_jenis_kamar}}</option>
@@ -25,15 +25,15 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Kapasitas Kamar</label>
+                <label class="exampleFormControlInput1">Kapasitas Kamar</label>
                 <input class="form-control" type="number" name="kapasitas" placeholder="Masukan kapasitas">
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Biaya per malam </label>
+                <label class="exampleFormControlInput1">Biaya per malam </label>
                 <input class="form-control" type="number" name="biaya" placeholder="Masukan biaya">
             </div>
             <div class="form-group">
-                    <label for="exampleFormControlInput1">Keterangan</label>
+                    <label class="exampleFormControlInput1">Keterangan</label>
                     <textarea class="form-control" rows="5" name="keterangan" placeholder="Masukan keterangan tempat wisata"></textarea>
             </div>
      

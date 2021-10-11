@@ -15,13 +15,13 @@
                             <div class="row">
                                 <div class="col-xl-4 col-lg-7">
                                     <div class="form-group">
-                                        <label for="bmd-label-floating">Nama Persewaan</label>
+                                        <label for="exampleFormControlInput1">Nama Persewaan</label>
                                         <input class="form-control" type="text" name="nama" id="nama_persewaan" placeholder="Masukan nama persewaan">
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-7">
                                     <div class="form-group">
-                                        <label for="bmd-label-floating">Alamat Persewaan</label>
+                                        <label for="exampleFormControlInput1">Alamat Persewaan</label>
                                         <input class="form-control" type="text" name="alamat" id="from_places" placeholder="Masukan alamat persewaan">
                                         <input type="hidden" id="long" name="lng">
                                         <input type="hidden" id="lat" name="lat">       
@@ -30,7 +30,7 @@
                                 
                                 <div class="col-xl-4 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="bmd-label-floating">Rating</label>
+                                        <label for="exampleFormControlInput1">Rating</label>
                                         <input class="form-control" type="text" name="rating" placeholder="Masukan rating">
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                             <div class="row">
                                 <div class="col-xl-3 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="bmd-label-floating">Kabupaten/Kota</label>
+                                        <label for="exampleFormControlInput1">Kabupaten/Kota</label>
                                         <select class="form-control dynamic"  id="kabupaten" name="kabupaten" data-dependent="kecamatan" required>
                                         <option value=""> Pilih Kabupaten/Kota </option>
                                             @foreach ($kabupaten as $kab)
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="col-xl-3 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="bmd-label-floating">Kecamatan</label>
+                                        <label for="exampleFormControlInput1">Kecamatan</label>
                                         <select class="form-control dynamic"  id="kecamatan" name="kecamatan" data-dependent="kelurahan" >
                                         <option value=""> Pilih Kecamatan </option>
                                             @foreach ($kecamatan as $kec)
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-xl-3 col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="bmd-label-floating">Kelurahan</label>
+                                        <label for="exampleFormControlInput1">Kelurahan</label>
                                         <select class="form-control dynamic"  id="kelurahan" name="kelurahan" required>
                                         <option value=""> Pilih Kelurahan </option>
                                             @foreach ($kelurahan as $kel)
@@ -80,26 +80,26 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Jam Buka</label>
+                                    <label for="exampleFormControlInput1">Jam Buka</label>
                                     <input class="form-control" type="time" name="buka" required>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Jam Tutup</label>
+                                    <label for="exampleFormControlInput1">Jam Tutup</label>
                                         <input class="form-control" type="time" name="tutup" required>
                                     </div>
                                 </div>
                           
                                 <div class="col-xl-3 col-lg-7">
                                 <div class="form-group">
-                                        <label for="bmd-label-floating">Nomor Telp</label>
+                                        <label for="exampleFormControlInput1">Nomor Telp</label>
                                         <input class="form-control" type="text" name="notlp" id="no_tlp" placeholder="Masukan nomor telp persewaan"required>
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-lg-7">
                                 <div class="form-group">
-                                        <label for="bmd-label-floating">Nomor Whatsapp (Opsional) </label>
+                                        <label for="exampleFormControlInput1">Nomor Whatsapp (Opsional) </label>
                                         <input class="form-control" type="text" name="nowa" id="no_wa" placeholder="Masukan nomor WA persewaan"required>
                                     </div>
                                 </div>
@@ -107,13 +107,13 @@
                             <div class="row">
                                 <div class="col-xl-6 col-md-6 mb-4">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Link Facebook (Opsional)</label>
+                                    <label for="exampleFormControlInput1">Link Facebook (Opsional)</label>
                                     <input class="form-control" type="text" name="link_fb" placeholder="Masukan link fb hotel">
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-md-6 mb-4">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Link Instagram (Opsional)</label>
+                                    <label for="exampleFormControlInput1">Link Instagram (Opsional)</label>
                                     <input class="form-control" type="text" name="link_ig" placeholder="Masukan link ig hotel">
                                     </div>
                                 </div>
@@ -121,7 +121,7 @@
                             <div class="row">
                                 <div class="col-xl-12 col-md-6 mb-4">
                                     <div class="form-group">
-                                    <label for="bmd-label-floating">Keterangan (Opsional)</label>
+                                    <label for="exampleFormControlInput1">Keterangan (Opsional)</label>
                                         <textarea class="form-control" rows="5" name="keterangan" placeholder="Masukan keterangan hotel"></textarea>
                                     </div>
                                 </div>
@@ -414,7 +414,7 @@ $(function() {
             })
             const succesfulLooku = (position) => {
                       const {latitude, longitude} = position.coords;
-                      fetch('https://api.opencagedata.com/geocode/v1/json?q=LAT+LNG&key=AIzaSyA2aqa4418YE5gZ57LRO4B2hrijIT4N-8Q')
+                      fetch('https://api.opencagedata.com/geocode/v1/json?q=LAT+LNG&key=AIzaSyBqwxhpF3R8QeWPGUrTlsUzt_WXmnJGpns')
                       .then(response => response.json())
                       .then(data => console.log(data));
             }

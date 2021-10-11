@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'detailkriteria', 'titlePage' => __('')])
+@extends('layouts.app', ['activePage' => 'kriteria', 'titlePage' => __('')])
 @section("content")
 <div class="content">
     <div class="container-fluid">
@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                <label class="bmd-label-floating">Cari </label>
+                                <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
                             </div>

@@ -14,7 +14,7 @@
                     <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Fasilitas Persewaan</label>
+                        <label class="exampleFormControlInput1">Fasilitas Persewaan</label>
                         </div>
                       </div>
                     @foreach ($listdetailkriteria as $detkrit)

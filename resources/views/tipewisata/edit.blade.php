@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-10">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Nama Tipe</label>
+                            <label class="exampleFormControlInput1">Nama Tipe</label>
                             <input class="form-control" type="text" name="nama" value="{{$itemtipe->nama_tipe}}"  >
                         </div>
                         </div>

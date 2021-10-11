@@ -14,7 +14,7 @@ class Persewaan extends Model
         return $this->belongsTo("App\Kelurahan","kelurahan_id");
     }
     public function kriterias(){
-        return $this->belongsToMany("App\Kriteria", 'detail_kriteria_persewaans');
+        return $this->belongsToMany("App\Kriteria", 'kriteria_persewaans');
     }
     public function kendaraans(){
         return $this->hasMany("App\Kendaraan");

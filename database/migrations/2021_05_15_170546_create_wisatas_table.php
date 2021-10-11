@@ -25,7 +25,6 @@ class CreateWisatasTable extends Migration
             $table->foreign('kelurahan_id')->references('id')->on('kelurahans');
             $table->decimal('latitude', 11, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
-            // $table->double('harga_masuk');
             $table->string('jam_buka');
             $table->string('jam_tutup');
             $table->double('rating');

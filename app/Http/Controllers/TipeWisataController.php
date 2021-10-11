@@ -39,7 +39,8 @@ class TipeWisataController extends Controller
         $tipe = new TipeWisata();
         $tipe->nama_tipe = $nama_tipe;
         $tipe->save();
-        return redirect('tipewisata')->withSuccessMessage('Tipe Wisata Berhasil ditambahkan!');
+        return redirect('tipewisata')->withSuccessMessage
+        ('Tipe Wisata Berhasil ditambahkan!');
     }
 
     /**
@@ -79,7 +80,8 @@ class TipeWisataController extends Controller
         $tipe = TipeWisata::find($id);
         $tipe->nama_tipe = $nama;
         $tipe->save();
-        return redirect('tipewisata')->withSuccessMessage('Tipe Wisata Berhasil diubah!');
+        return redirect('tipewisata')->withSuccessMessage
+        ('Tipe Wisata Berhasil diubah!');
     }
 
     /**

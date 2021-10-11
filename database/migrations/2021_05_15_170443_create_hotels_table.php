@@ -31,6 +31,7 @@ class CreateHotelsTable extends Migration
             $table->string('link_fb')->nullable();
             $table->string('link_ig')->nullable();
             $table->string('keterangan')->nullable();;
+            $table->string('alasan')->nullable();;
 
             $table->timestamps();
         });

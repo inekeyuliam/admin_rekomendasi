@@ -13,12 +13,12 @@ class CreateDetailKriteriaHotelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_kriteria_hotels', function (Blueprint $table) {
+        Schema::create('kriteria_hotels', function (Blueprint $table) {
             $table->bigInteger('kriteria_id')->unsigned();
             $table->foreign('kriteria_id')->references('id')->on('kriterias');
             $table->bigInteger('hotel_id')->unsigned();
             $table->foreign('hotel_id')->references('id')->on('hotels');
-            $table->integer('nilai');
+            $table->double('nilai');
             $table->string('keterangan')->nullable();;
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreateDetailKriteriaHotelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_kriteria_hotels');
+        Schema::dropIfExists('kriteria_hotels');
     }
 }

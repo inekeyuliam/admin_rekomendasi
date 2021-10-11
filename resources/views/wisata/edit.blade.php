@@ -14,13 +14,13 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Nama Wisata</label>
+                        <label class="exampleFormControlInput1">Nama Wisata</label>
                         <input class="form-control" type="text" name="nama" value="{{$wisata->nama_wisata}}"required>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Alamat Wisata</label>
+                        <label class="exampleFormControlInput1">Alamat Wisata</label>
                         <input class="form-control" type="text" name="nama" value="{{$wisata->alamat}}"required>
                         </div>
                       </div>
@@ -29,7 +29,7 @@
                       <div class="row">
                       <div class="col-md-3">
                         <div class="form-group">
-                        <label class="bmd-label-floating">Tipe Wisata</label>
+                        <label class="exampleFormControlInput1">Tipe Wisata</label>
                         <select class="form-control" name="tipe" required>
                         <option value=""> Pilih Tipe Wisata </option>
                         @foreach ($tipewisata as $tipe)
@@ -43,7 +43,7 @@
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                        <label class="bmd-label-floating">Kabupaten/Kota</label>
+                        <label class="exampleFormControlInput1">Kabupaten/Kota</label>
                         <select class="form-control dynamic"  id="kabupaten" name="kabupaten" data-dependent="kecamatan" required>
                         <option value=""> Pilih Kabupaten/Kota </option>
                             @foreach ($kabupaten as $kab)
@@ -57,7 +57,7 @@
                       </div>             
                       <div class="col-md-3">
                         <div class="form-group">
-                        <label class="bmd-label-floating">Kecamatan</label>
+                        <label class="exampleFormControlInput1">Kecamatan</label>
                         <select class="form-control dynamic"  id="kecamatan" name="kecamatan" data-dependent="kelurahan" required>
                         <option value=""> Pilih Kecamatan </option>
                             @foreach ($kecamatan as $kec)
@@ -71,7 +71,7 @@
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                        <label class="bmd-label-floating">Kelurahan</label>
+                        <label class="exampleFormControlInput1">Kelurahan</label>
                         <select class="form-control dynamic"  id="kelurahan" name="kelurahan" required>
                         <option value=""> Pilih Kelurahan </option>
                             @foreach ($kelurahan as $kel)
@@ -88,13 +88,13 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                        <label class="bmd-label-floating">Jam Buka</label>
+                        <label class="exampleFormControlInput1">Jam Buka</label>
                         <input class="form-control" type="time" name="buka" value="{{$wisata->jam_buka}}"required>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                        <label for="exampleFormControlInput1">Jam Tutup</label>
+                        <label class="exampleFormControlInput1">Jam Tutup</label>
                         <input class="form-control" type="time" name="tutup" value="{{$wisata->jam_tutup}}"required>
                         </div>
                       </div>
@@ -103,7 +103,7 @@
                       <div class="col-md-12">
                         <div class="form-group">
                           <div class="form-group">
-                          <label for="exampleFormControlInput1">Keterangan</label>
+                          <label class="exampleFormControlInput1">Keterangan</label>
                             <textarea class="form-control" rows="5" name="keterangan" value="{{$wisata->keterangan}}"></textarea>
 
                           </div>
@@ -127,7 +127,7 @@
                 <div class="row">
                     <div class="col-xl-11 col-md-16 mb-8">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">{{$krit->kriteria}}</label>
+                            <label class="exampleFormControlInput1">{{$krit->kriteria}}</label>
                             <input class="form-control" type="number" name="nilai_kriteria[{{$krit->id}}]" value="{{$krit->nilai}}">
                         </div>
                     </div>

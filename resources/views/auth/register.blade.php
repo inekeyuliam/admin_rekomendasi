@@ -6,7 +6,7 @@
     <div class="col-md-9 ml-auto mr-auto mb-3 text-center">
     <H3>Administrator</H3>
 
-    <H3>Sistem Rekomendasi Wisata Jawa Timur - Administrator </H3>
+    <H3>Sistem Rekomendasi Wisata Jawa Timur</H3>
 
     </div>
 

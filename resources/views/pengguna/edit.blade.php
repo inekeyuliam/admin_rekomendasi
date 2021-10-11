@@ -14,13 +14,13 @@
                     <div class="row">
                         <div class="col-md-5">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Nama Pengguna</label>
+                            <label class="exampleFormControlInput1">Nama Pengguna</label>
                             <input class="form-control" type="text" name="nama" value="{{$user->name}}"  >
                         </div>
                         </div>
                         <div class="col-md-5">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Email Pengguna</label>
+                            <label class="exampleFormControlInput1">Email Pengguna</label>
                             <input class="form-control" type="text" name="email" value="{{$user->email}}"  >
                         </div>
                         </div>

@@ -22,7 +22,7 @@
                             <div class="row">
                                 <div class="col-xl-11 col-md-16 mb-8">
                                     <div class="form-group">
-                                        <label for="exampleFormControlInput1">{{$krit->kriteria}}</label>
+                                        <label class="exampleFormControlInput1">{{$krit->kriteria}}</label>
                                         <input class="form-control" type="number" name="nilai_kriteria[{{$krit->id}}]" value="{{$krit->nilai}}" >
                                     </div>
                                 </div>

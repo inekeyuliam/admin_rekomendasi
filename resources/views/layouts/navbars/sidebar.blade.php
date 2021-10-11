@@ -10,10 +10,10 @@
       {{ __('SISTEM ADMINISTRATOR') }}
       @endif
       @if(Auth::user()->tipe_admin == 'hotel')
-      {{ __('SISTEM ADMINISTRATOR ') }}<br>HOTEL
+      {{ __('MITRA HOTEL') }}<br>
       @endif
       @if(Auth::user()->tipe_admin == 'persewaan')
-      {{ __('SISTEM ADMINISTRATOR ') }}<br>PERSEWAAN
+      {{ __('MITRA PERSEWAAN ') }}<br>
       @endif
     </a>
   </div>
@@ -39,10 +39,16 @@
             <p>{{ __('Daftar Kriteria') }}</p>
         </a>
       </li>
-      <li class="nav-item{{ $activePage == 'detailkriteria' ? ' active' : '' }}">
+      <!-- <li class="nav-item{{ $activePage == 'detailkriteria' ? ' active' : '' }}">
         <a class="nav-link" href="{{ url('detailkriteria')}}">
           <i class="material-icons">format_list_bulleted</i>
             <p>{{ __('Daftar Detail Kriteria') }}</p>
+        </a>
+      </li> -->
+      <li class="nav-item{{ $activePage == 'tipewisata' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ url('tipewisata')}}">
+        <i class="material-icons">card_travel</i> 
+        <p>{{ __('Tipe Wisata') }}</p>
         </a>
       </li>
       <li class="nav-item{{ $activePage == 'wisata' ? ' active' : '' }}">
@@ -51,22 +57,22 @@
           <p>{{ __('Daftar Wisata') }}</p>
         </a>
       </li>
-      <li class="nav-item{{ $activePage == 'tipewisata' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ url('tipewisata')}}">
-        <i class="material-icons">card_travel</i> 
-        <p>{{ __('Tipe Wisata') }}</p>
-        </a>
-      </li>
       <li class="nav-item{{ $activePage == 'jeniskamar' ? ' active' : '' }}">
         <a class="nav-link" href="{{ url('jeniskamar')}}">
         <i class="material-icons">room_preferences</i> 
         <p>{{ __('Jenis Kamar Hotel') }}</p>
         </a>
       </li>
-      <li class="nav-item{{ $activePage == 'merk' ? ' active' : '' }}">
+      <!-- <li class="nav-item{{ $activePage == 'merk' ? ' active' : '' }}">
         <a class="nav-link" href="{{ url('merkkendaraan')}}">
         <i class="material-icons">commute</i> 
         <p>{{ __('Merk Kendaraan') }}</p>
+        </a>
+      </li> -->
+      <li class="nav-item{{ $activePage == 'modelkendaraan' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ url('modelkendaraan')}}">
+        <i class="material-icons">commute</i> 
+        <p>{{ __('Model Kendaraan') }}</p>
         </a>
       </li>
       <li class="nav-item {{ ($activePage == 'hotel' || $activePage == 'persewaan') ? ' active' : '' }}">
@@ -120,32 +126,8 @@
       @if(Auth::user()->tipe_admin == 'hotel')
       <li class="nav-item{{ $activePage == 'dashboardhotel' ? ' active' : '' }}">
         <a class="nav-link" href="{{ url('home/hotel') }}">
-          <i class="material-icons">dashboard</i>
-            <p>{{ __('Dashboard Hotel') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'hotel' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ url('hotel/create')}}">
-        <i class="material-icons">task</i>
-        <p>{{ __('Ajukan Permintaan') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'lihathotel' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ url('lihat/hotel')}}">
-        <i class="material-icons">other_houses</i>
-        <p>{{ __('Data Hotel') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'kamar' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ url('kamar')}}">
-        <i class="material-icons">hotel</i>
-        <p>{{ __('Daftar Kamar') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'lihatbobothotel' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ url('lihatbobot/hotel')}}">
-        <i class="material-icons">holiday_village</i>
-        <p>{{ __('Data Bobot Kriteria') }}</p>
+          <i class="material-icons">house</i>
+            <p>{{ __('Home Mitra Hotel') }}</p>
         </a>
       </li>
      

@@ -15,17 +15,13 @@ class CreateKendaraansTable extends Migration
     {
         Schema::create('kendaraans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nama_model_kendaraan');
             $table->bigInteger('persewaan_id')->unsigned();
             $table->foreign('persewaan_id')->references('id')->on('persewaans');
+            $table->bigInteger('model_id')->unsigned();
+            $table->foreign('model_id')->references('id')->on('model_kendaraans');
             $table->double('biaya_perhari');
             $table->string('filename_gambar');
             $table->string('tahun_keluaran');
-            $table->integer('kapasitas_penumpang');
-            $table->enum('surat_uji',[0,1]);
-            $table->enum('jenis_kendaraan',['Motor', 'Mobil', 'Minibus/Bus']);
-            $table->bigInteger('merk_id')->unsigned();
-            $table->foreign('merk_id')->references('id')->on('merk_kendaraans');
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });

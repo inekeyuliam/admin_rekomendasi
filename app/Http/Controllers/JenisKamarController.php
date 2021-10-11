@@ -16,7 +16,6 @@ class JenisKamarController extends Controller
     {
         if(session('success_message')){
             Alert::success('Success!', session('success_message'));
-
         }
         $listjenis = JenisKamar::all();
         return view('jeniskamar.index', ['listjenis'=>$listjenis]);  
@@ -30,7 +29,6 @@ class JenisKamarController extends Controller
     public function create()
     {
         return view('jeniskamar.create');
-
     }
 
     /**

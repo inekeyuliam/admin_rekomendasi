@@ -13,10 +13,15 @@ class CreateMerkKendaraanTable extends Migration
      */
     public function up()
     {
-        // Schema::create('jenis_kendaraans', function (Blueprint $table) {
-           
-        //     $table->timestamps();
-        // });
+        Schema::create('model_kendaraans', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nama_model');
+            $table->enum('jenis_kendaraan',['Motor', 'Mobil', 'Minibus/Bus']);
+            $table->bigInteger('merk_id')->unsigned();
+            $table->foreign('merk_id')->references('id')->on('merk_kendaraans');
+            $table->integer('kapasitas');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,6 +31,6 @@ class CreateMerkKendaraanTable extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('jenis_kendaraans');
+        Schema::dropIfExists('model_kendaraans');
     }
 }

@@ -19,14 +19,12 @@ class DetailKriteriaController extends Controller
     {
         if(session('success_message')){
             Alert::success('Success!', session('success_message'));
-
         }
-
         $listjenis = JenisKriteria::all();
         $listkriteria = Kriteria::all();
         $listdetail = DetailKriteria::all();
-
-        return view('detailkriteria.index', ['listjenis'=>$listjenis, 'listkriteria'=>$listkriteria,'listdetail'=>$listdetail]);  
+        return view('detailkriteria.index', ['listjenis'=>$listjenis, 
+        'listkriteria'=>$listkriteria,'listdetail'=>$listdetail]);  
     }
 
     /**
@@ -37,12 +35,10 @@ class DetailKriteriaController extends Controller
     public function create()
     {
         $iduser = Auth::user()->id;
-
         $listjenis = JenisKriteria::all();
         $listkriteria = Kriteria::all();
-
-        return view('detailkriteria.create', ['listjenis'=>$listjenis, 'listkriteria'=>$listkriteria]);  
-    
+        return view('detailkriteria.create', ['listjenis'=>$listjenis, 
+        'listkriteria'=>$listkriteria]);  
     }
 
     public function getKriteria($id){
@@ -58,12 +54,12 @@ class DetailKriteriaController extends Controller
     {
         $kriteria = $request->get('kriteria');
         $nama = $request->get('nama');
-
         $det = new DetailKriteria();
         $det->nama_detail = $nama;
         $det->kriteria_id = $kriteria;
         $det->save();
-        return redirect('detailkriteria')->withSuccessMessage('Detail Kriteria Berhasil ditambahkan!');
+        return redirect('detailkriteria')->withSuccessMessage
+        ('Detail Kriteria Berhasil ditambahkan!');
     }
 
     /**
@@ -106,13 +102,12 @@ class DetailKriteriaController extends Controller
     {
         $kriteria = $request->get('kriteria');
         $nama = $request->get('nama');
-
         $det = DetailKriteria::find($id);
         $det->nama_detail = $nama;
         $det->kriteria_id = $kriteria;
         $det->save();
-        return redirect('detailkriteria')->withSuccessMessage(' Detail Kriteria Berhasil diubah!');
-
+        return redirect('detailkriteria')->withSuccessMessage
+        (' Detail Kriteria Berhasil diubah!');
     }
 
     /**
@@ -123,6 +118,8 @@ class DetailKriteriaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $detkrit = DetailKriteria::find($id);
+        $detkrit->delete();
+        return redirect('detailkriteria');
     }
 }

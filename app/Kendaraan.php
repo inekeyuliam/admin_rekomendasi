@@ -10,8 +10,7 @@ class Kendaraan extends Model
     public function persewaans(){
         return $this->belongsTo("App\Persewaan","persewaan_id");
     }
-
-    public function merk_kendaraan(){
-        return $this->belongsTo("App\MerkKendaraan",'merk_id');
+    public function model_kendaraans(){
+        return $this->belongsTo("App\ModelKendaraan",'model_id');
     }
 }

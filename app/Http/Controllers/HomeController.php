@@ -5,8 +5,11 @@ use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\MerkKendaraan;
 use App\KotaKabupaten;
+use App\Persewaan;
 use App\Kecamatan;
 use App\Kelurahan;
+use App\Hotel;
+
 
 use Illuminate\Http\Request;
 use DB;
@@ -91,9 +94,15 @@ class HomeController extends Controller
                 }
 
             }
-
         } 
-        return view('home');
+
+
+        $wisata = DB::table('wisatas')->count();
+        $kriteria = DB::table('kriterias')->count();
+        $hotel = Hotel::where('status','aktif')->count();
+        $sewa = Persewaan::where('status','aktif')->count();
+       
+        return view('home', compact(['wisata','kriteria','hotel','sewa']));
 
     }
     public function hotel()
@@ -111,7 +120,7 @@ class HomeController extends Controller
             ->first();
             $detailhotel = DB::table('hotels')
             ->join('users','hotels.user_id','=','users.id')
-            ->join('detail_kriteria_hotels','hotels.id','=','detail_kriteria_hotels.hotel_id')
+            ->join('kriteria_hotels','hotels.id','=','kriteria_hotels.hotel_id')
             ->where('users.id','=',$iduser)
             ->count();
             $kamarhotel = DB::table('hotels')
@@ -125,7 +134,7 @@ class HomeController extends Controller
         }
         else{
     
-            return view('home');
+            return redirect('hotel/create');
         }
     }
     public function sewa()
@@ -143,7 +152,7 @@ class HomeController extends Controller
             ->first();
             $detailsewa = DB::table('persewaans')
             ->join('users','persewaans.user_id','=','users.id')
-            ->join('detail_kriteria_persewaans','persewaans.id','=','detail_kriteria_persewaans.persewaan_id')
+            ->join('kriteria_persewaans','persewaans.id','=','kriteria_persewaans.persewaan_id')
             ->where('users.id','=',$iduser)
             ->count();
             $kendaraansewa = DB::table('persewaans')
