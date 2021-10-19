@@ -127,7 +127,25 @@
       <li class="nav-item{{ $activePage == 'dashboardhotel' ? ' active' : '' }}">
         <a class="nav-link" href="{{ url('home/hotel') }}">
           <i class="material-icons">house</i>
-            <p>{{ __('Home Mitra Hotel') }}</p>
+            <p>{{ __('Dashboard') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'lihathotel' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ url('lihat/hotel')}}">
+        <i class="material-icons">hotel</i>
+        <p>{{ __('Data Hotel') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'kamar' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ url('kamar')}}">
+        <i class="material-icons">bed</i>
+        <p>{{ __('Daftar Kamar') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'lihatbobothotel' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ url('lihatbobot/hotel')}}">
+        <i class="material-icons">holiday_village</i>
+        <p>{{ __('Data Bobot Kriteria') }}</p>
         </a>
       </li>
      
@@ -136,13 +154,7 @@
       <li class="nav-item{{ $activePage == 'dashboardsewa' ? ' active' : '' }}">
         <a class="nav-link" href="{{ url('home/persewaan') }}">
           <i class="material-icons">dashboard</i>
-            <p>{{ __('Dashboard Persewaan') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'persewaan' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ url('persewaan/create')}}">
-        <i class="material-icons">task</i>
-        <p>{{ __('Ajukan Permintaan') }}</p>
+            <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
       <li class="nav-item{{ $activePage == 'lihatpersewaan' ? ' active' : '' }}">

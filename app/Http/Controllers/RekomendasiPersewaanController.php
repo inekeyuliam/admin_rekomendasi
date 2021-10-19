@@ -34,13 +34,13 @@ class RekomendasiPersewaanController extends Controller
       }
       $arrid = array_flatten($id_kriteria);
       // dd($resultbaru);
-      $nilaikriteria = DB::table('detail_kriteria_persewaans')
-      ->join('persewaans','detail_kriteria_persewaans.persewaan_id','=','persewaans.id')
-      ->join('kriterias','detail_kriteria_persewaans.kriteria_id','=','kriterias.id')
+      $nilaikriteria = DB::table('kriteria_persewaans')
+      ->join('persewaans','kriteria_persewaans.persewaan_id','=','persewaans.id')
+      ->join('kriterias','kriteria_persewaans.kriteria_id','=','kriterias.id')
       ->whereIn('kriteria_id',$arrid)
       ->get();
       // dd($nilaikriteria);
-      $akarkdrt = DB::table('detail_kriteria_persewaans')
+      $akarkdrt = DB::table('kriteria_persewaans')
       ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
       ->whereIn('kriteria_id',$arrid)
       ->groupby('kriteria_id')
@@ -311,15 +311,13 @@ class RekomendasiPersewaanController extends Controller
       // dd($nilaipref);
     
     
-      $persewaan =DB::table('persewaans')
-      ->join('gambar_persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
-      ->get();
+      $persewaan =Persewaan::with('gambar_persewaans')->get();
       $result = [];
       $rank = 1;
 
       foreach ($persewaan as $key => $w) {
 
-        $result[$key]['id'] = $w->persewaan_id;
+        $result[$key]['id'] = $w->id;
         $result[$key]['nama'] = $w->nama_persewaan;
         $result[$key]['rating'] = $w->rating;
         $result[$key]['alamat'] = $w->alamat;
@@ -327,6 +325,17 @@ class RekomendasiPersewaanController extends Controller
         $result[$key]['jam_tutup'] = $w->jam_tutup;
         $result[$key]['filename'] = $w->filename;
         $result[$key]['pref'] = $nilaipref[$key];
+        foreach($w->gambar_persewaans as $gambar)
+        {
+          if($gambar->persewaan_id == $w->id)
+          {
+            $result[$key]['filename'] = $gambar->filename;
+          }
+          else
+          {
+            break;
+          }
+        }
         // $result[$key]['rank'] = $rank;
         // $rank++;
 
@@ -345,25 +354,25 @@ class RekomendasiPersewaanController extends Controller
         $allkriteria = DB::table('kriterias')->where("jenis_kriteria_id",3)->get();
         $kriteria = DB::table('kriterias')->where("jenis_kriteria_id",3)->get();
         $count = DB::table('kriterias')->where("jenis_kriteria_id",3)->count();
-        $nilaikriteria = DB::table('detail_kriteria_persewaans')
-        ->join('persewaans','detail_kriteria_persewaans.persewaan_id','=','persewaans.id')
-        ->join('kriterias','detail_kriteria_persewaans.kriteria_id','=','kriterias.id')
+        $nilaikriteria = DB::table('kriteria_persewaans')
+        ->join('persewaans','kriteria_persewaans.persewaan_id','=','persewaans.id')
+        ->join('kriterias','kriteria_persewaans.kriteria_id','=','kriterias.id')
         ->get();
 
-        $akarkdrt = DB::table('detail_kriteria_persewaans')
+        $akarkdrt = DB::table('kriteria_persewaans')
         ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
         ->groupby('kriteria_id')
         ->get();
 
-        $cost = DB::table('detail_kriteria_persewaans')
+        $cost = DB::table('kriteria_persewaans')
         ->select('kriterias.id')
-        ->join('persewaans','detail_kriteria_persewaans.persewaan_id','=','persewaans.id')
-        ->join('kriterias','detail_kriteria_persewaans.kriteria_id','=','kriterias.id')
+        ->join('persewaans','kriteria_persewaans.persewaan_id','=','persewaans.id')
+        ->join('kriterias','kriteria_persewaans.kriteria_id','=','kriterias.id')
         ->where('kriterias.tipe_kriteria','=','Cost')
         ->groupby('kriteria_id')
         ->get();
 
-        $jum = DB::table('detail_kriteria_persewaans')
+        $jum = DB::table('kriteria_persewaans')
         ->groupby('persewaan_id')
         ->count();
         
@@ -389,25 +398,25 @@ class RekomendasiPersewaanController extends Controller
     {
         $kriteria = DB::table('kriterias')->where("jenis_kriteria_id",3)->get();
         $count = DB::table('kriterias')->where("jenis_kriteria_id",3)->count();
-        $nilaikriteria = DB::table('detail_kriteria_persewaans')
-        ->join('persewaans','detail_kriteria_persewaans.persewaan_id','=','persewaans.id')
-        ->join('kriterias','detail_kriteria_persewaans.kriteria_id','=','kriterias.id')
+        $nilaikriteria = DB::table('kriteria_persewaans')
+        ->join('persewaans','kriteria_persewaans.persewaan_id','=','persewaans.id')
+        ->join('kriterias','kriteria_persewaans.kriteria_id','=','kriterias.id')
         ->get();
 
-        $akarkdrt = DB::table('detail_kriteria_persewaans')
+        $akarkdrt = DB::table('kriteria_persewaans')
         ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
         ->groupby('kriteria_id')
         ->get();
 
-        $cost = DB::table('detail_kriteria_persewaans')
+        $cost = DB::table('kriteria_persewaans')
         ->select('kriterias.id')
-        ->join('persewaans','detail_kriteria_persewaans.persewaan_id','=','persewaans.id')
-        ->join('kriterias','detail_kriteria_persewaans.kriteria_id','=','kriterias.id')
+        ->join('persewaans','kriteria_persewaans.persewaan_id','=','persewaans.id')
+        ->join('kriterias','kriteria_persewaans.kriteria_id','=','kriterias.id')
         ->where('kriterias.tipe_kriteria','=','Cost')
         ->groupby('kriteria_id')
         ->get();
 
-        $jum = DB::table('detail_kriteria_persewaans')
+        $jum = DB::table('kriteria_persewaans')
         ->groupby('persewaan_id')
         ->count();
         
@@ -435,7 +444,7 @@ class RekomendasiPersewaanController extends Controller
 
       $gambarpersewaan = DB::table('gambar_persewaans')
       ->join('persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
-      ->where('persewaans.id','=',$sewa->id)
+      ->where('persewaans.id','=',$sewa->id)->orderBy('gambar_persewaans.id','DESC')
       ->get();
       // dd($gambarpersewaan);
 
@@ -451,9 +460,9 @@ class RekomendasiPersewaanController extends Controller
       ->where('persewaans.id','=',$sewa->id)
       ->get();
 
-      $fasisewa = DB::table('detail_kriteria_milik_persewaans')
-      ->join('persewaans', 'detail_kriteria_milik_persewaans.persewaan_id','=','persewaans.id')
-      ->join('detail_kriterias','detail_kriteria_milik_persewaans.detail_kriteria_id','=','detail_kriterias.id')
+      $fasisewa = DB::table('detail_kriteria_persewaans')
+      ->join('persewaans', 'detail_kriteria_persewaans.persewaan_id','=','persewaans.id')
+      ->join('detail_kriterias','detail_kriteria_persewaans.detail_kriteria_id','=','detail_kriterias.id')
       ->where('persewaans.id','=',$sewa->id)
       ->get();
       // dd($hargapersewaan);
@@ -482,8 +491,7 @@ class RekomendasiPersewaanController extends Controller
 
       if(count($id) < 3)
       {
-        alert()->warning('Title','Lorem Lorem Lorem');
-        return redirect('rekomendasi/persewaan')->with('wisata', 'IT WORKS!');
+        return \Redirect::back()->withErrors(['msg' => 'Kriteria Kurang Dari 3! Mohon Masukan Kembali Minimal 3 Kriteria']);
       }
       else
       {
@@ -491,10 +499,10 @@ class RekomendasiPersewaanController extends Controller
         ->whereIn('id', $id)->get();
         $count =DB::table('kriterias')
         ->whereIn('id', $id)->count();
-        $cost = DB::table('detail_kriteria_persewaans')
+        $cost = DB::table('kriteria_persewaans')
         ->select('kriterias.id')
-        ->join('persewaans','detail_kriteria_persewaans.persewaan_id','=','persewaans.id')
-        ->join('kriterias','detail_kriteria_persewaans.kriteria_id','=','kriterias.id')
+        ->join('persewaans','kriteria_persewaans.persewaan_id','=','persewaans.id')
+        ->join('kriterias','kriteria_persewaans.kriteria_id','=','kriterias.id')
         ->where('kriterias.tipe_kriteria','=','Cost')
         ->groupby('kriteria_id')
         ->get();
@@ -525,25 +533,34 @@ class RekomendasiPersewaanController extends Controller
         {
           $wis1 = DB::table('persewaans')->where('id', '=', $iddipilih[0])->get();
           $wis2 = DB::table('persewaans')->where('id', '=', $iddipilih[1])->get();
-          $detwis1 = DB::table('detail_kriteria_milik_persewaans')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_persewaans.detail_kriteria_id')
-          ->where('detail_kriteria_milik_persewaans.persewaan_id','=',$iddipilih[0])->get();
-          $detwis2 = DB::table('detail_kriteria_milik_persewaans')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_persewaans.detail_kriteria_id')
-          ->where('detail_kriteria_milik_persewaans.persewaan_id','=',$iddipilih[1])->get();
+          $detwis1 = DB::table('detail_kriteria_persewaans')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_persewaans.detail_kriteria_id')
+          ->where('detail_kriteria_persewaans.persewaan_id','=',$iddipilih[0])->get();
+          $detwis2 = DB::table('detail_kriteria_persewaans')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_persewaans.detail_kriteria_id')
+          ->where('detail_kriteria_persewaans.persewaan_id','=',$iddipilih[1])->get();
           $kriteriawis1 = DB::table('persewaans')
-          ->join('detail_kriteria_persewaans', 'detail_kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
-          ->join('kriterias', 'detail_kriteria_persewaans.persewaan_id', '=', 'kriterias.id')
-          ->orderBy('detail_kriteria_persewaans.kriteria_id', 'ASC')
+          ->join('kriteria_persewaans', 'kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
+          ->join('kriterias', 'kriteria_persewaans.persewaan_id', '=', 'kriterias.id')
+          ->orderBy('kriteria_persewaans.kriteria_id', 'ASC')
           ->where('persewaans.id', '=',$iddipilih[0])
           ->get();
           $kriteriawis2 = DB::table('persewaans')
-          ->join('detail_kriteria_persewaans', 'detail_kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
-          ->join('kriterias', 'detail_kriteria_persewaans.persewaan_id', '=', 'kriterias.id')
-          ->orderBy('detail_kriteria_persewaans.kriteria_id', 'ASC')
+          ->join('kriteria_persewaans', 'kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
+          ->join('kriterias', 'kriteria_persewaans.persewaan_id', '=', 'kriterias.id')
+          ->orderBy('kriteria_persewaans.kriteria_id', 'ASC')
           ->where('persewaans.id', '=', $iddipilih[1])
           ->get();
-          return view('user_persewaan.compare',['detwis1'=>$detwis1, 'detwis2' => $detwis2,'kriteria'=>$kriteria,'countwis'=>$countwis, 'wis1'=>$wis1 , 'wis2' =>$wis2, 'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2]);
+          $gambar1 = DB::table('gambar_persewaans')
+          ->join('persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
+          ->where('persewaans.id', '=', $iddipilih[0])
+          ->get();
+          $gambar2 = DB::table('gambar_persewaans')
+          ->join('persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
+          ->where('persewaans.id', '=', $iddipilih[1])
+          ->get();
+
+          return view('user_persewaan.compare',['gambar1'=>$gambar1, 'gambar2' => $gambar2,'detwis1'=>$detwis1, 'detwis2' => $detwis2,'kriteria'=>$kriteria,'countwis'=>$countwis, 'wis1'=>$wis1 , 'wis2' =>$wis2, 'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2]);
         
         }
         else
@@ -552,35 +569,47 @@ class RekomendasiPersewaanController extends Controller
           $wis2 = DB::table('persewaans')->where('id', '=', $iddipilih[1])->get();
           $wis3 = DB::table('persewaans')->where('id', '=', $iddipilih[2])->get();
 
-          $detwis1 = DB::table('detail_kriteria_milik_persewaans')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_persewaans.detail_kriteria_id')
-          ->where('detail_kriteria_milik_persewaans.persewaan_id','=',$iddipilih[0])->get();
-          $detwis2 = DB::table('detail_kriteria_milik_persewaans')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_persewaans.detail_kriteria_id')
-          ->where('detail_kriteria_milik_persewaans.persewaan_id','=',$iddipilih[1])->get();
-          $detwis3 = DB::table('detail_kriteria_milik_persewaans')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_persewaans.detail_kriteria_id')
-          ->where('detail_kriteria_milik_persewaans.persewaan_id','=',$iddipilih[2])->get();
+          $detwis1 = DB::table('detail_kriteria_persewaans')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_persewaans.detail_kriteria_id')
+          ->where('detail_kriteria_persewaans.persewaan_id','=',$iddipilih[0])->get();
+          $detwis2 = DB::table('detail_kriteria_persewaans')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_persewaans.detail_kriteria_id')
+          ->where('detail_kriteria_persewaans.persewaan_id','=',$iddipilih[1])->get();
+          $detwis3 = DB::table('detail_kriteria_persewaans')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_persewaans.detail_kriteria_id')
+          ->where('detail_kriteria_persewaans.persewaan_id','=',$iddipilih[2])->get();
 
           $kriteriawis1 = DB::table('persewaans')
-          ->join('detail_kriteria_persewaans', 'detail_kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
-          ->join('kriterias', 'detail_kriteria_persewaans.persewaan_id', '=', 'kriterias.id')          
-          ->orderBy('detail_kriteria_persewaans.kriteria_id', 'ASC')
+          ->join('kriteria_persewaans', 'kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
+          ->join('kriterias', 'kriteria_persewaans.persewaan_id', '=', 'kriterias.id')          
+          ->orderBy('kriteria_persewaans.kriteria_id', 'ASC')
           ->where('persewaans.id', '=',$iddipilih[0])
           ->get();
           $kriteriawis2 = DB::table('persewaans')
-          ->join('detail_kriteria_persewaans', 'detail_kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
-          ->join('kriterias', 'detail_kriteria_persewaans.persewaan_id', '=', 'kriterias.id')
-          ->orderBy('detail_kriteria_persewaans.kriteria_id', 'ASC')
+          ->join('kriteria_persewaans', 'kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
+          ->join('kriterias', 'kriteria_persewaans.persewaan_id', '=', 'kriterias.id')
+          ->orderBy('kriteria_persewaans.kriteria_id', 'ASC')
           ->where('persewaans.id', '=', $iddipilih[1])
           ->get();
           $kriteriawis3 = DB::table('persewaans')
-          ->join('detail_kriteria_persewaans', 'detail_kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
-          ->join('kriterias', 'detail_kriteria_persewaans.persewaan_id', '=', 'kriterias.id')
-          ->orderBy('detail_kriteria_persewaans.kriteria_id', 'ASC')
+          ->join('kriteria_persewaans', 'kriteria_persewaans.persewaan_id', '=', 'persewaans.id')            
+          ->join('kriterias', 'kriteria_persewaans.persewaan_id', '=', 'kriterias.id')
+          ->orderBy('kriteria_persewaans.kriteria_id', 'ASC')
           ->where('persewaans.id', '=', $iddipilih[2])
           ->get();
-          return view('user_persewaan.compare',['detwis1'=>$detwis1, 'detwis2' => $detwis2,'detwis3' =>$detwis3,'kriteria'=>$kriteria,'countwis'=>$countwis,'wis1'=>$wis1 , 'wis2' =>$wis2, 'wis3' =>$wis3,  'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2, 'kriteriawis3' =>$kriteriawis3]);
+          $gambar1 = DB::table('gambar_persewaans')
+          ->join('persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
+          ->where('persewaans.id', '=', $iddipilih[0])
+          ->get();
+          $gambar2 = DB::table('gambar_persewaans')
+          ->join('persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
+          ->where('persewaans.id', '=', $iddipilih[1])
+          ->get();
+          $gambar3 = DB::table('gambar_persewaans')
+          ->join('persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
+          ->where('persewaans.id', '=', $iddipilih[2])
+          ->get();
+          return view('user_persewaan.compare',['gambar1'=>$gambar1, 'gambar2' => $gambar2,'gambar3' =>$gambar3,'detwis1'=>$detwis1, 'detwis2' => $detwis2,'detwis3' =>$detwis3,'kriteria'=>$kriteria,'countwis'=>$countwis,'wis1'=>$wis1 , 'wis2' =>$wis2, 'wis3' =>$wis3,  'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2, 'kriteriawis3' =>$kriteriawis3]);
         
         }        
 

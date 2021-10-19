@@ -2,7 +2,7 @@
 <html class="wide wow-animation" lang="en"> 
   <head>
     <!-- Site Title-->
-    <title>Sistem Rekomendasi Wisata Jawa Timur</title>
+    <title>Sistem Rekomendasi Persewaan Jawa Timur</title>
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,10 +22,9 @@
     <script src="js/html5shiv.min.js"> </script>
 		<![endif]--> 
   </head>
-  
+
   <body>
-    <!-- Page preloader-->
-    <!-- <div class="page-loader"> 
+  <div class="page-loader"> 
       <div class="page-loader-body"> 
         <div class="preloader-wrapper big active"> 
           <div class="spinner-layer spinner-blue"> 
@@ -74,35 +73,25 @@
           </div>
         </div>
       </div>
-    </div> -->
-    <!-- Page-->
+    </div>
     <div class="page">
-      <!-- Page Header-->
       <header class="section page-header">
-        <!-- RD Navbar-->
         <div class="rd-navbar-wrap rd-navbar-default">
           <nav class="rd-navbar" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-fullwidth" data-xl-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-fixed" data-xl-device-layout="rd-navbar-static" data-md-stick-up-offset="2px" data-lg-stick-up-offset="2px" data-stick-up="true" data-sm-stick-up="true" data-md-stick-up="true" data-lg-stick-up="true" data-xl-stick-up="true">
           <div class="rd-navbar-inner">
-                <!-- RD Navbar Panel-->
-                <div class="rd-navbar-panel">
-                <!-- RD Navbar Toggle-->
+              <div class="rd-navbar-panel">
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">
                   <ul class="rd-navbar-nav">
- 
-                  <li><a href="/index"> HOME</a> </li>
-
-                    <!-- Example single danger button -->
-                    <li><a href="/" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li><a href="/index"> HOME</a> </li>
+                    <li ><a href="/" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      Wisata</a>
                       <div class="dropdown-menu">
                         <a class="dropdown-item" href="/daftar/wisata">Daftar Wisata</a>
                         <a class="dropdown-item" href="/rekomendasi/wisata">Rekomendasi Wisata</a>
-                        <!-- <div class="dropdown-divider"></div> -->
-                        <!-- <a class="dropdown-item" href="#">Separated link</a> -->
                       </div>
                     </li>
                     <li><a   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -112,7 +101,7 @@
                         <a class="dropdown-item" href="/rekomendasi/hotel">Rekomendasi Hotel</a>
                       </div>
                     </li>
-                    <li class="active"><a    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="active"><a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Persewaan Kendaraan</a>
                       <div class="dropdown-menu">
                         <a class="dropdown-item" href="/daftar/persewaan"> Daftar Persewaan Kendaraan</a>
@@ -129,26 +118,21 @@
       </header>
       <section class="section">
         <div class="swiper-form-wrap">
-          <!-- Swiper-->
          
         </div>
       </section>
      
       <section class="section section-variant-1 bg-default novi-background bg-cover"> 
         <div class="container container-bigger form-request-wrap form-request-wrap-modern">
-        <div class="row row-fix justify-content-xl-end row-30 text-center text-xl-left">
-            <div class="col-xl-8">
-              <div class="parallax-text-wrap text-xl-left">
-                <h3> Rekomendasi Persewaan Kendaraan</h3>
+          <div class="row row-fix justify-content-xl-end row-30 text-center text-xl-left">
+              <div class="col-xl-12">
+                <div class="parallax-text-wrap text-center">
+                 <br><br> <h3  style=" font-family:serif; font-size:40px; font-weight: 100px;">Rekomendasi Persewaan Kendaraan</h3>
+                </div>
               </div>
-            </div>
-            <div class="col-xl-3 text-xl-right">
-            <!-- <a class="button button-info button-nina" href="/rekomendasi/persewaan"><i class="fa fa-sliders"></i> Kriteria</a> -->
-
-            <a class="button button-info button-nina" data-toggle="modal" data-target="#exampleModal" href="#exampleModal"><i class="fa fa-sliders"></i> Kriteria</a>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+           
+          </div>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -180,47 +164,50 @@
             </div>
           </div>
         </div><br><br>
-        <div class="row row-fix justify-content-sm-center">
+            <div class="row row-fix justify-content-sm-center">
             <div class="col-lg-14 col-xxl-10">
                 <div class="col-md-6 col-lg-5 col-xl-4 col-xxl-12  text-center">
-                  <label style="font-size:20px;"><b>KRITERIA DIPILIH : </b></label><br>
-                  <div class="divider divider-secondary"></div>
+                  <label style=" font-family:serif; font-size:25px; font-weight: 100px;"><b>KRITERIA DIPILIH : </b></label><br>
+                  <div class="divider divider-secondary"></div><br><br>
+
                 </div>
-                <div class="col-sm-12 col-lg-12 row">                     
+                <div class="col-sm-12 col-lg-12 row text-center">
                     @foreach($kritwis as $krit)
-                      <div class="col-sm-4">
-                      <i class="fa fa-check"  style="color:green !important;"></i> <label style="font-size:21px;"> {{$krit->kriteria}}</label> 
+                    <div class="col-3">
+                      <i class="fa fa-check"  style="color:green !important;"></i> <label  style=" font-family:serif; font-size:25px; font-weight: 100px;"> {{$krit->kriteria}}</label> 
                       </div>
                     @endforeach   
                     </div><br><br><br>
+                    <div class="col-md-6 col-lg-5 col-xl-4 col-xxl-12  text-center">
+                      <a class="button button-info button-nina" data-toggle="modal" data-target="#exampleModal" href="#exampleModal"><i class="fa fa-sliders"></i> Ubah Kriteria</a><br><br><br>
+                    </div>
                   <form class="rd-mailform form-fix" id="hitung" method="POST">
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   <div class="form-wrap form-button text-center">
-                  <label class="text-center" style="font-size:26px;color:#ffa900;"><b>Masukan Nilai Perbandingan Kriteria Wisata</b></label><br><br><br>
-                      <div class="text-center">
-                        <label style="font-size:20px;color:red;margin: 0 5px 0 10px;  font-weight: 900; ">Sama Pentingnya</label><br><br>
-                      </div> 
+                    <label class="text-center"style="font-size:32px;color:black; font-weight: 300;font-family:serif">Masukan Nilai Perbandingan Kriteria Persewaan</label><br>
+                  <div class="divider divider-secondary"></div>               
 
+                  <br><br><br>
                       <div class="text-center">
-                      <label style="font-size:20px;color:grey;margin: 0 25px 0 10px; font-weight: 900;  ">Mutlak Sangat Penting</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">9</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">8</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">7</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">6</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">5</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">4</label>
+                      <label style="font-size:22px;color:black;margin: 0 160px 0 9px; font-weight: 600;font-family:serif">Mutlak Kurang Penting</label>
+                        <label style="font-size:22px;margin: 0 19px 0 9px; font-weight: 900; color:black; ">1</label>&nbsp;
+                        <label style="font-size:22px;margin: 0 19px 0 9px; font-weight: 900; color:black;">2</label>&nbsp;
+                        <label style="font-size:22px;margin: 0 19px 0 9px; font-weight: 900; color:black;">3</label>&nbsp;
+                        <label style="font-size:22px;margin: 0 19px 0 9px; font-weight: 900; color:black;">4</label>&nbsp;
+                        <label style="font-size:22px;margin: 0 19px 0 9px; font-weight: 900; color:black; ">5</label>&nbsp;
+                        <label style="font-size:22px;margin: 0 19px 0 9px; font-weight: 900; color:black; ">6</label>&nbsp;
+                        <label style="font-size:22px;margin: 0 19px 0 9px; font-weight: 900; color:black;">7</label>&nbsp;
+                        <label style="font-size:22px;margin: 0 19px 0 9px; font-weight: 900; color:black;">8</label>&nbsp;
+                        <label style="font-size:22px;margin: 0 19px 0 9px; font-weight: 900; color:black;">9</label>&nbsp;
+                        <!-- <label style="font-size:18px;margin: 0 20px 0 9px; ">2</label>
                         <label style="font-size:18px;margin: 0 20px 0 9px; ">3</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">2</label>
-                        <label style="font-size:18px;color:red;margin: 0 20px 0 9px; ">1</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">2</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">3</label>
                         <label style="font-size:18px;margin: 0 20px 0 9px; ">4</label>
                         <label style="font-size:18px;margin: 0 20px 0 9px; ">5</label>
                         <label style="font-size:18px;margin: 0 20px 0 9px; ">6</label>
                         <label style="font-size:18px;margin: 0 20px 0 9px; ">7</label>
                         <label style="font-size:18px;margin: 0 20px 0 9px; ">8</label>
-                        <label style="font-size:18px;margin: 0 20px 0 9px; ">9</label>
-                      <label style="font-size:20px;color:grey;margin: 0 10px 0 12px;  font-weight: 900;  ">Mutlak Kurang Penting</label>
+                        <label style="font-size:18px;margin: 0 20px 0 9px; ">9</label> -->
+                      <label style="font-size:22px;color:black;margin: 0 9px 0 160px;  font-weight: 600; font-family:serif ">Mutlak Sangat Penting</label>
                       </div> 
                     </div>
                       <div class="col-lg-16 col-lg-16 row text-center">
@@ -230,53 +217,32 @@
                          @break 
                          @else
                       
-                        <label class="col-sm-2" style="font-size:20px;">{{$kriteria1->kriteria}}</label>
+                        <label class="col-sm-2" style="font-size:25px;font-family:serif;">{{$kriteria1->kriteria}}</label>
                         <div class="col-sm-8">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="9">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="8">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="7">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="6">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="5">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="4">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="3">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="2">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="1" checked>
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="17">
+                        <input type="radio" style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="19" onchange="handleChange(this);">&nbsp;
+                        <input type="radio" style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="17" onchange="handleChange(this);">&nbsp;
+                        <input type="radio" style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="15" onchange="handleChange(this);">&nbsp;
+                        <input type="radio" style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="13" onchange="handleChange(this);">&nbsp;
+                        <input type="radio" style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="1" onchange="handleChange(this);" checked>&nbsp;
+                        <input type="radio" style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="3" onchange="handleChange(this);">&nbsp;
+                        <input type="radio" style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="5" onchange="handleChange(this);">&nbsp;
+                        <input type="radio" style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="7" onchange="handleChange(this);">&nbsp;
+                        <input type="radio" style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="9" onchange="handleChange(this);">&nbsp;
+                        <br><label style="color:#ffa500;font-weight: 900;font-size:20px;" id="info{{$kriteria1->id}}{{$kriteria2->id}}">Sama pentingnya dengan</label>
+                       
+                        <!-- <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="17">
                         <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="16">
                         <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="15">
                         <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="14">
                         <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="13">
                         <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="12">
                         <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="11">
-                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="10">
-
-
-
-                          <!-- <select class="form-input select-filter" data-placeholder="All" data-minimum-results-for-search="Infinity" name="prioritas[]" id="prioritas">
-                          <option value="" disabled> Pilih Tingkat Kepentingan </option>
-                            <option value=1>1 - Sama pentingnya dengan</option>
-                            <option value=2>2 - Sama atau sedikit lebih penting</option>
-                            <option value=3>3 - Sedikit lebih penting</option>
-                            <option value=4>4 - Sedikit jauh lebih penting</option>
-                            <option value=5>5 - Jauh lebih penting</option>
-                            <option value=6>6 - Sedikit sangat penting</option>
-                            <option value=7>7 - Sangat penting </option>
-                            <option value=8>8 - Sedikit mutlak lebih penting</option>
-                            <option value=9>9 - Multak lebih penting</option>
-                            <option value=10>1/9 - Multak kurang penting</option>
-                            <option value=11>1/8 - Sedikit multak kurang penting</option>
-                            <option value=12>1/7 - Sangat kurang penting</option>
-                            <option value=13>1/6 - Sedikit sangat kurang penting</option>
-                            <option value=14>1/5 - Jauh kurang penting</option>
-                            <option value=15>1/4 - Sedikit ke jauh kurang penting </option>
-                            <option value=16>1/3 - Sedikit kurang penting</option>
-                            <option value=17>1/2 - Sama atau sedikit kurang penting</option>
-                          </select> -->
+                        <input type="radio"  style="height:20px; width:20px;" name="prioritas{{$kriteria1->id}}{{$kriteria2->id}}" id="prioritas" value="10"> -->
                         </div>
 
-                        <label class="col-sm-2" style="font-size:20px;">
+                        <label class="col-sm-2" style="font-size:25px;font-family:serif;">
                            {{$kriteria2->kriteria}}  
-                           </label><br><br><br>
+                           </label><br><br><br><br>
                            @endif
                         @endforeach
 
@@ -296,16 +262,14 @@
                       <br>
                     </div>
                     <div class="form-wrap form-button text-center">
-                      <a class="button button-secondary" type="submit" id="cari">Cari Rekomendasi Persewaan</a>
+                      <a class="button button-secondary" type="submit" id="cari">Cari Rekomendasi</a>
                     </div>
                   </form>
               </div>
             </div>
          </div>
       </section>
-
     
-      <!-- Footer Minimal-->
       <footer class="section page-footer page-footer-minimal novi-background bg-cover text-center bg-gray-darker">
         <div class="container container-wide">
           <div class="row row-fix justify-content-sm-center align-items-md-center row-30">
@@ -327,14 +291,60 @@
   </body>
 </html>
 <script type='text/javascript'>
-    // var a = parseInt(document.getElementById("ausgangssprache").value);
+ 
+    function handleChange(src) {
+      $("#info").html(src.value);
+      var val = src.value
+      var name = src.name
+      console.log(val)
+      var nameslice = name.slice(9)
+      // $("#prioritas").html('<br><label id="info">'+src.value+'</label>');
+      if(val == 1)
+      {
+        $("#info"+nameslice).html("Sama pentingnya dengan");
+      }
+      else if(val == 19)
+      {
+        $("#info"+nameslice).html("Multak kurang penting daripada");
+      }
+      else if(val == 17)
+      {
+        $("#info"+nameslice).html("Sangat kurang penting daripada");
+      }
+      else if(val == 15)
+      {
+        $("#info"+nameslice).html("Cukup kurang penting daripada");
+      }
+      else if(val == 13)
+      {
+        $("#info"+nameslice).html("Sedikit kurang penting daripada");
+      }
+      else if(val == 9)
+      {
+        $("#info"+nameslice).html("Multak sangat penting daripada");
+      }
+      else if(val == 7)
+      {
+        $("#info"+nameslice).html("Sangat penting daripada");
+      }
+      else if(val == 5)
+      {
+        $("#info"+nameslice).html("Cukup penting daripada");
+      }
+      else if(val == 3)
+      {
+        $("#info"+nameslice).html("Sedikit lebih penting daripada");
+      }
+    }
 
+    // var a = parseInt(document.getElementById("ausgangssprache").value);
+   
     var form = document.getElementById('hitung');
     $('#cari').click(function(e) {
       var myArray = [];
+      var arrayall = [];
       var kritid = [];
       var tipekrit = [];
-      var arrayall = [];
 
       form.querySelectorAll('#kritid').forEach(function (input) {
           var ids = parseInt(input.value)
@@ -353,7 +363,6 @@
             // console.log("prioritas"+kritid[item]+kritid[item2])
           }
         }        
-        
       }
       var arrayfilt = arrayall.filter(function (el) {
         return el != null;
@@ -369,37 +378,37 @@
       })
       console.log("tipe kriteira");
       console.log(tipekrit);
-
+    
       // form.querySelectorAll('#prioritas').forEach(function (input) {
       //     myArray.push(parseInt(input.value));
       // })
       console.log(myArray.length)
       var sum = 0;
       for (var item in myArray) {
-        if(myArray[item] == 10){
+        if(myArray[item] == 19){
           myArray[item] = Math.round((1/9) * 100) / 100
         }
-        else if(myArray[item] == 11){
-          myArray[item] = Math.round((1/8) * 100) / 100
-        }
-        else if(myArray[item] == 12){
+        else if(myArray[item] == 17){
           myArray[item] = Math.round((1/7) * 100) / 100
         }
-        else if(myArray[item] == 13){
-          myArray[item] = Math.round((1/6) * 100) / 100
-        }
-        else if(myArray[item] == 14){
+        else if(myArray[item] == 15){
           myArray[item] = Math.round((1/5) * 100) / 100
         }
-        else if(myArray[item] == 15){
-          myArray[item] = Math.round((1/4) * 100) / 100
-        }
-        else if(myArray[item] == 16){
+        else if(myArray[item] == 13){
           myArray[item] = Math.round((1/3) * 100) / 100
         }
-        else if(myArray[item] == 17){
-          myArray[item] = Math.round((1/2) * 100) / 100
-        }
+        // else if(myArray[item] == 1){
+        //   myArray[item] = Math.round((1) * 100) / 100
+        // }
+        // else if(myArray[item] == 15){
+        //   myArray[item] = Math.round((1/4) * 100) / 100
+        // }
+        // else if(myArray[item] == 16){
+        //   myArray[item] = Math.round((1/3) * 100) / 100
+        // }
+        // else if(myArray[item] == 17){
+        //   myArray[item] = Math.round((1/2) * 100) / 100
+        // }
         else{
           myArray[item] = myArray[item]
         }
@@ -436,6 +445,7 @@
         selisih++;
 
       }
+      console.log("array segitiga bawah");
       console.log(arrayHolder);
       arrayKosong=[];
 
@@ -607,7 +617,7 @@
       {
         console.log('tidak konsisten, masukan ulang')
         $("#hitung")[0].reset();
-        alert("Matriks Tidak Konsisten, Masukan Perbandingan Lagi");
+        // alert("Matriks Tidak Konsisten, Masukan Perbandingan Lagi");
 
       }
       ////////////////////////////////////////////// MATRIKS TERNORMALISASI R  //////////////////////////////////////////

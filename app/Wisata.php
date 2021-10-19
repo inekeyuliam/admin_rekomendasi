@@ -18,7 +18,7 @@ class Wisata extends Model
         return $this->belongsToMany("App\Kriteria",'kriteria_wisatas','wisata_id','kriteria_id');
     }
     public function gambar_wisatas(){
-        return $this->hasMany("App\GambarWisata");
+        return $this->hasMany("App\WisataPunyaDetailKriteria");
     }
     public function review_wisatas(){
         return $this->hasMany("App\ReviewWisata");

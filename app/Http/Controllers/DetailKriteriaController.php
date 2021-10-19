@@ -102,10 +102,16 @@ class DetailKriteriaController extends Controller
     {
         $kriteria = $request->get('kriteria');
         $nama = $request->get('nama');
-        $det = DetailKriteria::find($id);
-        $det->nama_detail = $nama;
-        $det->kriteria_id = $kriteria;
-        $det->save();
+        DB::table('detail_kriterias')->where('detail_kriterias.id',$id)->update([
+            'nama_detail' => $nama,
+            'kriteria_id' => $kriteria
+        ]);
+        // $kriteria = $request->get('kriteria');
+        // $nama = $request->get('nama');
+        // $det = DetailKriteria::find($id);
+        // $det->nama_detail = $nama;
+        // $det->kriteria_id = $kriteria;
+        // $det->save();
         return redirect('detailkriteria')->withSuccessMessage
         (' Detail Kriteria Berhasil diubah!');
     }

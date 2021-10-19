@@ -65,7 +65,7 @@
   </head>
   <body>
     <!-- Page preloader-->
-    <!-- <div class="page-loader"> 
+    <div class="page-loader"> 
       <div class="page-loader-body"> 
         <div class="preloader-wrapper big active"> 
           <div class="spinner-layer spinner-blue"> 
@@ -114,7 +114,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <!-- Page-->
     <div class="page">
  
@@ -127,7 +127,7 @@
                <div class="rd-navbar-panel">
                 <!-- RD Navbar Toggle-->
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">

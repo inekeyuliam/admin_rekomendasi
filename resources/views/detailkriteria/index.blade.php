@@ -41,13 +41,13 @@
                                         <td>{{$item->kriterias->jenis_kriterias->nama_jenis}}</td>
                                         <td>{{$item->nama_detail}}</td>
                                         <td>
-                                        <a href="{{url('detailkriteria/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
+                                        <a href="{{url('detailkriteria/'.$item->id.'/edit')}}"><i class="fa fa-edit fa-2x"></i></a>
                                         </td>                         
                                         <td>
                                         <form method="POST" action="{{ url('detailkriteria/'.$item->id) }}" id="form-hapus-{{ $item->id }}">
                                             {{ method_field("DELETE") }}
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash"></i></a>
+                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash fa-2x"></i></a>
                                             </form>
                                         </td>
                                     </tr>
@@ -71,7 +71,35 @@
                                 })
 
                                 });
-                                
+                                jQuery.noConflict();
+                                jQuery('.button').on('click', function (e) {
+                                    var that = jQuery(this)
+
+                                    e.preventDefault();
+                                    Swal.fire({
+                                        title: 'Anda Yakin Ingin Menghapus?',
+                                        text: "Data ini tidak dapat dikembalikan lagi!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Hapus'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            that.closest('form').submit();
+                                            Swal.fire(
+
+                                            'Terhapus!',
+                                                'Data berhasil dihapus!',
+                                                'success'
+                                            )
+                                        }
+                                    })
+
+
+
+                                });
+
             
                                 </script>
                             </div>

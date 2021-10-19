@@ -6,6 +6,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use App\Kamar;
 use App\JenisKamar;
+use App\GambarKamar;
+
 use App\Hotel;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -30,12 +32,14 @@ class KamarController extends Controller
         if($hot == 1)
         {
             $listjenis = JenisKamar::all();
-            $listkamar = DB::table('hotels')
-            ->join('kamars','kamars.hotel_id','=','hotels.id')
+            $listkamar = DB::table('kamars')
+            ->join('hotels','kamars.hotel_id','=','hotels.id')
             ->join('jenis_kamars','kamars.jenis_kamar_id','=','jenis_kamars.id')
             ->join('users','hotels.user_id','=','users.id')
+            ->select('kamars.id','kapasitas','biaya_permalam','nama_jenis_kamar')
             ->where('users.id','=',$iduser)
             ->get();
+            // dd($listkamar);
             return view('kamar.index', ['listjenis'=>$listjenis, 'listkamar'=>$listkamar]);  
         }
         else
@@ -73,12 +77,37 @@ class KamarController extends Controller
         $jenis_kamar_id = $request->get('jenis_id');
         $kapasitas = $request->get('kapasitas');
         $biaya_permalam = $request->get('biaya');
+        $keterangan = $request->get('keterangan');
+
         $krit = new Kamar();
         $krit->hotel_id = $hotel_id;
         $krit->jenis_kamar_id=$jenis_kamar_id;
         $krit->kapasitas = $kapasitas;
         $krit->biaya_permalam=$biaya_permalam;
+        $krit->keterangan=$keterangan;
         $krit->save();
+        $id = $krit->id;
+
+        $files = $request->file('filename');
+        if(! is_null(request('filename')))
+        {
+            $uploadcount = 0;
+
+            $photos=request('filename');
+            foreach ($photos as $photo)
+             {
+            $destinationPath = 'images';
+                $filename =  $photo->getClientOriginalName();
+                $photo->move($destinationPath,$filename);
+                $uploadcount ++;
+               
+                $photo->getClientOriginalExtension();
+                $entry = new GambarKamar();
+                $entry->kamar_id = $id;
+                $entry->filename = $filename;
+                $entry->save();
+          }
+        }
         return redirect('kamar')->withSuccessMessage('Kamar Berhasil ditambahkan!');
     }
 
@@ -90,7 +119,19 @@ class KamarController extends Controller
      */
     public function show($id)
     {
-        //
+        $kamar =  DB::table('kamars')
+        ->select('kamars.id','kamars.jenis_kamar_id','kamars.kapasitas','kamars.biaya_permalam','kamars.keterangan','jenis_kamars.nama_jenis_kamar')
+        ->join('jenis_kamars', 'kamars.jenis_kamar_id', '=','jenis_kamars.id')
+        ->where('kamars.id',$id)
+        ->first();
+
+        $gambarkamar = DB::table('kamars')
+        ->join('gambar_kamars', 'gambar_kamars.kamar_id','=','kamars.id')
+        ->where('kamars.id',$id)
+        ->get();
+        // dd($kamar);
+
+        return view('kamar.show',['kamar' => $kamar, 'gambar' => $gambarkamar]);
     }
 
     /**
@@ -102,8 +143,12 @@ class KamarController extends Controller
     public function edit($id)
     {
         $kamar = Kamar::find($id);
-
-        return view('kamar.edit', ['kamar' => $kamar]);
+        $jenis = JenisKamar::all();
+        $gambarkamar = DB::table('kamars')
+        ->join('gambar_kamars', 'gambar_kamars.kamar_id','=','kamars.id')
+        ->where('kamars.id',$id)
+        ->get();
+        return view('kamar.edit', ['listjenis'=>$jenis,'kamar' => $kamar,'listgambar' => $gambarkamar]);
     }
 
     /**
@@ -116,15 +161,40 @@ class KamarController extends Controller
     public function update(Request $request, $id)
     {
       
-        $jenis_kamar_id = $request->get('jenis_id');
+        $iduser = Auth::user()->id;
+        $hotel_id = Hotel::where('user_id', $iduser)->pluck('id')->first();
+        $jenis_kamar_id = $request->get('tipe');
         $kapasitas = $request->get('kapasitas');
         $biaya_permalam = $request->get('biaya');
+        $keterangan = $request->get('keterangan');
 
-        $kmr = JenisKamar::find($id);
+        $kmr = Kamar::find($id);
         $kmr->jenis_kamar_id=$jenis_kamar_id;
         $kmr->kapasitas = $kapasitas;
         $kmr->biaya_permalam=$biaya_permalam;
+        $kmr->keterangan=$keterangan;
         $kmr->save();
+
+        $files = $request->file('filename');
+        if(! is_null(request('filename')))
+        {
+            $uploadcount = 0;
+
+            $photos=request('filename');
+            foreach ($photos as $photo)
+             {
+            $destinationPath = 'images';
+                $filename =  $photo->getClientOriginalName();
+                $photo->move($destinationPath,$filename);
+                $uploadcount ++;
+               
+                $photo->getClientOriginalExtension();
+                $entry = new GambarKamar();
+                $entry->kamar_id = $id;
+                $entry->filename = $filename;
+                $entry->save();
+          }
+        }
         return redirect('kamar')->withSuccessMessage('Kamar Berhasil diubah!');
     }
 
@@ -137,6 +207,7 @@ class KamarController extends Controller
     public function destroy($id)
     {
         $krit = Kamar::find($id);
+        $gambarkamar = GambarKamar::with('kamars')->where('kamar_id',$id)->delete();
         $krit->delete();
         return redirect('kamar');
     }

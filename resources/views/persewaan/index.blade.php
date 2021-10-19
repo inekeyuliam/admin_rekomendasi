@@ -3,19 +3,19 @@
 <div class="content">
 <div class="container-fluid">
 <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h3 class="card-title ">Daftar Persewaan Terverifikasi</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                 <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
-                            </div>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Download Laporan
                             </button>
@@ -33,9 +33,9 @@
                                         <th>Nama Persewaan</th>
                                         <th>No Telp</th>
                                         <th>Alamat</th>
+                                        <th>Kota / Kabupaten</th>
                                         <th>Status</th>
-                                        <th>Action Edit</th>
-                                        <th>Action Delete</th>
+                                        <th>Ubah Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,24 +45,25 @@
                                         <td><a href="{{url('persewaan/'.$item->id)}}">{{$item->nama_persewaan}}</a></td>
                                         <td>{{$item->no_telp}}</td>
                                         <td>{{$item->alamat}}</td>
+                                        <td>{{$item->kelurahans->kecamatans->kabupatens['nama_kabupaten']}}</td>
                                         <td>
                                         @if($item->status == 'aktif')
-                                        <a class="badge badge-pill badge-warning"> Terverifikasi <i class="material-icons">verified</i></a>
+                                        <a class="badge badge-pill badge-warning" style="vertical-align:middle;"> Terverifikasi <i class="material-icons">verified</i></a>
                                         @else
-                                        <a class="badge badge-pill badge-warning"> Belum Terverifikasi</a>
+                                        <a class="badge badge-pill badge-warning" style="vertical-align:middle;"> Belum Terverifikasi</a>
                                         @endif
                                         </td>
 
                                         <td>
-                                        <a href="{{url('persewaan/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
+                                        <a style="align:center" href="{{url('persewaan/'.$item->id.'/edit')}}"><i class="fa fa-edit fa-2x"></i></a>
                                         </td>                         
-                                        <td>
+                                        <!-- <td>
                                         <form method="POST" action="{{ url('persewaan/'.$item->id) }}" id="form-hapus-{{ $item->id }}">
                                             {{ method_field("DELETE") }}
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash"></i></a>
+                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash fa-2x"></i></a>
                                             </form>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     @endforeach
                                     </tbody>

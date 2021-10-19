@@ -1,38 +1,10 @@
 @extends('layouts.app', ['activePage' => 'dashboardhotel', 'titlePage' => __('')])
 
 @section('content')
-  <div class="content">
-    <!-- <div class="container-fluid">
-    @if(Auth::user()->tipe_admin == 'hotel')
-  <div class="alert alert-info alert-dismissible">{{ $listhotel->nama_hotel}} { __('Permintaan Verifikasi') }} {{ $listhotel->status}}</div>
-     
-    @endif -->
+<div class="content">
+    <div class="container-fluid">
     @if(Auth::user()->tipe_admin == 'hotel')
    
-      <!-- @if($listhotel->status == 'nonaktif' && $listhotel->alasan=='')
-        <div class="alert alert-danger">
-          <h3> <i class="material-icons-round"></i>Status Pengajuan Mitra {{$listhotel->nama_hotel}} Sedang Diproses! </h3>
-        </div>
-      @elseif($listhotel->status == 'nonaktif' && $listhotel->alasan!='')
-      <div class="alert alert-danger alert-dismissible">
-          <h3> <i class="material-icons-round"></i>Mohon Maaf, Status Pengajuan Mitra {{$listhotel->nama_hotel}} Ditolak! </h3>
-          <h3> <i class="material-icons-round"></i>Alasan penolakan : </h3>
-          <h3> {{$listhotel->alasan}}</h3>
-        </div>
-      @else
-        <div id="more" class="alert alert-success">
-          <h3> Selamat Pengajuan Mitra {{$listhotel->nama_hotel}} Berhasil Terverifikasi! <a class="pull-right"id="more" href="#" onclick="$('#more').slideToggle(function(){$('#more').html($('#more').is(':visible')?'Tutup':'Tutup');});">tutup</a> </h3>
-        </div>
-          @if($detailhotel < 1)
-            <div id="tutup" class="alert alert-warning alert-dismissible">
-              <h3> <i class="material-icons-round"></i>Silahkan Isi Bobot Kriteria Hotel<a class="pull-right"id="tutup" href="#" onclick="$('#tutup').slideToggle(function(){$('#tutup').html($('#tutup').is(':visible')?'Tutup':'Tutup');});">tutup</a>  </h3>           
-            </div>
-          @else
-            <div class="alert alert-success alert-dismissible">
-              <h3> <i class="material-icons-round"></i>Bobot Kriteria Hotel Berhasil Tersimpan! </h3>
-            </div>
-          @endif
-      @endif -->
 
       <div class="row">
         
@@ -149,11 +121,11 @@
                 <div class="card-header card-header-success">
                   <h3>Status Pengajuan Mitra Hotel</h3>
                 </div>
-                <div class="card-body">
-                  <h3 class="card-title" style="text-align:center;">Pengajuan Mitra Berhasil Diverifikasi</h3><br>
+                <div class="card-body"><br>
+                  <p class="card-title" style="text-align:center;font-weight:400;font-size:26px;">Pengajuan Mitra Berhasil Diverifikasi</p><br>
                   <div class="centericonverif">
                   <i class="fa fa-check fa-5x center"></i>
-                  </div>
+                  </div><br><br>
                 </div>
               </div>
             </div>
@@ -165,7 +137,7 @@
                   <h3>Pengaturan Mitra Hotel</h3>
                 </div>
                 <div class="card-body">
-                 
+                 <br>
                 @if($listhotel->status == 'nonaktif' && $listhotel->alasan=='')
                   <h4 class="card-title"><span class="text-primary"><i class="fa fa-circle"></i> </span> Pengajuan Mitra Diproses</h4>
                   <hr class="solid">
@@ -199,11 +171,7 @@
                   @endif
                 </div>
 
-                <div class="card-footer">
-                  <div class="stats">
-                    
-                  </div>
-                </div>
+  
               </div>
             @endif
 

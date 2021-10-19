@@ -3,19 +3,19 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h3 class="card-title ">Daftar Kendaraan</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                 <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
-                            </div>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <div class="col-md-2">
                             <a class="btn btn-primary btn-md pull-right" href="{{url('kendaraan/create')}}">Tambah Kendaraan</a> 
                             </div>
@@ -29,25 +29,32 @@
                                             <th>Nama Model Kendaraan</th>
                                             <th>Merk Kendaraan</th>
                                             <th>Biaya Sewa/Hari</th>
-                                            <th>Action Edit</th>
-                                            <th>Action Delete</th>
+                                            <th>Kapasitas</th>
+                                            <th>Tahun Keluaran</th>
+                                            <th>Gambar Kendaraan</th>
+                                            <th>Ubah</th>
+                                            <th>Hapus</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     @foreach ($listkend as $key=>$item)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$item->nama_model_kendaraan}}</td>
+                                            <td>{{$item->nama_model}}</td>
                                             <td>{{$item->nama_merk}}</td>
                                             <td>{{number_format($item->biaya_perhari,2)}}</td>
+                                            <td>{{$item->kapasitas}} orang</td>
+                                            <td>{{$item->tahun_keluaran}}</td>
+											<td><img src="{{ asset('images/'.$item->filename_gambar) }}" width="230px" height="170px"></td>
+
                                             <td>
-                                            <a href="{{url('kendaraan/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
+                                            <a href="{{url('kendaraan/'.$item->id.'/edit')}}"><i class="fa fa-edit fa-2x"></i></a>
                                             </td>                         
                                             <td>
                                             <form method="POST" action="{{ url('kendaraan/'.$item->id) }}" id="form-hapus-{{ $item->id }}">
                                                 {{ method_field("DELETE") }}
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash"></i></a>
+                                                <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash fa-2x"></i></a>
                                                 </form>
                                             </td>
                                         </tr>
@@ -71,6 +78,35 @@
                                 })
 
                                 });
+                                jQuery.noConflict();
+                                jQuery('.button').on('click', function (e) {
+                                    var that = jQuery(this)
+
+                                    e.preventDefault();
+                                    Swal.fire({
+                                        title: 'Anda Yakin Ingin Menghapus?',
+                                        text: "Data ini tidak dapat dikembalikan lagi!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Hapus'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            that.closest('form').submit();
+                                            Swal.fire(
+
+                                            'Terhapus!',
+                                                'Data berhasil dihapus!',
+                                                'success'
+                                            )
+                                        }
+                                    })
+
+
+
+                                });
+
                                 
             
                                 </script>

@@ -27,6 +27,8 @@ class RekomendasiWisataController extends Controller
       $resultbaru = array();
 
       $result = json_decode($request->data);
+      // dd($result);
+
       foreach ($result as $key=>$value) {
         $id_kriteria[] = [$value->id];
       }
@@ -40,17 +42,23 @@ class RekomendasiWisataController extends Controller
           "bobot"=>$value->bobot,
         ];
       }
+          // dd($resultbaru);
+
       $arrid = array_flatten($id_kriteria);
-      $nilaikriteria = DB::table('detail_kriteria_wisatas')
-      ->join('wisatas','detail_kriteria_wisatas.wisata_id','=','wisatas.id')
-      ->join('kriterias','detail_kriteria_wisatas.kriteria_id','=','kriterias.id')
+      $nilaikriteria = DB::table('kriteria_wisatas')
+      ->join('wisatas','kriteria_wisatas.wisata_id','=','wisatas.id')
+      ->join('kriterias','kriteria_wisatas.kriteria_id','=','kriterias.id')
       ->whereIn('kriteria_id',$arrid)
       ->get();
-      $akarkdrt = DB::table('detail_kriteria_wisatas')
-      ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
-      ->whereIn('kriteria_id',$arrid)
-      ->groupby('kriteria_id')
-      ->get();
+          // dd($arrid);
+      $akarkdrt = DB::table('kriteria_wisatas')
+          ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
+          ->whereIn('kriteria_id',$arrid)
+          ->groupby('kriteria_id')
+          ->get();
+      
+          // dd($akarkdrt);
+
       $total = array();
       $normalisasi= array();
       $hasil= array();
@@ -88,6 +96,7 @@ class RekomendasiWisataController extends Controller
           }
         }
       }
+    // dd($normalisasi);
 
       //////////////////////////////////// PERKALIAN BOBOT DENGAN NILAI NORMALISASI //////////////////////////////////// 
     
@@ -249,25 +258,36 @@ class RekomendasiWisataController extends Controller
                    $arrakarnegatif, $arrakarpositif);
 
       //////////////////////////////////// SORT NILAI PREFERENSI ////////////////////////////////////    
+      // dd($nilaipref[0]);
+      $wisata =Wisata::with('gambar_wisatas')->get();
      
-      $wisata =DB::table('wisatas')
-      ->join('gambar_wisatas', 'gambar_wisatas.wisata_id','=','wisatas.id')
-      ->get();
       $result = [];
       $rank = 1;
+      // dd($wisata);
 
       foreach ($wisata as $key => $w) {
-        $result[$key]['id'] = $w->wisata_id;
+        $result[$key]['id'] = $w->id;
         $result[$key]['nama'] = $w->nama_wisata;
         $result[$key]['rating'] = $w->rating;
         $result[$key]['alamat'] = $w->alamat;
         $result[$key]['jam_buka'] = $w->jam_buka;
         $result[$key]['jam_tutup'] = $w->jam_tutup;
-        $result[$key]['filename'] = $w->filename;
         $result[$key]['pref'] = $nilaipref[$key];
+        foreach($w->gambar_wisatas as $gambar)
+        {
+          if($gambar->wisata_id == $w->id)
+          {
+            $result[$key]['filename'] = $gambar->filename;
+          }
+          else
+          {
+            break;
+          }
+        }
       }
       $result = collect($result);
       $sorted = $result->sortByDesc('pref')->toArray();
+      // dd($sorted);
       $kriteriadipilih = DB::table('kriterias')
       ->whereIn('id', $idkriteria)->get();
       return view('user_wisata.hasil',['ranking'=>$sorted, 'kritwis'=>$kriteriadipilih]);
@@ -278,22 +298,22 @@ class RekomendasiWisataController extends Controller
         $allkriteria = DB::table('kriterias')->where("jenis_kriteria_id",1)->get();
         $kriteria = DB::table('kriterias')->where("jenis_kriteria_id",1)->get();
         $count = DB::table('kriterias')->where("jenis_kriteria_id",1)->count();
-        $nilaikriteria = DB::table('detail_kriteria_wisatas')
-        ->join('wisatas','detail_kriteria_wisatas.wisata_id','=','wisatas.id')
-        ->join('kriterias','detail_kriteria_wisatas.kriteria_id','=','kriterias.id')
+        $nilaikriteria = DB::table('kriteria_wisatas')
+        ->join('wisatas','kriteria_wisatas.wisata_id','=','wisatas.id')
+        ->join('kriterias','kriteria_wisatas.kriteria_id','=','kriterias.id')
         ->get();
-        $akarkdrt = DB::table('detail_kriteria_wisatas')
+        $akarkdrt = DB::table('kriteria_wisatas')
         ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
         ->groupby('kriteria_id')
         ->get();
-        $cost = DB::table('detail_kriteria_wisatas')
+        $cost = DB::table('kriteria_wisatas')
         ->select('kriterias.id')
-        ->join('wisatas','detail_kriteria_wisatas.wisata_id','=','wisatas.id')
-        ->join('kriterias','detail_kriteria_wisatas.kriteria_id','=','kriterias.id')
+        ->join('wisatas','kriteria_wisatas.wisata_id','=','wisatas.id')
+        ->join('kriterias','kriteria_wisatas.kriteria_id','=','kriterias.id')
         ->where('kriterias.tipe_kriteria','=','Cost')
         ->groupby('kriteria_id')
         ->get();
-        $jum = DB::table('detail_kriteria_wisatas')
+        $jum = DB::table('kriteria_wisatas')
         ->groupby('wisata_id')
         ->count();
         $arr = array();
@@ -351,25 +371,33 @@ class RekomendasiWisataController extends Controller
         {
           $wis1 = DB::table('wisatas')->where('id', '=', $iddipilih[0])->get();
           $wis2 = DB::table('wisatas')->where('id', '=', $iddipilih[1])->get();
-          $detwis1 = DB::table('detail_kriteria_milik_wisatas')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_wisatas.detail_kriteria_id')
-          ->where('detail_kriteria_milik_wisatas.wisata_id','=',$iddipilih[0])->get();
-          $detwis2 = DB::table('detail_kriteria_milik_wisatas')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_wisatas.detail_kriteria_id')
-          ->where('detail_kriteria_milik_wisatas.wisata_id','=',$iddipilih[1])->get();
+          $detwis1 = DB::table('detail_kriteria_wisatas')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_wisatas.detail_kriteria_id')
+          ->where('detail_kriteria_wisatas.wisata_id','=',$iddipilih[0])->get();
+          $detwis2 = DB::table('detail_kriteria_wisatas')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_wisatas.detail_kriteria_id')
+          ->where('detail_kriteria_wisatas.wisata_id','=',$iddipilih[1])->get();
           $kriteriawis1 = DB::table('wisatas')
-          ->join('detail_kriteria_wisatas', 'detail_kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
-          ->join('kriterias', 'detail_kriteria_wisatas.wisata_id', '=', 'kriterias.id')
-          ->orderBy('detail_kriteria_wisatas.kriteria_id', 'ASC')
+          ->join('kriteria_wisatas', 'kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
+          ->join('kriterias', 'kriteria_wisatas.wisata_id', '=', 'kriterias.id')
+          ->orderBy('kriteria_wisatas.kriteria_id', 'ASC')
           ->where('wisatas.id', '=',$iddipilih[0])
           ->get();
           $kriteriawis2 = DB::table('wisatas')
-          ->join('detail_kriteria_wisatas', 'detail_kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
-          ->join('kriterias', 'detail_kriteria_wisatas.wisata_id', '=', 'kriterias.id')
-          ->orderBy('detail_kriteria_wisatas.kriteria_id', 'ASC')
+          ->join('kriteria_wisatas', 'kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
+          ->join('kriterias', 'kriteria_wisatas.wisata_id', '=', 'kriterias.id')
+          ->orderBy('kriteria_wisatas.kriteria_id', 'ASC')
           ->where('wisatas.id', '=', $iddipilih[1])
           ->get();
-          return view('user_wisata.compare',['detwis1'=>$detwis1, 'detwis2' => $detwis2,'kriteria'=>$kriteria,'countwis'=>$countwis, 
+          $gambar1 = DB::table('gambar_wisatas')
+          ->join('wisatas', 'gambar_wisatas.wisata_id','=','wisatas.id')
+          ->where('wisatas.id', '=', $iddipilih[0])
+          ->get();
+          $gambar2 = DB::table('gambar_wisatas')
+          ->join('wisatas', 'gambar_wisatas.wisata_id','=','wisatas.id')
+          ->where('wisatas.id', '=', $iddipilih[1])
+          ->get();
+          return view('user_wisata.compare',['gambar1'=>$gambar1, 'gambar2' => $gambar2,'detwis1'=>$detwis1, 'detwis2' => $detwis2,'kriteria'=>$kriteria,'countwis'=>$countwis, 
           'wis1'=>$wis1 , 'wis2' =>$wis2, 'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2]);
         
         }
@@ -378,34 +406,46 @@ class RekomendasiWisataController extends Controller
           $wis1 = DB::table('wisatas')->where('id', '=', $iddipilih[0])->get();
           $wis2 = DB::table('wisatas')->where('id', '=', $iddipilih[1])->get();
           $wis3 = DB::table('wisatas')->where('id', '=', $iddipilih[2])->get();
-          $detwis1 = DB::table('detail_kriteria_milik_wisatas')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_wisatas.detail_kriteria_id')
-          ->where('detail_kriteria_milik_wisatas.wisata_id','=',$iddipilih[0])->get();
-          $detwis2 = DB::table('detail_kriteria_milik_wisatas')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_wisatas.detail_kriteria_id')
-          ->where('detail_kriteria_milik_wisatas.wisata_id','=',$iddipilih[1])->get();
-          $detwis3 = DB::table('detail_kriteria_milik_wisatas')
-          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_wisatas.detail_kriteria_id')
-          ->where('detail_kriteria_milik_wisatas.wisata_id','=',$iddipilih[2])->get();
+          $detwis1 = DB::table('detail_kriteria_wisatas')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_wisatas.detail_kriteria_id')
+          ->where('detail_kriteria_wisatas.wisata_id','=',$iddipilih[0])->get();
+          $detwis2 = DB::table('detail_kriteria_wisatas')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_wisatas.detail_kriteria_id')
+          ->where('detail_kriteria_wisatas.wisata_id','=',$iddipilih[1])->get();
+          $detwis3 = DB::table('detail_kriteria_wisatas')
+          ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_wisatas.detail_kriteria_id')
+          ->where('detail_kriteria_wisatas.wisata_id','=',$iddipilih[2])->get();
           $kriteriawis1 = DB::table('wisatas')
-          ->join('detail_kriteria_wisatas', 'detail_kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
-          ->join('kriterias', 'detail_kriteria_wisatas.wisata_id', '=', 'kriterias.id')          
-          ->orderBy('detail_kriteria_wisatas.kriteria_id', 'ASC')
+          ->join('kriteria_wisatas', 'kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
+          ->join('kriterias', 'kriteria_wisatas.wisata_id', '=', 'kriterias.id')          
+          ->orderBy('kriteria_wisatas.kriteria_id', 'ASC')
           ->where('wisatas.id', '=',$iddipilih[0])
           ->get();
           $kriteriawis2 = DB::table('wisatas')
-          ->join('detail_kriteria_wisatas', 'detail_kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
-          ->join('kriterias', 'detail_kriteria_wisatas.wisata_id', '=', 'kriterias.id')
-          ->orderBy('detail_kriteria_wisatas.kriteria_id', 'ASC')
+          ->join('kriteria_wisatas', 'kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
+          ->join('kriterias', 'kriteria_wisatas.wisata_id', '=', 'kriterias.id')
+          ->orderBy('kriteria_wisatas.kriteria_id', 'ASC')
           ->where('wisatas.id', '=', $iddipilih[1])
           ->get();
           $kriteriawis3 = DB::table('wisatas')
-          ->join('detail_kriteria_wisatas', 'detail_kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
-          ->join('kriterias', 'detail_kriteria_wisatas.wisata_id', '=', 'kriterias.id')
-          ->orderBy('detail_kriteria_wisatas.kriteria_id', 'ASC')
+          ->join('kriteria_wisatas', 'kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
+          ->join('kriterias', 'kriteria_wisatas.wisata_id', '=', 'kriterias.id')
+          ->orderBy('kriteria_wisatas.kriteria_id', 'ASC')
           ->where('wisatas.id', '=', $iddipilih[2])
           ->get();
-          return view('user_wisata.compare',['detwis1'=>$detwis1, 'detwis2' => $detwis2,'detwis3' =>$detwis3,
+          $gambar1 = DB::table('gambar_wisatas')
+          ->join('wisatas', 'gambar_wisatas.wisata_id','=','wisatas.id')
+          ->where('wisatas.id', '=', $iddipilih[0])
+          ->get();
+          $gambar2 = DB::table('gambar_wisatas')
+          ->join('wisatas', 'gambar_wisatas.wisata_id','=','wisatas.id')
+          ->where('wisatas.id', '=', $iddipilih[1])
+          ->get();
+          $gambar3 = DB::table('gambar_wisatas')
+          ->join('wisatas', 'gambar_wisatas.wisata_id','=','wisatas.id')
+          ->where('wisatas.id', '=', $iddipilih[2])
+          ->get();
+          return view('user_wisata.compare',['gambar1'=>$gambar1, 'gambar2' => $gambar2,'gambar3' =>$gambar3,'detwis1'=>$detwis1, 'detwis2' => $detwis2,'detwis3' =>$detwis3,
           'kriteria'=>$kriteria,'countwis'=>$countwis,'wis1'=>$wis1 , 'wis2' =>$wis2, 'wis3' =>$wis3,  
           'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2, 'kriteriawis3' =>$kriteriawis3]);
         
@@ -433,7 +473,7 @@ class RekomendasiWisataController extends Controller
       $wis = Wisata::find($id);
       $gambarwisata = DB::table('gambar_wisatas')
       ->join('wisatas', 'gambar_wisatas.wisata_id','=','wisatas.id')
-      ->where('wisatas.id','=',$wis->id)
+      ->where('wisatas.id','=',$wis->id)->orderBy('gambar_wisatas.id','DESC')
       ->get();
       $hargawisata = DB::table('harga_wisatas')
       ->join('wisatas', 'harga_wisatas.wisata_id','=','wisatas.id')
@@ -443,9 +483,9 @@ class RekomendasiWisataController extends Controller
       ->join('wisatas', 'review_wisatas.wisata_id','=','wisatas.id')
       ->where('wisatas.id','=',$wis->id)
       ->get();
-      $fasiwisata = DB::table('detail_kriteria_milik_wisatas')
-      ->join('wisatas', 'detail_kriteria_milik_wisatas.wisata_id','=','wisatas.id')
-      ->join('detail_kriterias','detail_kriteria_milik_wisatas.detail_kriteria_id','=','detail_kriterias.id')
+      $fasiwisata = DB::table('detail_kriteria_wisatas')
+      ->join('wisatas', 'detail_kriteria_wisatas.wisata_id','=','wisatas.id')
+      ->join('detail_kriterias','detail_kriteria_wisatas.detail_kriteria_id','=','detail_kriterias.id')
       ->where('wisatas.id','=',$wis->id)
       ->get();
       return view('user_wisata.show',['list' => $wis, 'fasilitas' => $fasiwisata,
@@ -686,8 +726,7 @@ class RekomendasiWisataController extends Controller
       $id = $request->get('kriteria');
       if(count($id) < 3)
       {
-        alert()->warning('Title','Lorem Lorem Lorem');
-        return redirect('rekomendasi/wisata')->with('wisata', 'IT WORKS!');
+        return \Redirect::back()->withErrors(['msg' => 'Kriteria Kurang Dari 3! Mohon Masukan Kembali Minimal 3 Kriteria']);
       }
       else
       {
@@ -695,10 +734,10 @@ class RekomendasiWisataController extends Controller
         ->whereIn('id', $id)->get();
         $count =DB::table('kriterias')
         ->whereIn('id', $id)->count();
-        $cost = DB::table('detail_kriteria_wisatas')
+        $cost = DB::table('kriteria_wisatas')
         ->select('kriterias.id')
-        ->join('wisatas','detail_kriteria_wisatas.wisata_id','=','wisatas.id')
-        ->join('kriterias','detail_kriteria_wisatas.kriteria_id','=','kriterias.id')
+        ->join('wisatas','kriteria_wisatas.wisata_id','=','wisatas.id')
+        ->join('kriterias','kriteria_wisatas.kriteria_id','=','kriterias.id')
         ->where('kriterias.tipe_kriteria','=','Cost')
         ->groupby('kriteria_id')
         ->get();

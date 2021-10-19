@@ -37,6 +37,7 @@ class KendaraanController extends Controller
             ->join('users','persewaans.user_id','=','users.id')
             ->where('users.id','=',$iduser)
             ->get();
+            
             return view('kendaraan.index', ['listmerk'=>$listmerk, 'listkend'=>$listkend]);  
         }
         else

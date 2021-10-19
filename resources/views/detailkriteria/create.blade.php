@@ -70,7 +70,7 @@ $(document).ready(function(){
             var response = JSON.parse(response);
             console.log(response);
             $('#kriteria').empty();
-            $('#kriteria').append(' <option value="" disabled selected>Pilih Kecamatan</option>');
+            $('#kriteria').append(' <option value="" disabled selected>Pilih Kriteria</option>');
             response.forEach(element => {
                 $('#kriteria').append(`<option value="${element['id']}">${element['kriteria']}</option>`);
 

@@ -22,7 +22,7 @@
   </head>
   <body>
     <!-- Page preloader-->
-    <!-- <div class="page-loader"> 
+    <div class="page-loader"> 
       <div class="page-loader-body"> 
         <div class="preloader-wrapper big active"> 
           <div class="spinner-layer spinner-blue"> 
@@ -71,7 +71,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <!-- Page-->
     <div class="page">
       <!-- Page Header-->
@@ -84,7 +84,7 @@
               <div class="rd-navbar-panel">
                 <!-- RD Navbar Toggle-->
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">
@@ -132,13 +132,13 @@
                   <div class="container container-bigger swiper-main-section">
                     <div class="row row-fix justify-content-sm-center justify-content-md-start text-center">
                       <div class="col-md-6 col-lg-5 col-xl-4 col-xxl-12">
-                        <br><br><br><br><h3 style="color:black">Sistem Rekomendasi Wisata, Hotel, dan Persewaan Kendaraan di Jawa Timur</h3><br>
+                      <h3 style="color:black; font-family:serif; font-size:40px; font-weight: 100px; margin-top:300px">Sistem Rekomendasi Wisata, Hotel, dan Persewaan Kendaraan di Jawa Timur</h3><br>
                         <div class="divider divider-secondary"></div>
                         <div class="divider divider-sm"></div>
-                        <br><br><br><p style="color:black; font-size:21px;" class="text-spacing-sm"> Provinsi Jawa Timur memiliki banyak sekali objek wisata, baik yang berada di kota ataupun kabupaten yang ada di Jawa Timur. 
+                        <br><br><br><p style="color:grey; font-size:25px;font-family:serif;" class="text-spacing-sm"> Provinsi Jawa Timur memiliki banyak sekali objek wisata, baik yang berada di kota ataupun kabupaten yang ada di Jawa Timur. 
                         Dinas Pariwisata Provinsi Jawa Timur sangat mendukung akan proses kegiatan berwisata dengan menyediakan banyak jasa penjunjang wisata, seperti hotel yang menyediakan jasa penginapan dan jasa persewaan kendaraan yang menawarkan persewaan transportasi guna untuk berkeliling ketika berwisata. 
                         Sehingga semakin banyaknya tempat wisata, hotel, dan persewaan kendaraan dengan kelebihan dan kekurangan masing-masing, hal ini terkadang membuat wisatawan bingung dalam proses pemilihan wisata, hotel, atau persewaan kendaraan karena wisatawan memiliki pertimbangan-pertimbangan tertentu dalam proses pemilihannya.
-                        Maka dari itu, sistem ini dibuat guna untuk membantu pengunjung dalam memilih wisata, hotel, atau persewaan kendaraan sesuai dengan kriteria atau pertimbangan-pertimbangan tertentu yang telah disediakan.</p>
+                        Maka dari itu, sistem ini dibuat guna untuk membantu pengunjung dalam memilih wisata, hotel, atau persewaan kendaraan sesuai dengan kriteria atau pertimbangan-pertimbangan tertentu yang telah disediakan.</p> <br><br><br><br><br><br>
                       </div>
                     </div>
                   </div>
@@ -151,14 +151,16 @@
      
       <section class="section section-variant-1 bg-default novi-background bg-cover"> 
         <div class="container container-wide">
-          <div class="row row-fix justify-content-xl-end row-30 text-center text-xl-left">
-            <div class="col-xl-8">
+          <div class="row row-fix justify-content-xl-end row-30 text-center">
+            <div class="col-xl-12">
               <div class="parallax-text-wrap">
-                <h3>Wisata Terbaik di Jawa Timur</h3>
-              </div>
-              <hr class="divider divider-secondary">
+              <br><br><br><h3 style="color:black; font-family:serif; font-size:40px; font-weight: 100px;">Wisata Populer di Jawa Timur</h3>
+                 <hr class="divider divider-secondary"><br>
+                 <a class="button button-secondary button-nina" href="/daftar/wisata">Lihat Daftar Wisata</a>
+
+                </div>
             </div>
-            <div class="col-xl-3 text-xl-right"><a class="button button-secondary button-nina" href="/daftar/wisata">Lihat Daftar Wisata</a></div>
+        
           </div>
           <div class="row row-50">
             <div class="col-md-6 col-xl-4">

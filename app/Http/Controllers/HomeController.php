@@ -160,7 +160,7 @@ class HomeController extends Controller
             ->join('kendaraans','kendaraans.persewaan_id','=','persewaans.id')
             ->where('users.id','=',$iduser)
             ->count();
-            return view('homesewa',['listper'=>$listper, 'detailsewa'=>$detailsewa, 'kendaraansewa'=>$kendaraansewa]);
+            return view('homesewa',['listsewa'=>$listper, 'detailsewa'=>$detailsewa, 'kendaraan'=>$kendaraansewa]);
         }
         else
         {

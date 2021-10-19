@@ -55,7 +55,7 @@
   </head>
   <body>
     <!-- Page preloader-->
-    <!-- <div class="page-loader"> 
+    <div class="page-loader"> 
       <div class="page-loader-body"> 
         <div class="preloader-wrapper big active"> 
           <div class="spinner-layer spinner-blue"> 
@@ -104,7 +104,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <!-- Page-->
     <div class="page">
   <!-- Page Header-->
@@ -117,7 +117,7 @@
               <div class="rd-navbar-panel">
                 <!-- RD Navbar Toggle-->
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">
@@ -167,27 +167,28 @@
       <section class="section section-variant-1 bg-default novi-background bg-cover"> 
         <div class="container container-bigger form-request-wrap form-request-wrap-modern">
           <div class="row row-fix justify-content-xl-end row-30 text-center text-xl-left">
-                <div class="col-xl-8">
-                  <div class="parallax-text-wrap">
-                      <h3>Rekomendasi Wisata </h3>
+                <div class="col-xl-12 text-center">
+                  <div class="parallax-text-wrap text-center">
+                  <br><br><h3  style=" font-family:serif; font-size:40px; font-weight: 100px;">Rekomendasi Wisata </h3>
                   </div>
-                  <hr class="divider divider-sm">
+                  <hr class="divider divider-sm"><br>
+                  <br><br>
+                  <label  style=" font-family:serif; font-size:25px; font-weight: 100px;"><b>KRITERIA DIPILIH : </b></label><br>
+                  <hr class="divider divider-secondary">
                 </div>
-                <div class="col-xl-3 text-xl-right">
-                  <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal">Bandingkan Wisata</a>
-                </div><br><br>
-                <div class="col-md-6 col-lg-5 col-xl-4 col-xxl-12  text-center">
-                  <label style="font-size:20px;"><b>KRITERIA DIPILIH : </b></label><br>
-                  <div class="divider divider-secondary"></div>
-                </div>
-
                 <div class="col-sm-12 col-lg-12 row">
                         @foreach($kritwis as $krit)
-                        <div class="col-sm-3">
-                        <i class="fa fa-check"style="color:green !important;"></i> <label style="font-size:20px;">{{$krit->kriteria}}</label> 
+                        <div class="col-sm-3" >
+                        <i class="fa fa-check"style="color:green !important;"></i> <label style="font-size:25px;font-family:serif">{{$krit->kriteria}}</label> 
                         </div>
                         @endforeach   
-                </div><br><br><br>
+                </div>
+                <div class="col-xl-12 text-center">
+                <br> <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal">Bandingkan Wisata</a>
+
+                </div>
+
+             
               </div>
           <br><br>
         @foreach($ranking as $key=>$item)
@@ -236,8 +237,8 @@
                   <span class="fa fa-star"></span>
                   {{$item['rating']}} / 5</p>              
               @endif
-              <p class="text-spacing-sm">Alamat : {{$item['alamat']}}</p><br>
-              <a class="button button-secondary-outline button-nina" href="{{url('wisata/'.$item['id'])}}">Lihat Wisata</a>
+              <p class="text-spacing-sm" style="font-size:21px;font-family:serif">Alamat : {{$item['alamat']}}</p><br>
+              <a class="button button-secondary-outline button-nina" href="{{url('detailwisata/'.$item['id'])}}">Lihat Wisata</a>
               <!-- <a class="button button-secondary-outline pull-right compare_card{{$item['id']}}" id="compare" rel="{{$item['id']}}" ><span class="fa fa-plus checked"></span> Bandingkan</a> -->
             </div>
             <div class="col-md-10 col-lg-6"><img src="{{ asset('images/'.$item['filename']) }}" alt="" width="720" height="459"/>

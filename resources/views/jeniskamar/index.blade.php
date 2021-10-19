@@ -3,23 +3,23 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h3 class="card-title ">Daftar Jenis Kamar</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                 <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="col-md-2 ">
                             <a class="btn btn-primary btn-md pull-right" href="{{url('jeniskamar/create')}}">Tambah Jenis Kamar</a> 
                             </div>
-                            </div>
+                        </div>
 
                             <div class="table-responsive">
                                 <table class="table table-striped table-no-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="datatables_info" id="dataTable" width="100%" style="width:100px" cellspacing="0">
@@ -37,13 +37,13 @@
                                         <td>{{$key+1}}</td>
                                         <td>{{$item->nama_jenis_kamar}}</td>
                                         <td>
-                                        <a href="{{url('jeniskamar/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
+                                        <a href="{{url('jeniskamar/'.$item->id.'/edit')}}"><i class="fa fa-edit fa-2x"></i></a>
                                         </td>                         
                                         <td>
                                         <form method="POST" action="{{ url('jeniskamar/'.$item->id) }}" id="form-hapus-{{ $item->id }}">
                                             {{ method_field("DELETE") }}
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash"></i></a>
+                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash fa-2x"></i></a>
                                             </form>
                                         </td>
                                     </tr>
@@ -67,7 +67,35 @@
                                 })
 
                                 });
-                                
+                                jQuery.noConflict();
+                                jQuery('.button').on('click', function (e) {
+                                    var that = jQuery(this)
+
+                                    e.preventDefault();
+                                    Swal.fire({
+                                        title: 'Anda Yakin Ingin Menghapus?',
+                                        text: "Data ini tidak dapat dikembalikan lagi!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Hapus'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            that.closest('form').submit();
+                                            Swal.fire(
+
+                                            'Terhapus!',
+                                                'Data berhasil dihapus!',
+                                                'success'
+                                            )
+                                        }
+                                    })
+
+
+
+                                });
+
             
                                 </script>
                             </div>

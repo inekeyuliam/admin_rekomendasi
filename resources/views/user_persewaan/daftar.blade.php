@@ -23,7 +23,7 @@
   </head>
   <body>
     <!-- Page preloader-->
-    <!-- <div class="page-loader"> 
+    <div class="page-loader"> 
       <div class="page-loader-body"> 
         <div class="preloader-wrapper big active"> 
           <div class="spinner-layer spinner-blue"> 
@@ -72,7 +72,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <!-- Page-->
     <div class="page">
       <!-- Page Header-->
@@ -85,7 +85,7 @@
             <div class="rd-navbar-panel">
                 <!-- RD Navbar Toggle-->
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">
@@ -133,25 +133,28 @@
       </section>
         <section class="section section-variant-1 bg-default novi-background bg-cover"> 
             <div class="container container-wide">
-            <div class="row row-fix justify-content-xl-end row-30 text-center text-xl-left">
-                <div class="col-xl-8">
-                <div class="parallax-text-wrap">
-                    <h3> Daftar Persewaan Kendaraan</h3>
+            <div class="row row-fix justify-content-xl-end row-30 text-center">
+                <div class="col-xl-12">
+                  <div class="parallax-text-wrap">
+                      <h4 style=" font-family:serif; font-size:40px; font-weight: 100px;" > Daftar Persewaan Kendaraan</h4>
+                      <hr class="divider divider-secondary"><br>
+                      <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal">Filter Persewaan Kendaraan</a><br><br>
+                  </div>
                 </div>
-                <hr class="divider divider-secondary">
-                </div>
-                <div class="col-xl-3 text-xl-right">
-                  <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal">Filter Persewaan Kendaraan</a>
-                </div>
+                
             </div>
             <div class="row row-50">
             @foreach($persewaan as $item)
                 <div class="col-md-6 col-xl-4">
                 <article class="event-default-wrap">
                     <div class="event-default">
+                    <?php $numItems = count($item->gambar_persewaans) ?>
+                    <?php  $i = 0 ?>
                     @foreach($item->gambar_persewaans as $item2)
+                    @if(++$i === $numItems)
                     <figure class="event-default-image">@if($item->filename != " ")<img src="{{ asset('images/'.$item2->filename) }}" alt="" width="570" height="370"/> @else<img src="{{asset('images/landing-private-airlines-02-570x370.jpg')}}" alt="" width="570" height="370"/>  @endif 
                     </figure>
+                    @endif
                     @endforeach
                     <div class="event-default-caption"><a class="button button-xs button-secondary button-nina" href="{{url('detailpersewaan/'.$item->id)}}">lihat Persewaan</a></div>
                     </div>

@@ -6,115 +6,138 @@
             <div class="col-md-8">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Edit Data Wisata Profile</h4>
+                  <h4 class="card-title">Edit Data Wisata </h4>
                 </div>
-              <div class="card-body">
-                <form class="mt-2" action='{{url("wisata/".$wisata->id)}}' method="post">{{ method_field("PUT")}}
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Nama Wisata</label>
-                        <input class="form-control" type="text" name="nama" value="{{$wisata->nama_wisata}}"required>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Alamat Wisata</label>
-                        <input class="form-control" type="text" name="nama" value="{{$wisata->alamat}}"required>
-                        </div>
-                      </div>
-                      
-                      </div>
-                      <div class="row">
-                      <div class="col-md-3">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Tipe Wisata</label>
-                        <select class="form-control" name="tipe" required>
-                        <option value=""> Pilih Tipe Wisata </option>
-                        @foreach ($tipewisata as $tipe)
-                                <option value="{{$tipe->id}}" @if($tipe->id == $wisata->tipe_wisata_id){
-                                    {{"selected"}}
-                                }
-                                @endif>{{$tipe->nama_tipe}}</option>
-                        @endforeach
-                        </select>              
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Kabupaten/Kota</label>
-                        <select class="form-control dynamic"  id="kabupaten" name="kabupaten" data-dependent="kecamatan" required>
-                        <option value=""> Pilih Kabupaten/Kota </option>
-                            @foreach ($kabupaten as $kab)
-                                <option value="{{$kab->id}}" @if($kab->id == $wisata->kabupaten_id){
-                                    {{"selected"}}
-                                }
-                                @endif>{{$kab->nama_kabupaten}}</option>
-                            @endforeach
-                        </select>
-                        </div>
-                      </div>             
-                      <div class="col-md-3">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Kecamatan</label>
-                        <select class="form-control dynamic"  id="kecamatan" name="kecamatan" data-dependent="kelurahan" required>
-                        <option value=""> Pilih Kecamatan </option>
-                            @foreach ($kecamatan as $kec)
-                                <option value="{{$kec->id}}"@if($kec->id == $wisata->kecamatan_id){
-                                    {{"selected"}}
-                                }
-                                @endif>{{$kec->nama_kecamatan}}</option>
-                            @endforeach
-                        </select>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Kelurahan</label>
-                        <select class="form-control dynamic"  id="kelurahan" name="kelurahan" required>
-                        <option value=""> Pilih Kelurahan </option>
-                            @foreach ($kelurahan as $kel)
-                                <option value="{{$kel->id}}"@if($kel->id == $wisata->kelurahan_id){
-                                    {{"selected"}}
-                                }
-                                @endif>{{$kel->nama_kelurahan}}</option>
-                            @endforeach
-                        </select>
-                        </div>
-                      </div>
-                    </div>
+                <div class="card-body">
+                  <form class="mt-2" action='{{url("wisata/".$wisata->id)}}' method="post" enctype="multipart/form-data">{{ method_field("PUT")}}
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Jam Buka</label>
-                        <input class="form-control" type="time" name="buka" value="{{$wisata->jam_buka}}"required>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Jam Tutup</label>
-                        <input class="form-control" type="time" name="tutup" value="{{$wisata->jam_tutup}}"required>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
+                      <div class="row">
+                        <div class="col-md-4">
                           <div class="form-group">
-                          <label class="exampleFormControlInput1">Keterangan</label>
-                            <textarea class="form-control" rows="5" name="keterangan" value="{{$wisata->keterangan}}"></textarea>
-
+                          <label class="exampleFormControlInput1">Nama Wisata</label>
+                          <input class="form-control" type="text" name="nama" value="{{$wisata->nama_wisata}}"required>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Rating</label>
+                          <input class="form-control" type="text" name="rating" value="{{$wisata->rating}}"required>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Alamat Wisata</label>
+                          <input class="form-control" type="text" name="alamat" value="{{$wisata->alamat}}"required>
+                          </div>
+                        </div>
+                        
+                        </div>
+                        <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Tipe Wisata</label>
+                          <select class="form-control" name="tipe" required>
+                          <option value=""> Pilih Tipe Wisata </option>
+                          @foreach ($tipewisata as $tipe)
+                                  <option value="{{$tipe->id}}" @if($tipe->id == $wisata->tipe_wisata_id){
+                                      {{"selected"}}
+                                  }
+                                  @endif>{{$tipe->nama_tipe}}</option>
+                          @endforeach
+                          </select>              
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Kabupaten/Kota</label>
+                          <select class="form-control dynamic"  id="kabupaten" name="kabupaten" data-dependent="kecamatan" required>
+                          <option value=""> Pilih Kabupaten/Kota </option>
+                              @foreach ($kabupaten as $kab)
+                                  <option value="{{$kab->id}}" @if($kab->id == $wisata->kabupaten_id){
+                                      {{"selected"}}
+                                  }
+                                  @endif>{{$kab->nama_kabupaten}}</option>
+                              @endforeach
+                          </select>
+                          </div>
+                        </div>             
+                        <div class="col-md-3">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Kecamatan</label>
+                          <select class="form-control dynamic"  id="kecamatan" name="kecamatan" data-dependent="kelurahan" required>
+                          <option value=""> Pilih Kecamatan </option>
+                              @foreach ($kecamatan as $kec)
+                                  <option value="{{$kec->id}}"@if($kec->id == $wisata->kecamatan_id){
+                                      {{"selected"}}
+                                  }
+                                  @endif>{{$kec->nama_kecamatan}}</option>
+                              @endforeach
+                          </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Kelurahan</label>
+                          <select class="form-control dynamic"  id="kelurahan" name="kelurahan" required>
+                          <option value=""> Pilih Kelurahan </option>
+                              @foreach ($kelurahan as $kel)
+                                  <option value="{{$kel->id}}"@if($kel->id == $wisata->kelurahan_id){
+                                      {{"selected"}}
+                                  }
+                                  @endif>{{$kel->nama_kelurahan}}</option>
+                              @endforeach
+                          </select>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <button class="btn btn-primary pull-right" type="submit">Simpan</button>
-                    <div class="clearfix"></div>
-                  </form>
+                  
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Jam Buka</label>
+                          <input class="form-control" type="time" name="buka" value="{{$wisata->jam_buka}}"required>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Jam Tutup</label>
+                          <input class="form-control" type="time" name="tutup" value="{{$wisata->jam_tutup}}"required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <div class="form-group">
+                            <label class="exampleFormControlInput1">Keterangan</label>
+                            <textarea class="form-control" rows="5" name="keterangan" value="{{$wisata->keterangan}}"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <label class="exampleFormControlInput1">Fasilitas Wisata</label>
+                              <br><br>
+                              <div class="row">
+                              @foreach($allkritwis as $item)
+                              <div class="col-md-4">
+                                  <div class="form-check form-check-inline">
+                                      @if(in_array($item->id, $idkritwis))
+                                      <label><input type="checkbox" id="fasi" name="fasi[]" value="{{$item->id}}" checked>
+                                      {{$item->nama_detail}}</label><br>
+                                      @else
+                                      <label><input type="checkbox" id="fasi" name="fasi[]" value="{{$item->id}}">
+                                      {{$item->nama_detail}}</label><br>                
+                                      @endif
+                                  </div>
+                              </div>
+                              @endforeach
+                      </div> 
+                      <button class="btn btn-primary pull-right" type="submit">Simpan</button>
+                      <div class="clearfix"></div>
+                    </form>
+                  </div>
                 </div>
-              </div>
             </div>
             <div class="col-md-4">
               <div class="card card-profile">
@@ -122,18 +145,28 @@
                   <h6 class="card-title">Bobot Nilai Kriteria Wisata</h6>
                 </div>
                 <div class="card-body">
-
-                @foreach ($detailwisata as $krit)
-                <div class="row">
-                    <div class="col-xl-11 col-md-16 mb-8">
-                        <div class="form-group">
+                  @foreach ($detailwisata as $krit)
+                    <div class="row">
+                        <div class="col-xl-11 col-md-16 mb-8">
+                            <div class="form-group">
+                            @if(empty($krit->satuan)) 
                             <label class="exampleFormControlInput1">{{$krit->kriteria}}</label>
+                            @else
+                            <label class="exampleFormControlInput1">{{$krit->kriteria}} ( {{$krit->satuan}} ) </label>
+                            @endif
                             <input class="form-control" type="number" name="nilai_kriteria[{{$krit->id}}]" value="{{$krit->nilai}}">
+                            </div>
                         </div>
                     </div>
+                  @endforeach
+                  <div class="row">
+                    <div class="col">
+                      <label style="color:black">Catatan Kondisi Jalan Wisata</label>
+                      <label class="exampleFormControlInput1" style="color:black">Nilai kondisi jalan wisata 1 artinya jalan disekitar wisata tidak ada kerusakan </label>
+                    </div>
+                  </div>
+
                 </div>
-                @endforeach
-            </div>
               </div>
             </div>
           </div>
@@ -163,30 +196,6 @@ $(document).ready(function(){
   });
  });
 
-//  $('#kabupaten').change(function(){
-//   var kabID = $(this).val();  
-//   if(kabID){
-//     $.ajax({
-//       type:"GET",
-//       url:"{{url('getKecamatan')}}?kabupaten_id="+kabID,
-//       success:function(res){        
-//       if(res){
-//         $("#kecamatan").empty();
-//         $("#kecamatan").append('<option>Select</option>');
-//         $.each(res,function(key,value){
-//           $("#kecamatan").append('<option value="'+key+'">'+value+'</option>');
-//         });
-      
-//       }else{
-//         $("#kecamatan").empty();
-//       }
-//       }
-//     });
-//   }else{
-//     $("#kecamatan").empty();
-//     $("#kelurahan").empty();
-//   }   
-//   });
 
  $('#kecamatan').on('change',function(){
   var kecID = $(this).val();  

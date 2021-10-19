@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\KotaKabupaten;
 use App\Hotel;
+use App\Kamar;
 use App\ReviewHotel;
 use App\DetailKriteriaHotel;
 
@@ -34,13 +35,13 @@ class RekomendasiHotelController extends Controller
     }
     $arrid = array_flatten($id_kriteria);
     // dd($resultbaru);
-    $nilaikriteria = DB::table('detail_kriteria_hotels')
-    ->join('hotels','detail_kriteria_hotels.hotel_id','=','hotels.id')
-    ->join('kriterias','detail_kriteria_hotels.kriteria_id','=','kriterias.id')
+    $nilaikriteria = DB::table('kriteria_hotels')
+    ->join('hotels','kriteria_hotels.hotel_id','=','hotels.id')
+    ->join('kriterias','kriteria_hotels.kriteria_id','=','kriterias.id')
     ->whereIn('kriteria_id',$arrid)
     ->get();
     // dd($nilaikriteria);
-    $akarkdrt = DB::table('detail_kriteria_hotels')
+    $akarkdrt = DB::table('kriteria_hotels')
     ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
     ->whereIn('kriteria_id',$arrid)
     ->groupby('kriteria_id')
@@ -311,29 +312,32 @@ class RekomendasiHotelController extends Controller
     // dd($nilaipref);
   
   
-    $hotel =DB::table('hotels')
-    ->join('gambar_hotels', 'gambar_hotels.hotel_id','=','hotels.id')
-    ->get();
+    $hotel =Hotel::with('gambar_hotels')->get();
     $result = [];
     $rank = 1;
+    // dd($hotel);
 
     foreach ($hotel as $key => $w) {
-
-      $result[$key]['id'] = $w->hotel_id;
+      $result[$key]['id'] = $w->id;
       $result[$key]['nama'] = $w->nama_hotel;
       $result[$key]['rating'] = $w->rating;
       $result[$key]['alamat'] = $w->alamat;
-      // $result[$key]['jam_buka'] = $w->jam_buka;
-      // $result[$key]['jam_tutup'] = $w->jam_tutup;
-      $result[$key]['filename'] = $w->filename;
       $result[$key]['pref'] = $nilaipref[$key];
-      // $result[$key]['rank'] = $rank;
-      // $rank++;
-
+      foreach($w->gambar_hotels as $gambar)
+        {
+          if($gambar->hotel_id == $w->id)
+          {
+            $result[$key]['filename'] = $gambar->filename;
+          }
+          else
+          {
+            break;
+          }
+        }
     }
     $result = collect($result);
     $sorted = $result->sortByDesc('pref')->toArray();
-    // dd($sorted);
+    // dd($result);
     $kriteriadipilih = DB::table('kriterias')
     ->whereIn('id', $idkriteria)->get();
     // dd($sorted);
@@ -345,25 +349,25 @@ class RekomendasiHotelController extends Controller
       $allkriteria = DB::table('kriterias')->where("jenis_kriteria_id",2)->get();
       $kriteria = DB::table('kriterias')->where("jenis_kriteria_id",2)->get();
       $count = DB::table('kriterias')->where("jenis_kriteria_id",2)->count();
-      $nilaikriteria = DB::table('detail_kriteria_hotels')
-      ->join('hotels','detail_kriteria_hotels.hotel_id','=','hotels.id')
-      ->join('kriterias','detail_kriteria_hotels.kriteria_id','=','kriterias.id')
+      $nilaikriteria = DB::table('kriteria_hotels')
+      ->join('hotels','kriteria_hotels.hotel_id','=','hotels.id')
+      ->join('kriterias','kriteria_hotels.kriteria_id','=','kriterias.id')
       ->get();
 
-      $akarkdrt = DB::table('detail_kriteria_hotels')
+      $akarkdrt = DB::table('kriteria_hotels')
       ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
       ->groupby('kriteria_id')
       ->get();
 
-      $cost = DB::table('detail_kriteria_hotels')
+      $cost = DB::table('kriteria_hotels')
       ->select('kriterias.id')
-      ->join('hotels','detail_kriteria_hotels.hotel_id','=','hotels.id')
-      ->join('kriterias','detail_kriteria_hotels.kriteria_id','=','kriterias.id')
+      ->join('hotels','kriteria_hotels.hotel_id','=','hotels.id')
+      ->join('kriterias','kriteria_hotels.kriteria_id','=','kriterias.id')
       ->where('kriterias.tipe_kriteria','=','Cost')
       ->groupby('kriteria_id')
       ->get();
 
-      $jum = DB::table('detail_kriteria_hotels')
+      $jum = DB::table('kriteria_hotels')
       ->groupby('hotel_id')
       ->count();
       
@@ -389,25 +393,25 @@ class RekomendasiHotelController extends Controller
   {
       $kriteria = DB::table('kriterias')->where("jenis_kriteria_id",2)->get();
       $count = DB::table('kriterias')->where("jenis_kriteria_id",2)->count();
-      $nilaikriteria = DB::table('detail_kriteria_hotels')
-      ->join('hotels','detail_kriteria_hotels.hotel_id','=','hotels.id')
-      ->join('kriterias','detail_kriteria_hotels.kriteria_id','=','kriterias.id')
+      $nilaikriteria = DB::table('kriteria_hotels')
+      ->join('hotels','kriteria_hotels.hotel_id','=','hotels.id')
+      ->join('kriterias','kriteria_hotels.kriteria_id','=','kriterias.id')
       ->get();
 
-      $akarkdrt = DB::table('detail_kriteria_hotels')
+      $akarkdrt = DB::table('kriteria_hotels')
       ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
       ->groupby('kriteria_id')
       ->get();
 
-      $cost = DB::table('detail_kriteria_hotels')
+      $cost = DB::table('kriteria_hotels')
       ->select('kriterias.id')
-      ->join('hotels','detail_kriteria_hotels.hotel_id','=','hotels.id')
-      ->join('kriterias','detail_kriteria_hotels.kriteria_id','=','kriterias.id')
+      ->join('hotels','kriteria_hotels.hotel_id','=','hotels.id')
+      ->join('kriterias','kriteria_hotels.kriteria_id','=','kriterias.id')
       ->where('kriterias.tipe_kriteria','=','Cost')
       ->groupby('kriteria_id')
       ->get();
 
-      $jum = DB::table('detail_kriteria_hotels')
+      $jum = DB::table('kriteria_hotels')
       ->groupby('hotel_id')
       ->count();
       
@@ -435,7 +439,7 @@ class RekomendasiHotelController extends Controller
 
     $gambarhotel = DB::table('gambar_hotels')
     ->join('hotels', 'gambar_hotels.hotel_id','=','hotels.id')
-    ->where('hotels.id','=',$sewa->id)
+    ->where('hotels.id','=',$sewa->id)->orderBy('gambar_hotels.id','DESC')
     ->get();
     // dd($gambarhotel);
 
@@ -444,16 +448,15 @@ class RekomendasiHotelController extends Controller
     ->where('hotels.id','=',$sewa->id)
     ->get();
 
-    $kamarsewa = DB::table('kamars')
-    ->join('hotels', 'kamars.hotel_id','=','hotels.id')
-    ->join('jenis_kamars','kamars.jenis_kamar_id','=','jenis_kamars.id')
-    ->join('gambar_kamars','gambar_kamars.kamar_id','=','kamars.id')
-    ->where('hotels.id','=',$sewa->id)
-    ->get();
+    $kamarsewa = Kamar::with(['jenis_kamars','gambar_kamars'])->whereHas('hotels',
+    function ($q) use($sewa){
+      $q->where('hotels.id',$sewa->id);
+    })->get();
 
-    $fasisewa = DB::table('detail_kriteria_milik_hotels')
-    ->join('hotels', 'detail_kriteria_milik_hotels.hotel_id','=','hotels.id')
-    ->join('detail_kriterias','detail_kriteria_milik_hotels.detail_kriteria_id','=','detail_kriterias.id')
+    // dd($kamarsewa);
+    $fasisewa = DB::table('detail_kriteria_hotels')
+    ->join('hotels', 'detail_kriteria_hotels.hotel_id','=','hotels.id')
+    ->join('detail_kriterias','detail_kriteria_hotels.detail_kriteria_id','=','detail_kriterias.id')
     ->where('hotels.id','=',$sewa->id)
     ->get();
     // dd($hargahotel);
@@ -482,20 +485,20 @@ class RekomendasiHotelController extends Controller
     $id = $request->get('kriteria');
     if(count($id) < 3)
     {
-        alert()->warning('Title','Lorem Lorem Lorem');
-        return redirect('rekomendasi/hotel')->with('wisata', 'IT WORKS!');
+        return \Redirect::back()->withErrors(['msg' => 'Kriteria Kurang Dari 3! Mohon Masukan Kembali Minimal 3 Kriteria']);
+
     }
-      else
+    else
     {
       $kriteria = DB::table('kriterias')
       ->whereIn('id', $id)->get();
       
       $count =DB::table('kriterias')
       ->whereIn('id', $id)->count();
-      $cost = DB::table('detail_kriteria_hotels')
+      $cost = DB::table('kriteria_hotels')
       ->select('kriterias.id')
-      ->join('hotels','detail_kriteria_hotels.hotel_id','=','hotels.id')
-      ->join('kriterias','detail_kriteria_hotels.kriteria_id','=','kriterias.id')
+      ->join('hotels','kriteria_hotels.hotel_id','=','hotels.id')
+      ->join('kriterias','kriteria_hotels.kriteria_id','=','kriterias.id')
       ->where('kriterias.tipe_kriteria','=','Cost')
       ->groupby('kriteria_id')
       ->get();
@@ -528,25 +531,33 @@ class RekomendasiHotelController extends Controller
       {
         $wis1 = DB::table('hotels')->where('id', '=', $iddipilih[0])->get();
         $wis2 = DB::table('hotels')->where('id', '=', $iddipilih[1])->get();
-        $detwis1 = DB::table('detail_kriteria_milik_hotels')
-        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_hotels.detail_kriteria_id')
-        ->where('detail_kriteria_milik_hotels.hotel_id','=',$iddipilih[0])->get();
-        $detwis2 = DB::table('detail_kriteria_milik_hotels')
-        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_hotels.detail_kriteria_id')
-        ->where('detail_kriteria_milik_hotels.hotel_id','=',$iddipilih[1])->get();
+        $detwis1 = DB::table('detail_kriteria_hotels')
+        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_hotels.detail_kriteria_id')
+        ->where('detail_kriteria_hotels.hotel_id','=',$iddipilih[0])->get();
+        $detwis2 = DB::table('detail_kriteria_hotels')
+        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_hotels.detail_kriteria_id')
+        ->where('detail_kriteria_hotels.hotel_id','=',$iddipilih[1])->get();
         $kriteriawis1 = DB::table('hotels')
-        ->join('detail_kriteria_hotels', 'detail_kriteria_hotels.hotel_id', '=', 'hotels.id')            
-        ->join('kriterias', 'detail_kriteria_hotels.hotel_id', '=', 'kriterias.id')
-        ->orderBy('detail_kriteria_hotels.kriteria_id', 'ASC')
+        ->join('kriteria_hotels', 'kriteria_hotels.hotel_id', '=', 'hotels.id')            
+        ->join('kriterias', 'kriteria_hotels.hotel_id', '=', 'kriterias.id')
+        ->orderBy('kriteria_hotels.kriteria_id', 'ASC')
         ->where('hotels.id', '=',$iddipilih[0])
         ->get();
         $kriteriawis2 = DB::table('hotels')
-        ->join('detail_kriteria_hotels', 'detail_kriteria_hotels.hotel_id', '=', 'hotels.id')            
-        ->join('kriterias', 'detail_kriteria_hotels.hotel_id', '=', 'kriterias.id')
-        ->orderBy('detail_kriteria_hotels.kriteria_id', 'ASC')
+        ->join('kriteria_hotels', 'kriteria_hotels.hotel_id', '=', 'hotels.id')            
+        ->join('kriterias', 'kriteria_hotels.hotel_id', '=', 'kriterias.id')
+        ->orderBy('kriteria_hotels.kriteria_id', 'ASC')
         ->where('hotels.id', '=', $iddipilih[1])
         ->get();
-        return view('user_hotel.compare',['detwis1'=>$detwis1, 'detwis2' => $detwis2,'kriteria'=>$kriteria,'countwis'=>$countwis, 'wis1'=>$wis1 , 'wis2' =>$wis2, 'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2]);
+        $gambarhotel1 = DB::table('gambar_hotels')
+        ->join('hotels', 'gambar_hotels.hotel_id','=','hotels.id')
+        ->where('hotels.id', '=', $iddipilih[0])
+        ->get();
+        $gambarhotel2 = DB::table('gambar_hotels')
+        ->join('hotels', 'gambar_hotels.hotel_id','=','hotels.id')
+        ->where('hotels.id', '=', $iddipilih[1])
+        ->get();
+        return view('user_hotel.compare',['gambar1'=>$gambarhotel1,'gambar2'=>$gambarhotel2,'detwis1'=>$detwis1, 'detwis2' => $detwis2,'kriteria'=>$kriteria,'countwis'=>$countwis, 'wis1'=>$wis1 , 'wis2' =>$wis2, 'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2]);
       
       }
       else
@@ -555,34 +566,46 @@ class RekomendasiHotelController extends Controller
         $wis2 = DB::table('hotels')->where('id', '=', $iddipilih[1])->get();
         $wis3 = DB::table('hotels')->where('id', '=', $iddipilih[2])->get();
 
-        $detwis1 = DB::table('detail_kriteria_milik_hotels')
-        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_hotels.detail_kriteria_id')
-        ->where('detail_kriteria_milik_hotels.hotel_id','=',$iddipilih[0])->get();
-        $detwis2 = DB::table('detail_kriteria_milik_hotels')
-        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_hotels.detail_kriteria_id')
-        ->where('detail_kriteria_milik_hotels.hotel_id','=',$iddipilih[1])->get();
-        $detwis3 = DB::table('detail_kriteria_milik_hotels')
-        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_milik_hotels.detail_kriteria_id')
-        ->where('detail_kriteria_milik_hotels.hotel_id','=',$iddipilih[2])->get();
+        $detwis1 = DB::table('detail_kriteria_hotels')
+        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_hotels.detail_kriteria_id')
+        ->where('detail_kriteria_hotels.hotel_id','=',$iddipilih[0])->get();
+        $detwis2 = DB::table('detail_kriteria_hotels')
+        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_hotels.detail_kriteria_id')
+        ->where('detail_kriteria_hotels.hotel_id','=',$iddipilih[1])->get();
+        $detwis3 = DB::table('detail_kriteria_hotels')
+        ->join('detail_kriterias','detail_kriterias.id','=','detail_kriteria_hotels.detail_kriteria_id')
+        ->where('detail_kriteria_hotels.hotel_id','=',$iddipilih[2])->get();
         $kriteriawis1 = DB::table('hotels')
-        ->join('detail_kriteria_hotels', 'detail_kriteria_hotels.hotel_id', '=', 'hotels.id')            
-        ->join('kriterias', 'detail_kriteria_hotels.hotel_id', '=', 'kriterias.id')          
-        ->orderBy('detail_kriteria_hotels.kriteria_id', 'ASC')
+        ->join('kriteria_hotels', 'kriteria_hotels.hotel_id', '=', 'hotels.id')            
+        ->join('kriterias', 'kriteria_hotels.hotel_id', '=', 'kriterias.id')          
+        ->orderBy('kriteria_hotels.kriteria_id', 'ASC')
         ->where('hotels.id', '=',$iddipilih[0])
         ->get();
         $kriteriawis2 = DB::table('hotels')
-        ->join('detail_kriteria_hotels', 'detail_kriteria_hotels.hotel_id', '=', 'hotels.id')            
-        ->join('kriterias', 'detail_kriteria_hotels.hotel_id', '=', 'kriterias.id')
-        ->orderBy('detail_kriteria_hotels.kriteria_id', 'ASC')
+        ->join('kriteria_hotels', 'kriteria_hotels.hotel_id', '=', 'hotels.id')            
+        ->join('kriterias', 'kriteria_hotels.hotel_id', '=', 'kriterias.id')
+        ->orderBy('kriteria_hotels.kriteria_id', 'ASC')
         ->where('hotels.id', '=', $iddipilih[1])
         ->get();
         $kriteriawis3 = DB::table('hotels')
-        ->join('detail_kriteria_hotels', 'detail_kriteria_hotels.hotel_id', '=', 'hotels.id')            
-        ->join('kriterias', 'detail_kriteria_hotels.hotel_id', '=', 'kriterias.id')
-        ->orderBy('detail_kriteria_hotels.kriteria_id', 'ASC')
+        ->join('kriteria_hotels', 'kriteria_hotels.hotel_id', '=', 'hotels.id')            
+        ->join('kriterias', 'kriteria_hotels.hotel_id', '=', 'kriterias.id')
+        ->orderBy('kriteria_hotels.kriteria_id', 'ASC')
         ->where('hotels.id', '=', $iddipilih[2])
         ->get();
-        return view('user_hotel.compare',['detwis1'=>$detwis1, 'detwis2' => $detwis2,'detwis3' =>$detwis3,'kriteria'=>$kriteria,'countwis'=>$countwis,'wis1'=>$wis1 , 'wis2' =>$wis2, 'wis3' =>$wis3,  'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2, 'kriteriawis3' =>$kriteriawis3]);
+        $gambarhotel1 = DB::table('gambar_hotels')
+        ->join('hotels', 'gambar_hotels.hotel_id','=','hotels.id')
+        ->where('hotels.id', '=', $iddipilih[0])
+        ->get();
+        $gambarhotel2 = DB::table('gambar_hotels')
+        ->join('hotels', 'gambar_hotels.hotel_id','=','hotels.id')
+        ->where('hotels.id', '=', $iddipilih[1])
+        ->get();
+        $gambarhotel3 = DB::table('gambar_hotels')
+        ->join('hotels', 'gambar_hotels.hotel_id','=','hotels.id')
+        ->where('hotels.id', '=', $iddipilih[2])
+        ->get();
+        return view('user_hotel.compare',['gambar1'=>$gambarhotel1,'gambar2'=>$gambarhotel2,'gambar3'=>$gambarhotel3,'detwis1'=>$detwis1, 'detwis2' => $detwis2,'detwis3' =>$detwis3,'kriteria'=>$kriteria,'countwis'=>$countwis,'wis1'=>$wis1 , 'wis2' =>$wis2, 'wis3' =>$wis3,  'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2, 'kriteriawis3' =>$kriteriawis3]);
       
       }        
    

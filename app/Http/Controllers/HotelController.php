@@ -32,7 +32,7 @@ class HotelController extends Controller
             Alert::success('Success!', session('success_message'));
 
         }
-        $listhotel = Hotel::where('status','=','aktif')->get();
+        $listhotel = Hotel::with('kelurahans.kecamatans.kabupatens')->where('status','=','aktif')->get();
         return view('hotel.index', ['listhotel'=>$listhotel])->withSuccessMessage(' Wisata Berhasil diverifikasi!');
 
     }
@@ -173,7 +173,7 @@ class HotelController extends Controller
 
     public function nonaktif()
     {
-        $listhotel = Hotel::where('status','=','nonaktif')->where('alasan','=','')->get();
+        $listhotel = Hotel::with('kelurahans.kecamatans.kabupatens')->where('status','=','nonaktif')->where('alasan','=','')->get();
         return view('hotel.nonaktif', ['listhotel'=>$listhotel])->with('success','Hotel berhasil diverifikasi successfully');
         
     }
@@ -219,11 +219,11 @@ class HotelController extends Controller
 
     public function show($id)
     {
-        $iduser = Auth::user()->id;
         $hotel =  DB::table('hotels')
         ->join('kelurahans', 'hotels.kelurahan_id', '=','kelurahans.id')
         ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
         ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
+        ->where('hotels.id',$id)
         ->first();
 
         $gambarhotel = DB::table('hotels')
@@ -242,16 +242,36 @@ class HotelController extends Controller
         ->join('users','hotels.user_id','=','users.id')
         ->where('users.id','=',$iduser)
         ->count();
-        if($hot >0)
-        {
-            $hotel =  DB::table('hotels')
-            ->join('kelurahans', 'hotels.kelurahan_id', '=','kelurahans.id')
-            ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
-            ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
-            ->where('hotels.user_id',$iduser)
-            ->first();
-            return view('hotel.lihat',['list' => $hotel]);
 
+        if($hot > 0)
+        {
+                $hotel =  DB::table('hotels')
+                ->select('hotels.id','nama_hotel','bintang','status','rating','link_fb','link_ig','no_telp','no_wa','alamat','nama_kabupaten','nama_kelurahan','nama_kecamatan','keterangan')
+                ->join('kelurahans', 'hotels.kelurahan_id', '=','kelurahans.id')
+                ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
+                ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
+                ->join('users','hotels.user_id','=','users.id')
+                ->where('users.id','=',$iduser)               
+                ->first();
+                // dd($hotel);
+    
+                $gambarhotel = DB::table('hotels')
+                ->join('gambar_hotels', 'gambar_hotels.hotel_id','=','hotels.id')
+                ->join('users','hotels.user_id','=','users.id')
+                ->where('users.id','=',$iduser)                  
+                ->get();
+                
+                $detilfasi = DB::table('detail_kriteria_hotels')
+                ->join('detail_kriterias','detail_kriteria_hotels.detail_kriteria_id','=','detail_kriterias.id')
+                ->join('kriterias','detail_kriterias.kriteria_id','=','kriterias.id')
+                ->join('hotels','detail_kriteria_hotels.hotel_id','=','hotels.id')
+                ->join('users','hotels.user_id','=','users.id')
+                ->where('users.id','=',$iduser) 
+                ->where('kriteria_id',8)->get();
+                // dd($detilfasi);
+                return view('hotel.lihat',['list' => $hotel, 'listgambar' => $gambarhotel, 'detail'=>$detilfasi]);
+         
+           
         }
         else
         {
@@ -330,20 +350,37 @@ class HotelController extends Controller
         ->get();
         return view('kamar.index',['listkamar'=>$listkamar, 'jeniskamar'=>$jeniskamar]);
     }
-    public function keubah()
+    public function keubah($id)
     {
-        $iduser = Auth::user()->id;
-        $hot =  DB::table('hotels')->where('hotels.user_id',$iduser)
-        ->join('kelurahans', 'hotels.kelurahan_id', '=','kelurahans.id')
-        ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
-        ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
-        ->first();
+        // $id = Auth::user()->id;
         $kabupaten = KotaKabupaten::all();
         $kecamatan = Kecamatan::all();
         $kelurahan = Kelurahan::all();
+        $hotel =  DB::table('hotels')
+        ->select('hotels.id','nama_hotel','bintang','status','rating','link_fb','link_ig','no_telp','no_wa','alamat','nama_kabupaten','nama_kelurahan','kabupaten_id','kecamatan_id','kelurahan_id','nama_kecamatan','keterangan')
+        ->join('kelurahans', 'hotels.kelurahan_id', '=','kelurahans.id')
+        ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
+        ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
+        ->where('hotels.id',$id)
+        ->first();
+        // dd($hotel);
 
-        return view('hotel.edit',['hot' => $hot,'kabupaten'=>$kabupaten, 'kecamatan'=>$kecamatan, 
-        'kelurahan'=>$kelurahan,]);
+        $gambarhotel = DB::table('hotels')
+        ->join('gambar_hotels', 'gambar_hotels.hotel_id','=','hotels.id')
+        ->where('hotels.id',$id)
+        ->get();
+
+        $allkriteria = DB::table('detail_kriterias')->where("kriteria_id",8)->get();
+        $resultArray = DB::table('detail_kriteria_hotels')->select('detail_kriteria_id')->where('hotel_id',$id)->get();
+        $idkritwis = json_decode(json_encode($resultArray), true);
+        $arr =[];
+        foreach($idkritwis as $item)
+        {
+            $arr[]=$item['detail_kriteria_id'];
+        }
+     
+        return view('hotel.edit',['allkritwis'=>$allkriteria,  'idkritwis'=>$arr, 'list' => $hotel, 'listgambar' => $gambarhotel,'kabupaten'=>$kabupaten, 'kecamatan'=>$kecamatan, 
+        'kelurahan'=>$kelurahan]);
        
     }
     public function keubahbobot()
@@ -373,35 +410,83 @@ class HotelController extends Controller
         ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
         ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
         ->first();
+
         return view('hotel.edit',['hot' => $hotel]);
 
 
     }
-    public function ubah(Request $request)
+    public function ubah(Request $request, $id)
     {
         $iduser = Auth::user()->id;
-     
+        $hot = DB::table('hotels')
+        ->select('hotels.id')
+        ->join('users','hotels.user_id','=','users.id')
+        ->where('users.id','=',$iduser)
+        ->first();
+        // $id=$hot->id;
+        // dd($id);
+
         $nama_hot = $request->get('nama');
-        $email = $request->get('email');
-        $tipe_hot = $request->get('tipe');
         $kelurahan = $request->get('kelurahan');
-        $long = $request->get('long');
-        $lat = $request->get('lat');
-        $harga = $request->get('harga');
-        $notlp = $request->get('notlp');
-        DB::table('hotels')->where('user_id',$iduser)->update([
-            'email' => $email,
-            'nama_hotel' => $nama_hot,
-            'kelurahan_id' => $kelurahan,
-            'longitude' => $long,
-            'latitude' => $lat,
-            'harga_permalam' => $harga,
-            'no_telp' => $notlp
-        ]);
-     
+        $alamat = $request->get('alamat');
+        $link_ig = $request->get('link_ig');
+        $link_fb = $request->get('link_fb');
+        $no_tlp = $request->get('no_tlp');
+        $no_wa = $request->get('no_wa');
+        $bintang = $request->get('bintang');
+        $rating = $request->get('rating');
+        $ket = $request->get('keterangan');
+        // dd($iduser);
+        $hotel = Hotel::find($iduser);
+        $hotel->nama_hotel = $nama_hot;
+        $hotel->kelurahan_id = $kelurahan;
+        $hotel->alamat = $alamat;
+        $hotel->link_fb = $link_fb;
+        $hotel->link_ig = $link_ig;
+        $hotel->rating = $rating;
+        $hotel->no_telp = $no_tlp;
+        $hotel->no_wa = $no_wa;
+        $hotel->bintang = $bintang;
+        $hotel->keterangan = $ket;
+        $hotel->save();
+       
+        $krit = DetailKriteriaHotel::where('detail_kriteria_hotels.hotel_id',$id);
+        $krit->delete();
+        $fasi = $request->get('fasi');
+
+        foreach($fasi as $item)
+        {
+            $updatefasi = new DetailKriteriaHotel();
+            $updatefasi->hotel_id=$id;
+            $updatefasi->detail_kriteria_id=$item;
+            $updatefasi->save();
+        }
+        
+        $files = $request->file('filename');
+        if(! is_null(request('filename')))
+        {
+            $uploadcount = 0;
+
+            $photos=request('filename');
+            foreach ($photos as $photo)
+            {
+                        $destinationPath = 'images';
+                        $filename =  $photo->getClientOriginalName();
+                        $photo->move($destinationPath,$filename);
+                        $uploadcount ++;
+                    
+                        $photo->getClientOriginalExtension();
+                        $entry = new GambarHotel();
+                        $entry->hotel_id = $id;
+                        $entry->filename = $filename;
+                        $entry->save();
+            }
+        }
+
         return redirect('lihat/hotel')->withSuccessMessage('Hotel Berhasil diubah!');
 
     }
+
     public function ubahbobot(Request $request)
     {
         $iduser = Auth::user()->id;

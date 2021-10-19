@@ -6,19 +6,19 @@
 <!-- Page Heading -->
 <!-- <h1 class="h3 mb-2 text-gray-800">Daftar Wisata</h1> -->
 <!-- DataTales Example -->
-<div class="col-md-10">
+<div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h3 class="card-title ">Daftar Permintaan Verifikasi Mitra Persewaan </h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                 <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
-                            </div>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Download Laporan
                             </button>
@@ -35,6 +35,7 @@
                                     <th>No.</th>
                                     <th>Nama Persewaan</th>
                                     <th>Tanggal Permintaan</th>
+                                    <th>Kota / Kabupaten</th>
                                     <th>Action Verifikasi</th>
                                     <th>Action Tolak</th>
                                 </tr>
@@ -45,6 +46,7 @@
                                         <td>{{$key+1}}</td>
                                         <td><a href="{{url('hotel/'.$item->id)}}">{{$item->nama_persewaan}}</a></td>
                                         <td>{{$item->created_at->format('d-M-Y')}}</td>
+                                        <td>{{$item->kelurahans->kecamatans->kabupatens['nama_kabupaten']}}</td>
                                         <td>
                                         <a class="btn btn-success btn-sm" id="verif" href="{{url('status/persewaan/'.$item->id)}}">Verifikasi</a> 
                                         </td>                         

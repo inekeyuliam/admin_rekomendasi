@@ -20,7 +20,7 @@
   </head>
   <body>
     <!-- Page preloader-->
-    <!-- <div class="page-loader"> 
+    <div class="page-loader"> 
       <div class="page-loader-body"> 
         <div class="preloader-wrapper big active"> 
           <div class="spinner-layer spinner-blue"> 
@@ -69,7 +69,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <!-- Page-->
     <header class="section page-header">
         <!-- RD Navbar-->
@@ -80,7 +80,7 @@
               <div class="rd-navbar-panel">
                 <!-- RD Navbar Toggle-->
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">
@@ -129,36 +129,38 @@
       <section class="section section-variant-1 bg-default novi-background bg-cover"> 
         <div class="container container-bigger form-request-wrap form-request-wrap-modern">
           <div class="row row-fix justify-content-xl-end row-30 text-center text-xl-left">
-                <div class="col-xl-8">
-                  <div class="parallax-text-wrap">
-                      <h3>Rekomendasi Persewaan Kendaraan</h3>
+                <div class="col-xl-12">
+                  <div class="parallax-text-wrap text-center">
+                  <br><br><h3  style=" font-family:serif; font-size:40px; font-weight: 100px;">Rekomendasi Persewaan Kendaraan</h3>
                   </div>
                   <hr class="divider divider-sm">
                 </div>
-                <div class="col-xl-3 text-xl-right">
-                  <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal">Bandingkan Persewaan</a>
-                </div>
+              
                 <br><br>
                 <div class="col-md-6 col-lg-5 col-xl-4 col-xxl-12  text-center">
-                  <label style="font-size:20px;"><b>KRITERIA DIPILIH : </b></label><br>
+                  <label  style=" font-family:serif; font-size:25px; font-weight: 100px;"><b>KRITERIA DIPILIH : </b></label><br>
                   <div class="divider divider-secondary"></div>
                 </div>
-                <div class="col-sm-12 col-lg-12 text-center row">
+                <div class="col-sm-12 col-lg-12  row">
                         @foreach($kritwis as $krit)
-                        <div class="col-sm-3" >
-                        <i class="fa fa-check"  style="color:green !important;"></i> <label style="font-size:20px;">{{$krit->kriteria}}</label> 
+                        <div class="col-sm-3">
+                        <i class="fa fa-check"  style="color:green !important;"></i> <label style="font-size:25px;font-family:serif">{{$krit->kriteria}}</label> 
                         </div>
                         @endforeach   
                 </div><br><br><br>
               </div>
+              <div class="col-xl-12 text-center">
+                <br> <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal">Bandingkan Persewaan Kendaraan</a>
+
+                </div>
           <br><br>
         @foreach($ranking as $key=>$item)
           <div class="row row-50 justify-content-md-center align-items-lg-center justify-content-xl-between flex-lg-row-reverse">
             <div class="col-md-10 col-lg-6 col-xl-5">
               <h3><a href="{{url('persewaan/'.$item['id'])}}">{{ $item['nama'] }}</a></h3>
               <div class="divider divider-secondary"></div>
-             @if($item['rating'] == 4.5 || $item['rating'] > 4.5 )
-              <p class="heading-5">  
+              @if($item['rating'] == 4.5 || $item['rating'] > 4.5 )
+              <p class="heading-5">  Rating :  
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
@@ -166,7 +168,7 @@
                 <span class="fa fa-star checked"></span>
                 {{$item['rating']}} / 5</p>
               @elseif($item['rating'] == 4.0 || $item['rating'] < 4.5  )
-                <p class="heading-5">  
+                <p class="heading-5">  Rating :  
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>
@@ -174,7 +176,7 @@
                   <span class="fa fa-star"></span>
                   {{$item['rating']}} / 5</p>
               @elseif($item['rating'] == 3.0 || $item['rating'] < 4.0  )
-                <p class="heading-5">  
+                <p class="heading-5">  Rating :  
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>
@@ -182,7 +184,7 @@
                   <span class="fa fa-star"></span>
                   {{$item['rating']}} / 5</p> 
               @elseif($item['rating'] == 2.0 || $item['rating'] < 3.0  )
-                <p class="heading-5">  
+                <p class="heading-5">  Rating :  
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star"></span>
@@ -190,7 +192,7 @@
                   <span class="fa fa-star"></span>
                   {{$item['rating']}} / 5</p> 
               @elseif($item['rating'] == 1.0 || $item['rating'] < 2.0  )
-                <p class="heading-5">  
+                <p class="heading-5">  Rating :  
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star"></span>
                   <span class="fa fa-star"></span>
@@ -198,7 +200,7 @@
                   <span class="fa fa-star"></span>
                   {{$item['rating']}} / 5</p>              
               @endif
-              <p class="text-spacing-sm">Alamat : {{$item['alamat']}}</p><a class="button button-secondary-outline button-nina" href="{{url('persewaan/'.$item['id'])}}">Lihat Persewaan</a>
+              <p class="text-spacing-sm"style="font-size:21px;font-family:serif">Alamat : {{$item['alamat']}}</p><a class="button button-secondary-outline button-nina" href="{{url('detailpersewaan/'.$item['id'])}}">Lihat Persewaan</a>
             </div>
             <div class="col-md-10 col-lg-6"><img src="{{ asset('images/'.$item['filename']) }}" alt="" width="720" height="459"/>
             </div>

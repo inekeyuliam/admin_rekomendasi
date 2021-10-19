@@ -8,160 +8,160 @@
                 <div class="card-header card-header-primary">
                   <h4 class="card-title">Input Data Wisata </h4>
                 </div>
-              <div class="card-body">
-                <form class="mt-2" action='{{url("wisata")}}' method="post" enctype="multipart/form-data">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <div class="row">
-                      <div class="col-md-5">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Nama Wisata</label>
-                        <input class="form-control" type="text" name="nama" id="nama" placeholder="Masukan nama tempat wisata">
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Alamat Wisata</label>
-                        <input class="form-control" type="text" id="from_places" name="alamat" placeholder="Masukan nama tempat wisata">
-                        <input type="hidden" id="long" name="lng">
-                        <input type="hidden" id="lat" name="lat">
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-
-                          <label class="exampleFormControlInput1">Rating Wisata</label>
-                          <input class="form-control" type="text"name="rating" id="rating" placeholder="Masukan rating tempat wisata" />
-                        </div>
-                      </div>
-
-                      </div>
-                      <div class="row">
-                      <div class="col-md-3">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Tipe Wisata</label>
-                          <select class="form-control" name="tipe" required>
-                            <option value=""> Pilih Tipe Wisata </option>
-                                @foreach ($listtipe as $tipe)
-                                    <option value="{{$tipe->id}}">{{$tipe->nama_tipe}}</option>
-                                @endforeach
-                            </select>                        
-                            </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Kabupaten/Kota</label>
-                        <select class="form-control dynamic"  id="kabupaten" name="kabupaten" data-dependent="kecamatan" required>
-                        <option value=""> Pilih Kabupaten/Kota </option>
-                            @foreach ($kabupaten as $kab)
-                                <option value="{{$kab->id}}">{{$kab->nama_kabupaten}}</option>
-                            @endforeach
-                        </select>
-                        </div>
-                      </div>
-                
-                      <div class="col-md-3">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Kecamatan</label>
-                        <select class="form-control dynamic"  id="kecamatan" name="kecamatan" data-dependent="kelurahan" required>
-                        <option value=""> Pilih Kecamatan </option>
-                            @foreach ($kecamatan as $kec)
-                                <option value="{{$kec->id}}">{{$kec->nama_kecamatan}}</option>
-                            @endforeach
-                        </select>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Kelurahan</label>
-                        <select class="form-control dynamic"  id="kelurahan" name="kelurahan" required>
-                        <option value=""> Pilih Kelurahan </option>
-                            @foreach ($kelurahan as $kel)
-                                <option value="{{$kel->id}}">{{$kel->nama_kelurahan}}</option>
-                            @endforeach
-                        </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- <div class="row"> -->
-                      <!-- <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Longitude</label>
-                        <input class="form-control" type="text" name="long" placeholder="Masukan longitude tempat wisata" required>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Latitude</label>
-                        <input class="form-control" type="text" name="lat" placeholder="Masukan latitude tempat wisata" required>
-                        </div>
-                      </div>
-                      </div> -->
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Jam Buka</label>
-                        <input class="form-control" type="time" name="buka" id="buka"required>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Jam Tutup</label>
-                            <input class="form-control" type="time" name="tutup" id="tutup" onmouseout="updateOperasional()"required>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Harga Weekdays</label>
-                        <input class="form-control" type="number" name="weekdays" id="weekdays"required>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Harga Weekend</label>
-                            <input class="form-control" type="number" name="weekend" id="weekend"  onmouseout="cekharga()"required>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-8">
-                        <div class="form-group">
+                <div class="card-body">
+                  <form class="mt-2" action='{{url("wisata")}}' method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  <div class="row">
+                        <div class="col-md-5">
                           <div class="form-group">
-                          <label class="exampleFormControlInput1">Deskripsi Wisata</label>
-                            <textarea class="form-control" rows="5" name="keterangan" placeholder="Masukan keterangan tempat wisata" required></textarea>
+                          <label class="exampleFormControlInput1">Nama Wisata</label>
+                          <input class="form-control" type="text" name="nama" id="nama" placeholder="Masukan nama tempat wisata">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Alamat Wisata</label>
+                          <input class="form-control" type="text" id="from_places" name="alamat" placeholder="Masukan nama tempat wisata">
+                          <input type="hidden" id="long" name="lng">
+                          <input type="hidden" id="lat" name="lat">
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+
+                            <label class="exampleFormControlInput1">Rating Wisata</label>
+                            <input class="form-control" type="text"name="rating" id="rating" placeholder="Masukan rating tempat wisata" />
+                          </div>
+                        </div>
+
+                        </div>
+                        <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Tipe Wisata</label>
+                            <select class="form-control" name="tipe" required>
+                              <option value=""> Pilih Tipe Wisata </option>
+                                  @foreach ($listtipe as $tipe)
+                                      <option value="{{$tipe->id}}">{{$tipe->nama_tipe}}</option>
+                                  @endforeach
+                              </select>                        
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Kabupaten/Kota</label>
+                          <select class="form-control dynamic"  id="kabupaten" name="kabupaten" data-dependent="kecamatan" required>
+                          <option value=""> Pilih Kabupaten/Kota </option>
+                              @foreach ($kabupaten as $kab)
+                                  <option value="{{$kab->id}}">{{$kab->nama_kabupaten}}</option>
+                              @endforeach
+                          </select>
+                          </div>
+                        </div>
+                  
+                        <div class="col-md-3">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Kecamatan</label>
+                          <select class="form-control dynamic"  id="kecamatan" name="kecamatan" data-dependent="kelurahan" required>
+                          <option value=""> Pilih Kecamatan </option>
+                              @foreach ($kecamatan as $kec)
+                                  <option value="{{$kec->id}}">{{$kec->nama_kecamatan}}</option>
+                              @endforeach
+                          </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Kelurahan</label>
+                          <select class="form-control dynamic"  id="kelurahan" name="kelurahan" required>
+                          <option value=""> Pilih Kelurahan </option>
+                              @foreach ($kelurahan as $kel)
+                                  <option value="{{$kel->id}}">{{$kel->nama_kelurahan}}</option>
+                              @endforeach
+                          </select>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-4">
-                        <label class="exampleFormControlInput1">Pilih Gambar Wisata</label>
-                        <input type="file" name="filename[]" id="filename" accept=".jpg, .jpeg, .png" multiple=""/>
-                      </div>
-                    </div>
-                  
-                    <div class="row">
-                    <div class="col-md-10">
-                        <div class="form-group">
-                        <label class="exampleFormControlInput1">Fasilitas yg dimiliki</label>
+                      <!-- <div class="row"> -->
+                        <!-- <div class="col-md-6">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Longitude</label>
+                          <input class="form-control" type="text" name="long" placeholder="Masukan longitude tempat wisata" required>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Latitude</label>
+                          <input class="form-control" type="text" name="lat" placeholder="Masukan latitude tempat wisata" required>
+                          </div>
+                        </div>
+                        </div> -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Jam Buka</label>
+                          <input class="form-control" type="time" name="buka" id="buka"required>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Jam Tutup</label>
+                              <input class="form-control" type="time" name="tutup" id="tutup" onmouseout="updateOperasional()"required>
+                          </div>
                         </div>
                       </div>
-                    @foreach ($listdetailkriteria as $detkrit)
-
-                            <div class="col-md-4">
-                              <div class="form-check">
-                              <label class="exampleFormControlInput1"><input  type="checkbox" id="fasi" name="fasi[]" value="{{$detkrit->id}}" class='z' onclick="updateCount()">
-                              {{$detkrit->nama_detail}} </label>
-
-                              </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Harga Weekdays</label>
+                          <input class="form-control" type="number" name="weekdays" id="weekdays"required>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Harga Weekend</label>
+                              <input class="form-control" type="number" name="weekend" id="weekend"  onmouseout="cekharga()"required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-8">
+                          <div class="form-group">
+                            <div class="form-group">
+                            <label class="exampleFormControlInput1">Deskripsi Wisata</label>
+                              <textarea class="form-control" rows="5" name="keterangan" placeholder="Masukan keterangan tempat wisata" required></textarea>
                             </div>
-                    @endforeach
-                    </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="exampleFormControlInput1">Pilih Gambar Wisata</label>
+                          <input type="file" name="filename[]" id="filename" accept=".jpg, .jpeg, .png" multiple=""/>
+                        </div>
+                      </div>
+                    
+                      <div class="row">
+                      <div class="col-md-10">
+                          <div class="form-group">
+                          <label class="exampleFormControlInput1">Fasilitas yg dimiliki</label>
+                          </div>
+                        </div>
+                      @foreach ($listdetailkriteria as $detkrit)
 
-                    <button class="btn btn-primary pull-right" type="submit">Simpan</button>
-                    <div class="clearfix"></div>
+                              <div class="col-md-4">
+                                <div class="form-check">
+                                <label class="exampleFormControlInput1"><input  type="checkbox" id="fasi" name="fasi[]" value="{{$detkrit->id}}" class='z' onclick="updateCount()">
+                                {{$detkrit->nama_detail}} </label>
+
+                                </div>
+                              </div>
+                      @endforeach
+                      </div>
+
+                      <button class="btn btn-primary pull-right" type="submit">Simpan</button>
+                      <div class="clearfix"></div>
+                  </div>
                 </div>
               </div>
-            </div>
             <div class="col-md-4">
               <div class="card card-profile">
                 <div class="card-header card-header-primary">
@@ -235,31 +235,6 @@ $(document).ready(function(){
             }
             });
         });
-
-//  $('#kabupaten').change(function(){
-//   var kabID = $(this).val();  
-//   if(kabID){
-//     $.ajax({
-//       type:"GET",
-//       url:"{{url('getKecamatan')}}?kabupaten_id="+kabID,
-//       success:function(res){        
-//       if(res){
-//         $("#kecamatan").empty();
-//         $("#kecamatan").append('<option>Select</option>');
-//         $.each(res,function(key,value){
-//           $("#kecamatan").append('<option value="'+key+'">'+value+'</option>');
-//         });
-      
-//       }else{
-//         $("#kecamatan").empty();
-//       }
-//       }
-//     });
-//   }else{
-//     $("#kecamatan").empty();
-//     $("#kelurahan").empty();
-//   }   
-//   });
 
  $('#kecamatan').on('change',function(){
   var kecID = $(this).val();  

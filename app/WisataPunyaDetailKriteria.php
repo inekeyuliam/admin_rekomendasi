@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class WisataPunyaDetailKriteria extends Model
 {
-    protected $table = 'detail_kriteria_wisatas';
-    protected $fillable = ['wisata_id', 'detail_kriteria_id'];
-
+    protected $table = 'gambar_wisatas';
+    public function wisatas(){
+        return $this->belongsTo("App\Wisata","wisata_id");
+    }
 }

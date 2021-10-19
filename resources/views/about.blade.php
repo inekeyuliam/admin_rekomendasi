@@ -84,7 +84,7 @@
               <div class="rd-navbar-panel">
                 <!-- RD Navbar Toggle-->
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">
@@ -132,10 +132,10 @@
                   <div class="container container-bigger swiper-main-section">
                     <div class="row row-fix justify-content-sm-center justify-content-md-start text-center">
                       <div class="col-md-6 col-lg-5 col-xl-4 col-xxl-12">
-                        <br><br><br><br><h3 style="color:black">Sistem Rekomendasi Wisata, Hotel, dan Persewaan Kendaraan di Jawa Timur</h3><br>
+                        <br><br><br><br><h3 style="color:black; font-family:serif; font-size:40px; font-weight: 100px;">Sistem Rekomendasi Wisata, Hotel, dan Persewaan Kendaraan di Jawa Timur</h3><br>
                         <div class="divider divider-secondary"></div>
                         <div class="divider divider-sm"></div>
-                            <br><br><h5 style="color:black">Oleh: Ineke Yulia Margareta</h5>
+                            <br><br><p style="color:black; font-family:serif; font-size:30px;">OLEH: INEKE YULIA MARGARETA</p>
                             <!-- <h5 style="color:black">NRP: 160417142</h5><br> -->
                         </div>
                     </div>

@@ -17,7 +17,6 @@
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"> </script>
 		<![endif]--> 
-    
   </head>
   <style>
     .fasi-large-size {
@@ -66,7 +65,7 @@
     </style>
   <body>
     <!-- Page preloader-->
-    <!-- <div class="page-loader"> 
+    <div class="page-loader"> 
       <div class="page-loader-body"> 
         <div class="preloader-wrapper big active"> 
           <div class="spinner-layer spinner-blue"> 
@@ -115,7 +114,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <!-- Page-->
     <div class="page">
  
@@ -128,7 +127,7 @@
                <div class="rd-navbar-panel">
                 <!-- RD Navbar Toggle-->
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">
@@ -231,8 +230,8 @@
                   <img class="mySlides" src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt='';display:none"/>
                 @endif
               @endforeach
-              <button class="w3-button w3-yellow w3-display-left" style="color:#ffa900" onclick="plusDivs(-1)">&#10094;</button>
-              <button class="w3-button w3-yellow w3-display-right" style="color:#ffa900" onclick="plusDivs(1)">&#10095;</button>
+              <button class="w3-button w3-black w3-display-left" style="color:white;font-size:26px" style="color:#ffa900" onclick="plusDivs(-1)">&#10094;</button>
+              <button class="w3-button w3-black w3-display-right" style="color:white;font-size:26px" style="color:#ffa900" onclick="plusDivs(1)">&#10095;</button>
             
               </div>
           </div>
@@ -307,7 +306,43 @@
           </div>
         </div>
       </section>
-   
+  
+      <section class="section section-lg bg-default text-center">
+        <div class="container container-wide">
+          <h3>Jenis Kamar Hotel</h3>
+          <div class="divider divider-secondary"></div>
+          <div class="row row-50 justify-content-sm-center text-center">
+          @foreach($kamar as $item)
+            <div class="col-sm-10 col-md-6 col-xl-3">
+              <article class="box-minimal box-minimal-border">
+                <p class="big box-minimal-title">{{$item->jenis_kamars->nama_jenis_kamar}}</p>
+                <input type="hidden" id="id_jenis" value="{{$item->jenis_kamars->nama_jenis_kamar}}">
+
+                <hr>
+                <div class="box-minimal-text text-spacing-sm">
+                @foreach($item->gambar_kamars as $key => $item2)
+                  @if($key == 0)
+                    <img class="mySlide" src="{{asset('images/'.$item2->filename) }}" alt="" width="300" height="300"/>
+                  @endif
+                @endforeach
+                <!-- <button class="w3-button w3-display-left" style="color:black;font-size:26px" style="color:#ffa900" onclick="plusDivs(-1)">&#10094;</button>
+                <button class="w3-button w3-display-right" style="color:black;font-size:26px" style="color:#ffa900" onclick="plusDivs(1)">&#10095;</button>
+             -->
+                <p class="team-classic-job-position">Kapasitas {{$item->kapasitas}} Orang</p>
+                <p class="team-classic-job-position">Rp{{number_format($item->biaya_permalam,2)}} per malam</p>
+                <a class="button button-info button-nina" onclick="myFunction()">Lihat Foto Kamar</a>
+
+                <!-- <a class="button button-info button-nina"  data-toggle="modal" data-target="#exampleModalFoto">Lihat Foto Kamar</a> -->
+              </div>
+              </article>
+            </div>
+          @endforeach
+          </div>
+        </div>
+       
+      </div>
+      </section>
+
       <section class="section section-lg text-center novi-background bg-cover">
         <div class="container container-wide">
           <h3>Fasilitas Hotel</h3>
@@ -327,27 +362,6 @@
         </div>
       </section>
 
-      <section class="section section-lg bg-default text-center">
-        <div class="container container-wide">
-          <h3>Jenis Kamar Hotel</h3>
-          <div class="divider divider-secondary"></div>
-          <div class="row row-50 justify-content-sm-center text-center">
-          @foreach($kamar as $item)
-            <div class="col-sm-10 col-md-6 col-xl-3">
-              <article class="box-minimal box-minimal-border">
-                <p class="big box-minimal-title">{{$item->nama_jenis_kamar}}</p>
-                <hr>
-                <div class="box-minimal-text text-spacing-sm">
-                <img src="{{asset('images/'.$item->filename) }}" alt="" width="300" height="300"/>
-                <p class="team-classic-job-position">Kapasitas {{$item->kapasitas}} Orang</p>
-                <p class="team-classic-job-position">Rp{{number_format($item->biaya_permalam,2)}} per hari</p>
-              </div>
-              </article>
-            </div>
-          @endforeach
-          </div>
-        </div>
-      </section>
       <br>
       <section class="section section-lg bg-default text-center">
         <div class="container container-bigger">
@@ -500,7 +514,7 @@
   </body>
 </html>
 <script>
-  var slideIndex = 1;
+var slideIndex = 1;
 showDivs(slideIndex);
 
 function plusDivs(n) {
@@ -517,4 +531,10 @@ function showDivs(n) {
   }
   x[slideIndex-1].style.display = "block";  
 }
+var id = $('#id_jenis').val();
+function myFunction() {
+  alert(id);
+}
+
+
 </script>

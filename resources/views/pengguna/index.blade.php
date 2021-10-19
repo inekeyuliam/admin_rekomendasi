@@ -45,13 +45,13 @@
                                         <td>{{$item->email}}</td>
 
                                         <td>
-                                        <a href="{{url('pengguna/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
+                                        <a href="{{url('pengguna/'.$item->id.'/edit')}}"><i class="fa fa-edit fa-2x"></i></a>
                                         </td>                         
                                         <td>
                                         <form method="POST" action="{{ url('pengguna/'.$item->id) }}" id="form-hapus-{{ $item->id }}">
                                             {{ method_field("DELETE") }}
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash"></i></a>
+                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash fa-2x"></i></a>
                                             </form>
                                         </td>
                                     </tr>

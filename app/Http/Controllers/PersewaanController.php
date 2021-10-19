@@ -15,6 +15,7 @@ use App\KotaKabupaten;
 use App\Kelurahan;
 use App\DetailKriteriaPersewaan;
 use App\Kriteria;
+use App\GambarPersewaan;
 use PDF;
 use DB;
 class PersewaanController extends Controller
@@ -26,7 +27,7 @@ class PersewaanController extends Controller
      */
     public function index()
     {
-        $listpersewaan = Persewaan::where('status','=','aktif')->get();
+        $listpersewaan = Persewaan::with('kelurahans.kecamatans.kabupatens')->where('status','=','aktif')->get();
         return view('persewaan.index', ['listpersewaan'=>$listpersewaan])->withSuccessMessage(' Persewaan Berhasil diverifikasi!');
     }
 
@@ -59,33 +60,118 @@ class PersewaanController extends Controller
             'kelurahan'=>$kelurahan, 'listkriteria'=>$listkriteria]);  
         }
     }
-    public function bobot()
+    public function keubah($id)
+    {
+        // $id = Auth::user()->id;
+        $kabupaten = KotaKabupaten::all();
+        $kecamatan = Kecamatan::all();
+        $kelurahan = Kelurahan::all();
+        $persewaan =  DB::table('persewaans')
+        ->select('persewaans.id','nama_persewaan','jam_buka','jam_tutup','status','rating','link_fb','link_ig','no_telp','no_wa','alamat','nama_kabupaten','nama_kelurahan','nama_kecamatan','kabupaten_id','kecamatan_id','kelurahan_id','keterangan')
+        ->join('kelurahans', 'persewaans.kelurahan_id', '=','kelurahans.id')
+        ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
+        ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
+        ->where('persewaans.id',$id)
+        ->first();
+        // dd($persewaan);
+
+        $gambarpersewaan = DB::table('persewaans')
+        ->join('gambar_persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
+        ->where('persewaans.id',$id)
+        ->get();
+
+        $allkriteria = DB::table('detail_kriterias')->where("kriteria_id",13)->get();
+        $resultArray = DB::table('detail_kriteria_persewaans')->select('detail_kriteria_id')->where('persewaan_id',$id)->get();
+        $idkritwis = json_decode(json_encode($resultArray), true);
+        $arr =[];
+        foreach($idkritwis as $item)
+        {
+            $arr[]=$item['detail_kriteria_id'];
+        }
+     
+        return view('persewaan.edit',['allkritwis'=>$allkriteria,  'idkritwis'=>$arr, 'list' => $persewaan, 'listgambar' => $gambarpersewaan,'kabupaten'=>$kabupaten, 'kecamatan'=>$kecamatan, 
+        'kelurahan'=>$kelurahan]);
+       
+    }
+    public function ubah(Request $request, $id)
     {
         $iduser = Auth::user()->id;
+        $hot = DB::table('persewaans')
+        ->select('persewaans.id')
+        ->join('users','persewaans.user_id','=','users.id')
+        ->where('users.id','=',$iduser)
+        ->first();
+        // $id=$hot->id;
+        // dd($id);
 
-        $alamat = DB::table('persewaans')->where('user_id',$iduser)->pluck('alamat')->first();
-        $long = DB::table('persewaans')->where('user_id',$iduser)->pluck('longitude')->first();
-        $lat = DB::table('persewaans')->where('user_id',$iduser)->pluck('latitude')->first();
-
-        $minharga = DB::table('kendaraans')
-        ->join('persewaans','persewaans.id','=','kendaraans.persewaan_id')
-        ->where('persewaans.user_id',$iduser)->min('biaya_perhari');
-
-        $rating = DB::table('persewaans')->where('user_id',$iduser)->pluck('rating')->first();
-        $listkriteria = Kriteria::where('jenis_kriteria_id',3)->get();
-        $listdetailkriteria = DB::table('detail_kriterias')
-        ->join('kriterias','kriterias.id','=','detail_kriterias.kriteria_id')
-        ->where('kriterias.id','=',3)
-        ->get();
-        return view('persewaan.bobot', [ 'listdetailkriteria' => $listdetailkriteria,  
-        'listkriteria'=>$listkriteria, 'rating'=>$rating, 'min'=>$minharga, 'alamat'=>$alamat, 
-        'long'=>$long, 'lat'=>$lat]);  
+        $nama_hot = $request->get('nama');
+        $kelurahan = $request->get('kelurahan');
+        $alamat = $request->get('alamat');
+        $link_ig = $request->get('link_ig');
+        $link_fb = $request->get('link_fb');
+        $no_tlp = $request->get('no_tlp');
+        $no_wa = $request->get('no_wa');
+        $jambuka = $request->get('buka');
+        $jamtutup = $request->get('tutup');
+        $rating = $request->get('rating');
+        $ket = $request->get('keterangan');
+        // dd($iduser);
+        DB::table('persewaans')->where('persewaans.id',$id)->update([
+            'nama_persewaan' => $nama_hot,
+            'kelurahan_id' => $kelurahan,
+            'nama_persewaan' => $alamat,
+            'kelurahan_id' => $kelurahan,
+            'link_fb' => $link_fb,
+            'link_ig' => $link_ig,
+            'rating' => $rating,
+            'no_telp' => $no_tlp,
+            'no_wa' => $no_wa,
+            'jam_buka' => $jambuka,
+            'jam_tutup' => $jamtutup,
+            'keterangan' => $ket
+        ]);
     
+       
+        $krit = DetailKriteriaPersewaan::where('detail_kriteria_persewaans.persewaan_id',$id);
+        $krit->delete();
+        $fasi = $request->get('fasi');
+
+        foreach($fasi as $item)
+        {
+            $updatefasi = new DetailKriteriaPersewaan();
+            $updatefasi->persewaan_id=$id;
+            $updatefasi->detail_kriteria_id=$item;
+            $updatefasi->save();
+        }
+        
+        $files = $request->file('filename');
+        if(! is_null(request('filename')))
+        {
+            $uploadcount = 0;
+
+            $photos=request('filename');
+            foreach ($photos as $photo)
+            {
+                        $destinationPath = 'images';
+                        $filename =  $photo->getClientOriginalName();
+                        $photo->move($destinationPath,$filename);
+                        $uploadcount ++;
+                    
+                        $photo->getClientOriginalExtension();
+                        $entry = new GambarPersewaan();
+                        $entry->persewaan_id = $id;
+                        $entry->filename = $filename;
+                        $entry->save();
+            }
+        }
+
+        return redirect('lihat/persewaan')->withSuccessMessage('Persewaan Kendaraan Berhasil diubah!');
+
     }
 
     public function nonaktif()
     {
-        $listpersewaan = Persewaan::where('status','=','nonaktif')->where('alasan','=','')->get();
+        $listpersewaan = Persewaan::with('kelurahans.kecamatans.kabupatens')->where('status','=','nonaktif')->where('alasan','=','')->get();
         return view('persewaan.nonaktif', ['listpersewaan'=>$listpersewaan]);
     }
     public function simpan(Request $request)
@@ -109,26 +195,47 @@ class PersewaanController extends Controller
     {
 
         $iduser = Auth::user()->id;
-        $sewa = DB::table('persewaans')
+        $hot = DB::table('persewaans')
         ->join('users','persewaans.user_id','=','users.id')
         ->where('users.id','=',$iduser)
         ->count();
-        if($sewa >0)
-        {
-            $persewaan =  DB::table('persewaans')
-            ->join('kelurahans', 'persewaans.kelurahan_id', '=','kelurahans.id')
-            ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
-            ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
-            ->where('persewaans.user_id',$iduser)
-            ->first();
-            return view('persewaan.lihat',['list' => $persewaan]);
 
+        if($hot > 0)
+        {
+                $persewaan =  DB::table('persewaans')
+                ->select('persewaans.id','nama_persewaan','jam_buka','jam_tutup','status','rating','link_fb','link_ig','no_telp','no_wa','alamat','nama_kabupaten','nama_kelurahan','nama_kecamatan','keterangan')
+                ->join('kelurahans', 'persewaans.kelurahan_id', '=','kelurahans.id')
+                ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
+                ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
+                ->join('users','persewaans.user_id','=','users.id')
+                ->where('users.id','=',$iduser)               
+                ->first();
+                // dd($persewaan);
+    
+                $gambarpersewaan = DB::table('persewaans')
+                ->join('gambar_persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
+                ->join('users','persewaans.user_id','=','users.id')
+                ->where('users.id','=',$iduser)                  
+                ->get();
+                
+                $detilfasi = DB::table('detail_kriteria_persewaans')
+                ->join('detail_kriterias','detail_kriteria_persewaans.detail_kriteria_id','=','detail_kriterias.id')
+                ->join('kriterias','detail_kriterias.kriteria_id','=','kriterias.id')
+                ->join('persewaans','detail_kriteria_persewaans.persewaan_id','=','persewaans.id')
+                ->join('users','persewaans.user_id','=','users.id')
+                ->where('users.id','=',$iduser) 
+                ->where('kriteria_id',13)->get();
+
+                return view('persewaan.lihat',['list' => $persewaan, 'listgambar' => $gambarpersewaan, 'detail'=>$detilfasi]);
+         
+           
         }
         else
         {
             
-            Alert::info('Anda Belum Mengajukan Sebagai Mitra Persewaan!', 'Silahkan isi form pengajuan terlebih dahulu');
-            return redirect('home/persewaan');
+            Alert::info('Anda Belum Mengajukan Sebagai Mitra Persewaan Kendaraan!', 'Silahkan isi form pengajuan terlebih dahulu');
+            // return view('homepersewaan',['listpersewaan'=>$listpersewaan, 'detailpersewaan'=>$detailpersewaan]);
+            return redirect('persewaan/create');
         }
     }
     public function lihatbobot()
@@ -204,13 +311,13 @@ class PersewaanController extends Controller
     public function ubahbobot(Request $request)
     {
         $iduser = Auth::user()->id;
-        $hotel = Persewaan::where('status','=','aktif')->where('user_id',$iduser)->first();
+        $persewaan = Persewaan::where('status','=','aktif')->where('user_id',$iduser)->first();
 
         $nilais = $request->nilai_kriteria;
         foreach($request->input('nilai_kriteria') as $key => $value) {
-            DetailKriteriaHotel::update([
+            DetailKriteriaPersewaan::update([
                 'nilai'=>  $request->input('nilai_kriteria')[$key],
-                'hotel_id'=>$hotel->id,
+                'persewaan_id'=>$persewaan->id,
                 'kriteria_id'=>$key
                 
             ]);
@@ -334,11 +441,12 @@ class PersewaanController extends Controller
      */
     public function show($id)
     {
-        $iduser = Auth::user()->id;
         $persewaan =  DB::table('persewaans')
         ->join('kelurahans', 'persewaans.kelurahan_id', '=','kelurahans.id')
         ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
         ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
+        ->where('persewaans.id',$id)
+
         ->first();
         $gambarpersewaan = DB::table('persewaans')
         ->join('gambar_persewaans', 'gambar_persewaans.persewaan_id','=','persewaans.id')
@@ -410,7 +518,7 @@ class PersewaanController extends Controller
     {
         $data = DB::table('persewaans')->where('id',$id)->first();
 
-        return view('persewaan.alasan', ['hotel'=>$data]);
+        return view('persewaan.alasan', ['persewaan'=>$data]);
     }
     public function storealasan(Request $request, $id)
     {

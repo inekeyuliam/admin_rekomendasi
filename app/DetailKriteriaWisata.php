@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetailKriteriaWisata extends Model
 {
-    protected $table = 'kriteria_wisatas';
-    protected $fillable = ['nilai', 'wisata_id', 'kriteria_id'];
+    protected $table = 'detail_kriteria_wisatas';
+    protected $fillable = ['wisata_id', 'detail_kriteria_id'];
 }

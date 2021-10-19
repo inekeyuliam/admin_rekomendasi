@@ -174,7 +174,27 @@ class WisataController extends Controller
      */
     public function show($id)
     {
-        //
+        $wisata =  DB::table('wisatas')
+        ->select('wisatas.id','nama_wisata','rating','alamat','tipe_wisata_id','nama_tipe','kabupaten_id','nama_kabupaten','kelurahan_id','nama_kelurahan','jam_buka','jam_tutup','nama_kecamatan','kecamatan_id','keterangan')
+        ->join('kelurahans', 'wisatas.kelurahan_id', '=','kelurahans.id')
+        ->join('kecamatans', 'kelurahans.kecamatan_id', '=','kecamatans.id')
+        ->join('kabupatens', 'kecamatans.kabupaten_id', '=','kabupatens.id')
+        ->join('tipe_wisatas', 'tipe_wisatas.id', '=','wisatas.tipe_wisata_id')
+        ->where('wisatas.id',$id)
+        ->first();
+
+        $gambarwisata = DB::table('wisatas')
+        ->join('gambar_wisatas', 'gambar_wisatas.wisata_id','=','wisatas.id')
+        ->where('wisatas.id',$id)
+        ->get();
+
+        $detilfasi = DB::table('detail_kriteria_wisatas')
+        ->join('detail_kriterias','detail_kriteria_wisatas.detail_kriteria_id','=','detail_kriterias.id')
+        ->join('kriterias','detail_kriterias.kriteria_id','=','kriterias.id')
+        ->join('wisatas','detail_kriteria_wisatas.wisata_id','=','wisatas.id')
+        ->where('wisatas.id','=',$id) 
+        ->where('kriteria_id',1)->get();
+        return view('wisata.show',['list' => $wisata, 'listgambar' => $gambarwisata, 'detail'=>$detilfasi]);
     }
 
     public function upload()
@@ -195,15 +215,30 @@ class WisataController extends Controller
         $kabupaten = KotaKabupaten::all();
         $kecamatan = Kecamatan::all();
         $kelurahan = Kelurahan::all();
-        $detailwisata = DetailKriteriaWisata::where('wisata_id',$id)->get();
-       
+        $detailwisata = DB::table('kriteria_wisatas')
+        ->join('kriterias','kriterias.id','=','kriteria_wisatas.kriteria_id')
+        ->join('wisatas','wisatas.id','=','kriteria_wisatas.wisata_id')
+        ->where('wisatas.id',$id)->get();
+
         $listall = DB::table('wisatas')
+        ->select('wisatas.id','nama_wisata','rating','alamat','tipe_wisata_id','kabupaten_id','nama_kabupaten','kelurahan_id','nama_kelurahan','jam_buka','jam_tutup','nama_kecamatan','kecamatan_id','keterangan')
+        ->join('tipe_wisatas','tipe_wisatas.id','=','wisatas.tipe_wisata_id')
         ->join('kelurahans','kelurahans.id','=','wisatas.kelurahan_id')
         ->join('kecamatans','kelurahans.kecamatan_id','=','kecamatans.id')
         ->join('kabupatens','kecamatans.kabupaten_id','=','kabupatens.id')
         ->where('wisatas.id','=',$id)
         ->first(); 
-       return view('wisata.edit', ['tipewisata' => $tipewisata, 'wisata' => $listall,
+        // dd($listall);
+
+        $allkriteria = DB::table('detail_kriterias')->where("kriteria_id",1)->get();
+        $resultArray = DB::table('detail_kriteria_wisatas')->select('detail_kriteria_id')->where('wisata_id',$id)->get();
+        $idkritwis = json_decode(json_encode($resultArray), true);
+        $arr =[];
+        foreach($idkritwis as $item)
+        {
+            $arr[]=$item['detail_kriteria_id'];
+        }
+       return view('wisata.edit', ['allkritwis'=>$allkriteria,  'idkritwis'=>$arr, 'tipewisata' => $tipewisata, 'wisata' => $listall,
         'kabupaten'=>$kabupaten, 'kecamatan'=>$kecamatan, 'kelurahan'=>$kelurahan, 'detailwisata'=>$detailwisata]);
     }
 
@@ -220,7 +255,6 @@ class WisataController extends Controller
         $tipe_wis = $request->get('tipe');
         $kelurahan = $request->get('kelurahan');
         $rating = $request->get('rating');
-
         $long = $request->get('long');
         $lat = $request->get('lat');
         $jam_buka = $request->get('buka');
@@ -239,6 +273,19 @@ class WisataController extends Controller
         $wis->keterangan = $ket;
         $wis->save();
         $id = $wis->id;
+
+        $krit = DetailKriteriaWisata::where('detail_kriteria_wisatas.wisata_id',$id);
+        $krit->delete();
+        $fasi = $request->get('fasi');
+
+        foreach($fasi as $item)
+        {
+            $updatefasi = new DetailKriteriaWisata();
+            $updatefasi->wisata_id=$id;
+            $updatefasi->detail_kriteria_id=$item;
+            $updatefasi->save();
+        }
+        
         $nilais = $request->nilai_kriteria;
         foreach($request->input('nilai_kriteria') as $key => $value) {
             DetailKriteriaWisata::updateOrCreate([

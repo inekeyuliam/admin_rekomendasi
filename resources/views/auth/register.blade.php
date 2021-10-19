@@ -110,7 +110,7 @@
       <div class="row">
         <div class="col-7 text-right">
             <a href="{{ route('login') }}" class="text-light">
-                <small>{{ __('Sudah punya akun? Login disini') }}</small>
+                <p>{{ __('Sudah punya akun? Login disini') }}</p>
             </a>
         </div>
       </div>

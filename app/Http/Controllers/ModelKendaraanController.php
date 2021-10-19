@@ -81,7 +81,9 @@ class ModelKendaraanController extends Controller
     public function edit($id)
     {
         $model = ModelKendaraan::find($id);
-        return view('merkkendaraan.edit', ['itemjenis' => $model]);
+        $listmerk = MerkKendaraan::all();
+
+        return view('modelkendaraan.edit', ['listmerk'=>$listmerk,'model' => $model]);
     }
 
     /**

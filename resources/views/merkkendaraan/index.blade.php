@@ -10,12 +10,12 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                 <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" name="cari" required>
                                 </div>
-                            </div>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <div class="col-md-2">
                             <a class="btn btn-primary btn-md pull-right" href="{{url('merkkendaraan/create')}}">Tambah Merk</a> 
                             </div>
@@ -37,13 +37,13 @@
                                         <td>{{$key+1}}</td>
                                         <td>{{$item->nama_merk}}</td>
                                         <td>
-                                        <a href="{{url('merkkendaraan/'.$item->id.'/edit')}}"><i class="fa fa-edit"></i></a>
+                                        <a href="{{url('merkkendaraan/'.$item->id.'/edit')}}"><i class="fa fa-edit fa-2x"></i></a>
                                         </td>                         
                                         <td>
                                         <form method="POST" action="{{ url('merkkendaraan/'.$item->id) }}" id="form-hapus-{{ $item->id }}">
                                             {{ method_field("DELETE") }}
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash"></i></a>
+                                            <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash fa-2x"></i></a>
                                             </form>
                                         </td>
                                     </tr>

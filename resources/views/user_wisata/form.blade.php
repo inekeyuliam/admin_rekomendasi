@@ -28,6 +28,56 @@
         {{ session('status') }}
     </div>
   @endif
+  <div class="page-loader"> 
+      <div class="page-loader-body"> 
+        <div class="preloader-wrapper big active"> 
+          <div class="spinner-layer spinner-blue"> 
+            <div class="circle-clipper left">
+              <div class="circle"> </div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"> </div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+          <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"> </div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+          <div class="spinner-layer spinner-yellow"> 
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"> </div>
+            </div>
+          </div>
+          <div class="spinner-layer spinner-green"> 
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="page">
       <header class="section page-header">
         <!-- RD Navbar-->
@@ -38,7 +88,7 @@
               <div class="rd-navbar-panel">
                 <!-- RD Navbar Toggle-->
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">
@@ -84,30 +134,41 @@
         <div class="container container-bigger form-request-wrap form-request-wrap-modern">
         <div class="row row-fix justify-content-sm-center justify-content-md-start text-center">
           <div class="col-md-6 col-lg-5 col-xl-4 col-xxl-12">
-              <h3 style="color:black">Rekomendasi Wisata</h3>
+          <br><br>
+
+              <h3  style=" font-family:serif; font-size:40px; font-weight: 100px;" >Rekomendasi Wisata</h3>
                 <div class="divider divider-secondary"></div>
-                <p style="color:black; font-size:21px;" class="text-spacing-sm"> Sistem rekomendasi wisata merupakan suatu sistem yang ditujukan untuk pengunjung atau wisatawan yang ingin berwisata di Jawa Timur. Sistem ini menyediakan beberapa kriteria atau pertimbangan yang biasanya digunakan oleh wisatawan dalam proses pemilihan tempat wisata. Penggunaan sistem rekomendasi ini adalah dengan cara pengunjung memilih minimal tiga kriteria yang akan digunakan sebagai pertimbangan dalam pemilihan tempat wisata.</p>
+                <p style="color:grey; font-size:25px;font-family:serif;" class="text-spacing-sm"> Sistem rekomendasi wisata merupakan suatu sistem yang ditujukan untuk pengunjung atau wisatawan yang ingin berwisata di Jawa Timur. Sistem ini menyediakan beberapa kriteria atau pertimbangan yang biasanya digunakan oleh wisatawan dalam proses pemilihan tempat wisata. Penggunaan sistem rekomendasi ini adalah dengan cara pengunjung memilih minimal tiga kriteria yang akan digunakan sebagai pertimbangan dalam pemilihan tempat wisata.</p>
                 </div>
           </div>
           <br><br>
+          @if($errors->any())
+            <p style="text-align:center;font-weight:500;color:red;font-size:25px;font-family:serif;">{{$errors->first()}}</p>
+          @endif
             <div class="row row-fix justify-content-sm-center">
-              <div class="col-lg-8 col-xxl-6 text-center">
-                  <h5>Pilih Minimal 3 Kriteria Rekomendasi Wisata</h5>
+              <div class="col-lg-8 col-xxl-10 text-center">
+                  <p style="font-size:30px;font-family:serif; color:black; font-weight: 100px;">Pilih Minimal 3 Kriteria Rekomendasi Wisata</p>
                   <form  method="POST" action="/storekriteria">
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="row row-20 row-fix">
                       <div class="col-lg-12">
                         <div class="form-wrap form-wrap-validation">
-                          <select class="form-input select-filter" size="3" data-placeholder="Pilih Kriteria" data-minimum-results-for-search="Infinity" name="kriteria[]" id="kriteria" multiple>
+                          @foreach($allkritwis as $krit)
+                          <div class="form-check form-check-inline">
+                           <label style="color:grey; font-size:25px;font-family:serif;"><input type="checkbox" style="height:17px; width:17px;" id="kriteria" name="kriteria[]" value="{{$krit->id}}">{{$krit->kriteria}}</label>
+                          </div>
+                          @endforeach 
+                          <!-- <select class="form-input select-filter" size="3" data-placeholder="Pilih Kriteria" data-minimum-results-for-search="Infinity" name="kriteria[]" id="kriteria" multiple>
                           @foreach($allkritwis as $krit)
                           <option value="{{$krit->id}}">{{$krit->kriteria}}</option>
                           @endforeach      
-                          </select>
+                          </select> -->
+                          <br><br>
                         </div>
                       </div>
                     </div>
                     <div class="form-wrap form-button text-center">
-                      <button class="button button-secondary pull-center" id="simpankriteria" type="submit">Simpan</button>
+                      <button class="button button-secondary pull-center" id="simpankriteria" type="submit">Cari Rekomendasi</button>
                     </div><br><br><br><br>
                   </form>
               </div>

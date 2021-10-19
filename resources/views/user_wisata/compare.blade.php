@@ -67,7 +67,7 @@
   </head>
   <body>
     <!-- Page preloader-->
-    <!-- <div class="page-loader"> 
+    <div class="page-loader"> 
       <div class="page-loader-body"> 
         <div class="preloader-wrapper big active"> 
           <div class="spinner-layer spinner-blue"> 
@@ -116,7 +116,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <!-- Page-->
     <div class="page">
   <!-- Page Header-->
@@ -129,7 +129,7 @@
               <div class="rd-navbar-panel">
                 <!-- RD Navbar Toggle-->
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL, PERSEWAAN DI JAWA TIMUR</h5></div>
+                <div class="rd-navbar-brand"><h5>SISTEM REKOMENDASI WISATA, HOTEL & <br> PERSEWAAN KENDARAAN DI JAWA TIMUR</h5></div>
               </div>
               <div class="rd-navbar-aside-center">
                 <div class="rd-navbar-nav-wrap">
@@ -194,120 +194,454 @@
           <div class="container">
           @if($countwis == 2)
               <div class="row">
-                <div class="col">
-                        <h5>Kriteria</h5>
-                    @foreach($kriteria as $key=>$item)
-                      @if(empty($item->satuan)) 
-                      <p>{{ $item->kriteria }}  </p>
-                      @else 
-                      <p>{{ $item->kriteria }} ( {{ $item->satuan }} )  </p>
-                      @endif
+                <div class="col-md" style="text-align:center">  
+                @foreach($wis1 as $key=>$item)
+                  <h4 style="text-align:center;font-family:serif;font-size:24px;font-weight:500 ">{{ $item->nama_wisata }}</h4><br>
+                  <div class="col-md-10 col-lg-6 mx-auto d-block">
+                    @foreach($gambar1 as $key => $item2)
+                        <img src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt=''"/>
                     @endforeach
+                  </div>                 <br>
+
+                  @if( $item->rating  == 4.5 || $item->rating > 4.5 )
+                    <p style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black"  class="heading-5">  Rating :  
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 4.0 || $item->rating  < 4.5  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black" class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 3.0 || $item->rating < 4.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black" class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p> 
+                    @elseif($item->rating  == 2.0 || $item->rating  < 3.0  )
+                      <p style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black"  class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating}} / 5</p> 
+                    @elseif($item->rating  == 1.0 || $item->rating  < 2.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black " class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>              
+                  @endif
+                  <p style="text-align:center;font-family:serif;font-size:23px;font-weight:300;color:black " >Alamat : {{ $item->alamat }}</p>
+                 
+                @endforeach
                 </div>
-                <div class="col">
-                      @foreach($wis1 as $key=>$item)
-                        <h5 style="text-align:center">{{ $item->nama_wisata }}</h5>
-                      @endforeach
-                      @foreach($kriteriawis1 as $key=>$item)
-                        <p style="text-align:center">{{ $item->nilai }}</p>
-                      @endforeach                    
-                      
-                </div>
-                <div class="col">
-                      @foreach($wis2 as $key=>$item)
-                        <h5 style="text-align:center">{{ $item->nama_wisata }}</h5>
-                      @endforeach
-                      @foreach($kriteriawis2 as $key=>$item)
-                        <p style="text-align:center">{{ $item->nilai }}</p>
-                      @endforeach
-                    
-                </div>
-              </div><br><br>
-              <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> 
-              <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary">
-              <hr class="divider divider-secondary">
-              <div class="row">
-                <div class="col">
-                     
-                </div>
-                <div class="col">
-                      <p style="text-align:center"> <b>Fasilitas : </b></p>
-                      @foreach($detwis1 as $key=>$item2)
-                        <p style="text-align:center">- {{ $item2->nama_detail }}</p>
-                      @endforeach
-                </div>
-                <div class="col">
-                        <p style="text-align:center"> <b>Fasilitas : </b></p>
-                      @foreach($detwis2 as $key=>$item2)
-                        <p style="text-align:center">- {{ $item2->nama_detail }}</p>
-                      @endforeach
+                <div class="col-md"style="text-align:center">
+                @foreach($wis2 as $key=>$item)
+                  <h4 style="text-align:center;font-family:serif;font-size:25px;font-weight:500 ">{{ $item->nama_wisata }}</h4><br>
+                  <div class="col-md-10 col-lg-6 mx-auto d-block">
+                    @foreach($gambar2 as $key => $item2)
+                        <img  src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt=''"/>
+                    @endforeach
+                  </div>                 <br>
+
+                  @if( $item->rating  == 4.5 || $item->rating > 4.5 )
+                    <p style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black "class="heading-5">  Rating :  
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 4.0 || $item->rating  < 4.5  )
+                      <p   style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black " class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 3.0 || $item->rating < 4.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black "class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p> 
+                    @elseif($item->rating  == 2.0 || $item->rating  < 3.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black "class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating}} / 5</p> 
+                    @elseif($item->rating  == 1.0 || $item->rating  < 2.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black " class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>              
+                  @endif
+                  <p style="text-align:center;font-family:serif;font-size:23px;font-weight:300;color:black" >Alamat : {{ $item->alamat }}</p>
+                
+                  @endforeach   
                 </div>
               </div>
-          @else
               <div class="row">
-                <div class="col">
-                        <h5>Kriteria</h5>
-                    @foreach($kriteria as $key=>$item)
-                      @if(empty($item->satuan)) 
-                      <p>{{ $item->kriteria }}  </p>
-                      @else 
-                      <p>{{ $item->kriteria }} ( {{ $item->satuan }} )  </p>
-                      @endif
-                    @endforeach
+                <div class="col-md" style="text-align:center">  
+                @foreach($wis1 as $key=>$item)
+                <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black " class="heading-5"  >Fasilitas</p>  <hr class="divider divider-secondary" align="center;"width="50%"size="10">
+                  @foreach($detwis1 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:100;color:black" >- {{ $item->nama_detail }}</p>
+                  @endforeach
+                 
+                @endforeach
                 </div>
-                <div class="col">
-                      @foreach($wis1 as $key=>$item)
-                        <h5 style="text-align:center">{{ $item->nama_wisata }}</h5>
-                      @endforeach
-                      @foreach($kriteriawis1 as $key=>$item)
-                        <p style="text-align:center">{{ $item->nilai }}</p>
-                      @endforeach
-                </div>
-                <div class="col">
-                      @foreach($wis2 as $key=>$item)
-                        <h5 style="text-align:center">{{ $item->nama_wisata }}</h5>
-                      @endforeach
-                      @foreach($kriteriawis2 as $key=>$item)
-                        <p style="text-align:center">{{ $item->nilai }}</p>
-                      @endforeach
-                </div>
-                <div class="col">
-                      @foreach($wis3 as $key=>$item)
-                        <h5 style="text-align:center">{{ $item->nama_wisata }}</h5>
-                      @endforeach
-                      @foreach($kriteriawis3 as $key=>$item)
-                        <p style="text-align:center">{{ $item->nilai }}</p>
-                      @endforeach
-                </div>
-              </div><br><br>
-              <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> 
-              <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary"> <hr class="divider divider-secondary">
-              <hr class="divider divider-secondary">
-              <div class="row">
-                <div class="col">
-               
-                </div>
-                <div class="col">
-                      <p style="text-align:center"> <b>Fasilitas : </b></p>
-                      @foreach($detwis1 as $key=>$item2)
-                        <p style="text-align:center">- {{ $item2->nama_detail }}</p>
-                      @endforeach
-                </div>
-                <div class="col">
-                        <p style="text-align:center"> <b>Fasilitas : </b></p>
-                      @foreach($detwis2 as $key=>$item2)
-                        <p style="text-align:center">- {{ $item2->nama_detail }}</p>
-                      @endforeach
-                </div>
-                <div class="col">
-                      <p style="text-align:center"> <b>Fasilitas : </b></p>
-                      @foreach($detwis3 as $key=>$item2)
-                        <p style="text-align:center">- {{ $item2->nama_detail }}</p>
-                      @endforeach
+                <div class="col-md"style="text-align:center">
+                @foreach($wis2 as $key=>$item)
+                  <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black" class="heading-5"  >Fasilitas</p>             
+                  <hr class="divider divider-secondary" align="center;"width="50%"size="10">
+
+                  @foreach($detwis2 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:100;color:black" >- {{ $item->nama_detail }}</p>
+                  @endforeach
+                 
+
+                  @endforeach   
                 </div>
               </div>
-          @endif
-        </div>
+              <div class="row">
+                <div class="col-md" style="text-align:center">  
+                <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black" class="heading-5"  >Kriteria</p>             
+                  <hr class="divider divider-secondary" align="center;"width="50%"size="10"><br><br><br><br>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-7">
+                      @foreach($kriteria as $key=>$item)
+                          @if(empty($item->satuan)) 
+                            <p style="font-family:serif; font-size:23px;font-weight:150;color:black ">{{ $item->kriteria }} </p>
+                          @else 
+                            <p style="font-family:serif; font-size:23px;font-weight:200;color:black ">{{ $item->kriteria }} ( {{ $item->satuan }} )  </p>
+                          @endif
+                      @endforeach
+                      </div>
+                      <div class="col-3">
+                        @foreach($kriteriawis1 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:500;color:black ">{{ $item->nilai }}</p>
+                        @endforeach
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md"style="text-align:center">
+                <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black" class="heading-5"  >Kriteria</p>             
+                <hr class="divider divider-secondary" align="center;"width="50%"size="10"><br><br><br><br>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-7">
+                      @foreach($kriteria as $key=>$item)
+                          @if(empty($item->satuan)) 
+                            <p style="font-family:serif; font-size:23px;font-weight:150;color:black ">{{ $item->kriteria }} </p>
+                          @else 
+                            <p style="font-family:serif; font-size:23px;font-weight:200;color:black ">{{ $item->kriteria }} ( {{ $item->satuan }} )  </p>
+                          @endif
+                      @endforeach
+                      </div>
+                      <div class="col-3">
+                        @foreach($kriteriawis2 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:500;color:black ">{{ $item->nilai }}</p>
+                        @endforeach
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+            @else
+              <div class="row">
+                <div class="col-md" style="text-align:center">  
+                @foreach($wis1 as $key=>$item)
+                  <h4 style="text-align:center;font-family:serif;font-size:24px;font-weight:500 ">{{ $item->nama_wisata }}</h4><br>
+                  <div class="col-md-10 col-lg-6 mx-auto d-block">
+                    @foreach($gambar1 as $key => $item2)
+                        <img src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt=''"/>
+                    @endforeach
+                  </div>                 <br>
+
+                  @if( $item->rating  == 4.5 || $item->rating > 4.5 )
+                    <p style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black"  class="heading-5">  Rating :  
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 4.0 || $item->rating  < 4.5  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black" class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 3.0 || $item->rating < 4.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black" class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p> 
+                    @elseif($item->rating  == 2.0 || $item->rating  < 3.0  )
+                      <p style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black"  class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating}} / 5</p> 
+                    @elseif($item->rating  == 1.0 || $item->rating  < 2.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black " class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>              
+                  @endif
+                  <p style="text-align:center;font-family:serif;font-size:23px;font-weight:300;color:black " >Alamat : {{ $item->alamat }}</p>
+                @endforeach
+                </div>
+                <div class="col-md"style="text-align:center">
+                @foreach($wis2 as $key=>$item)
+                  <h4 style="text-align:center;font-family:serif;font-size:25px;font-weight:500 ">{{ $item->nama_wisata }}</h4><br>
+                  <div class="col-md-10 col-lg-6 mx-auto d-block">
+                    @foreach($gambar2 as $key => $item2)
+                        <img  src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt=''"/>
+                    @endforeach
+                  </div>                 <br>
+
+                  @if( $item->rating  == 4.5 || $item->rating > 4.5 )
+                    <p style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black "class="heading-5">  Rating :  
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 4.0 || $item->rating  < 4.5  )
+                      <p   style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black " class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 3.0 || $item->rating < 4.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black "class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p> 
+                    @elseif($item->rating  == 2.0 || $item->rating  < 3.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black "class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating}} / 5</p> 
+                    @elseif($item->rating  == 1.0 || $item->rating  < 2.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black " class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>              
+                  @endif
+                  <p style="text-align:center;font-family:serif;font-size:23px;font-weight:300;color:black " >Alamat : {{ $item->alamat }}</p>
+                  @endforeach   
+                </div>
+                <div class="col-md" style="text-align:center">  
+                @foreach($wis3 as $key=>$item)
+                  <h4 style="text-align:center;font-family:serif;font-size:24px;font-weight:500 ">{{ $item->nama_wisata }}</h4><br>
+                  <div class="col-md-10 col-lg-6 mx-auto d-block">
+                    @foreach($gambar3 as $key => $item2)
+                        <img src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt=''"/>
+                    @endforeach
+                  </div>                 <br>
+
+                  @if( $item->rating  == 4.5 || $item->rating > 4.5 )
+                    <p style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black"  class="heading-5">  Rating :  
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 4.0 || $item->rating  < 4.5  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black" class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>
+                    @elseif($item->rating  == 3.0 || $item->rating < 4.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black" class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p> 
+                    @elseif($item->rating  == 2.0 || $item->rating  < 3.0  )
+                      <p style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black"  class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating}} / 5</p> 
+                    @elseif($item->rating  == 1.0 || $item->rating  < 2.0  )
+                      <p  style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black " class="heading-5">  Rating :  
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {{$item->rating }} / 5</p>              
+                  @endif
+                  <p style="text-align:center;font-family:serif;font-size:23px;font-weight:300;color:black " >Alamat : {{ $item->alamat }}</p><br><br>
+
+                @endforeach
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md" style="text-align:center">  
+                @foreach($wis1 as $key=>$item)
+                 
+                  <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black " class="heading-5"  >Fasilitas</p>  <hr class="divider divider-secondary" align="center;"width="50%"size="10">
+                  @foreach($detwis1 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:100;color:black" >- {{ $item->nama_detail }}</p>
+                  @endforeach
+                 
+                @endforeach
+                </div>
+                <div class="col-md"style="text-align:center">
+                @foreach($wis2 as $key=>$item)
+                
+                  <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black" class="heading-5"  >Fasilitas</p>             
+                  <hr class="divider divider-secondary" align="center;"width="50%"size="10">
+
+                  @foreach($detwis2 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:100;color:black" >- {{ $item->nama_detail }}</p>
+                  @endforeach
+                 
+
+                  @endforeach   
+                </div>
+                <div class="col-md" style="text-align:center">  
+                @foreach($wis3 as $key=>$item)
+                
+                  <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black " class="heading-5"  >Fasilitas</p>  <hr class="divider divider-secondary" align="center;"width="50%"size="10">
+                  @foreach($detwis3 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:100;color:black" >- {{ $item->nama_detail }}</p>
+                  @endforeach
+                 
+                @endforeach
+                </div>
+              </div>
+              <br>              
+              <div class="row">
+                <div class="col-md" style="text-align:center">  
+                <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black" class="heading-5"  >Kriteria</p>             
+                  <hr class="divider divider-secondary" align="center;"width="50%"size="10"><br><br><br>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-10">
+                      @foreach($kriteria as $key=>$item)
+                          @if(empty($item->satuan)) 
+                            <p style="font-family:serif; font-size:23px;font-weight:150;color:black ">{{ $item->kriteria }} </p>
+                          @else 
+                            <p style="font-family:serif; font-size:23px;font-weight:200;color:black ">{{ $item->kriteria }} ( {{ $item->satuan }} )  </p>
+                          @endif
+                      @endforeach
+                      </div>
+                      <div class="col-2">
+                        @foreach($kriteriawis1 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:500;color:black ">{{ $item->nilai }}</p>
+                        @endforeach
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md"style="text-align:center">
+                <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black" class="heading-5"  >Kriteria</p>             
+                <hr class="divider divider-secondary" align="center;"width="50%"size="10"><br><br><br>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-10">
+                      @foreach($kriteria as $key=>$item)
+                          @if(empty($item->satuan)) 
+                            <p style="font-family:serif; font-size:23px;font-weight:150;color:black ">{{ $item->kriteria }} </p>
+                          @else 
+                            <p style="font-family:serif; font-size:23px;font-weight:200;color:black ">{{ $item->kriteria }} ( {{ $item->satuan }} )  </p>
+                          @endif
+                      @endforeach
+                      </div>
+                      <div class="col-2">
+                        @foreach($kriteriawis2 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:500;color:black ">{{ $item->nilai }}</p>
+                        @endforeach
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md" style="text-align:center">  
+                <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black" class="heading-5"  >Kriteria</p>             
+                  <hr class="divider divider-secondary" align="center;"width="50%"size="10"><br><br><br>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-10">
+                      @foreach($kriteria as $key=>$item)
+                          @if(empty($item->satuan)) 
+                            <p style="font-family:serif; font-size:23px;font-weight:150;color:black ">{{ $item->kriteria }} </p>
+                          @else 
+                            <p style="font-family:serif; font-size:23px;font-weight:200;color:black ">{{ $item->kriteria }} ( {{ $item->satuan }} )  </p>
+                          @endif
+                      @endforeach
+                      </div>
+                      <div class="col-2">
+                        @foreach($kriteriawis3 as $key=>$item)
+                        <p style="text-align:center;font-family:serif;font-size:23px;font-weight:500;color:black ">{{ $item->nilai }}</p>
+                        @endforeach
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+            @endif
+          </div>
         <div class="row row-100 justify-content-md-center align-items-lg-center flex-lg-row-reverse">
             <div class="col-xl-10"></div>
         </div>

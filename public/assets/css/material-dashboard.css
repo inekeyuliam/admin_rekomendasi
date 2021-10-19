@@ -14,7 +14,7 @@
  */
 /*     brand Colors              */
 .card {
-  font-size: .875rem;
+  font-size: 1rem;
 }
 
 *,
@@ -119,6 +119,7 @@ img.preview{
   height: 250px;
   position: relative;
   list-style-type: none;
+  /* margin-left: -25px; */
 }
 .slider .frames .slide {
   height: 250px;
@@ -130,8 +131,14 @@ img.preview{
   z-index: 100
 }
 .slider .frames .slide img {
-  height: 250px;
-  width: 450px;
+  height: 330px;
+  width: 430px;
+  padding:0.25rem;
+  background-color: #fafafa;
+  border:1px solid #dee2e6;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+  border-radius: 0.25rem;
+  margin-left: -50px;
 }
 .slider .frames .slide nav a {
   background: hsla(0, 0%, 0%, .75);
@@ -158,6 +165,8 @@ img.preview{
   -moz-border-radius: 0 25px 25px 0;
   border-radius: 0 25px 25px 0;
   left: 0;
+  background-color: #00bcd4;
+  margin-left: -25px;
 }
 .slider .frames .slide nav .next {
   /*border-radius*/
@@ -165,10 +174,14 @@ img.preview{
   -moz-border-radius: 25px 0 0 25px;
   border-radius: 25px 0 0 25px;
   right: 0;
+  background-color: #00bcd4;
+  margin-right: 25px;
+
 }
 .slider .frames .slide nav a:hover {
-  background: #000
+  background: #00bcd4
 }
+
 .slider .quicknav {
   bottom: 0;
   font-size: 0;
@@ -229,9 +242,10 @@ img.preview{
   height: 15px;
   width: 15px;
   border-radius: 50%;
-  background-color: #151515;
+  background-color: #00bcd4;
   display: inline-block;
   margin: 1px;
+  align-items: center;
 }
 p {
   margin-top: 0;
@@ -1074,8 +1088,8 @@ mark,
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
-  max-width: 100%;
-  height: auto;
+  max-width: 450px;
+  height: 330px;
 }
 
 .figure {
@@ -5763,7 +5777,7 @@ button.close {
 .badge {
   display: inline-block;
   padding: 0.25em 0.4em;
-  font-size: 75%;
+  font-size: 100%;
   font-weight: 500;
   line-height: 1;
   text-align: center;
@@ -9587,7 +9601,7 @@ a.text-dark:focus {
   position: relative;
   padding: 12px 30px;
   margin: 0.3125rem 1px;
-  font-size: .75rem;
+  font-size: .875rem;
   font-weight: 400;
   line-height: 1.428571;
   text-decoration: none;
@@ -12022,7 +12036,7 @@ form {
   padding-left: 0;
   padding-right: 0;
   border-radius: 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .form-control:focus,
@@ -13469,7 +13483,7 @@ fieldset[disabled][disabled] .has-rose .form-control,
 .bmd-form-group .bmd-label-static {
   top: 0.35rem;
   left: 0;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .bmd-form-group .bmd-help {
@@ -13778,7 +13792,7 @@ select.form-control {
 }
 
 .form-group .bmd-label-static {
-  top: -10px;
+  top: -20px;
 }
 
 textarea {
@@ -14149,7 +14163,7 @@ fieldset[disabled] .form-group .form-control {
   position: relative;
   padding: 10px 15px;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 16px;
   text-transform: uppercase;
   border-radius: 3px;
   line-height: 20px;
@@ -14536,7 +14550,7 @@ h3,
 
 h4,
 .h4 {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   line-height: 1.4em;
   font-weight: 300;
 }
@@ -14550,7 +14564,7 @@ h5,
 
 h6,
 .h6 {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
   font-weight: 500;
 }
@@ -14944,7 +14958,7 @@ h2.title {
   color: #333;
   font-weight: normal;
   text-decoration: none;
-  font-size: .8125rem;
+  font-size: 1rem;
   border-radius: 0.125rem;
   margin: 0 0.3125rem;
   -webkit-transition: all 150ms linear;
@@ -15469,7 +15483,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .sidebar .nav p {
   margin: 0;
   line-height: 30px;
-  font-size: 14px;
+  font-size: 15px;
   position: relative;
   display: block;
   height: auto;
@@ -15494,7 +15508,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   padding-left: 10px;
   padding-right: 10px;
   text-transform: capitalize;
-  font-size: 13px;
+  font-size: 15px;
   padding: 10px 15px;
 }
 
@@ -17133,7 +17147,7 @@ thead.thead-inverse th,
 .dataTable>thead>tr>td,
 .dataTable>tbody>tr>td,
 .dataTable>tfoot>tr>td {
-  padding: 5px !important;
+  padding: 10px !important;
 }
 
 body {
@@ -17180,7 +17194,7 @@ a .material-icons {
 
 .form-check,
 label {
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.42857;
   color: #AAAAAA;
   font-weight: 400;
@@ -17865,7 +17879,7 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
 }
 
 .card .card-body .form-group {
-  margin: 8px 0 0;
+  margin: 20px 0 0;
 }
 
 .card .card-header {
@@ -18200,7 +18214,7 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
 
 .card-stats .card-header .card-category:not([class*="text-"]) {
   color: #999999;
-  font-size: 14px;
+  font-size: 17px;
 }
 
 .card-stats .card-header+.card-footer {

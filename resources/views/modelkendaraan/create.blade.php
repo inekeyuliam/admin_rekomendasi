@@ -23,7 +23,7 @@
                                 </select>
                             </div> 
                             <div class="form-group">
-                                <label class="exampleFormControlInput1">Nama Model Kendaraan</label>
+                                <label class="exampleFormControlInput1">Model Kendaraan</label>
                                 <input class="form-control" type="text" name="nama" placeholder="Masukan nama model" required>
                             </div>                   
                         
@@ -38,7 +38,7 @@
                             </div>  
                             <div class="form-group">
                                 <label class="exampleFormControlInput1">Kapasitas Penumpang</label>
-                                <input class="form-control" type="number" name="kapasitas" placeholder="Masukan kapasitas kendaraan" required>
+                                <input class="form-control" type="number" name="kapasitas" placeholder="Masukan kapasitas penumpang" required>
                             </div>                   
                         </div>
                     </div>

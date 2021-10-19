@@ -6,7 +6,7 @@
             <div class="col-md-8">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Detail Hotel </h4>
+                  <h4 class="card-title">Detail Persewaan </h4>
                 </div>
         <div class="card-body">
             <form class="mt-2" action='{{url("persewaan")}}' method="post">
@@ -14,14 +14,14 @@
             <div class="row">
             <div class="col-xl-6 col-lg-4">
                 <div class="form-group">
-                    <label class="exampleFormControlInput1">Nama Hotel</label>
+                    <label class="exampleFormControlInput1">Nama Persewaan</label>
                     <input class="form-control" type="text" name="nama" value="{{$list->nama_persewaan}}" readonly>
                 </div>
             </div>
             
             <div class="col-xl-6 col-md-6 mb-4">
                 <div class="form-group">
-                    <label class="exampleFormControlInput1">Status Hotel</label>
+                    <label class="exampleFormControlInput1">Status Persewaan</label>
                     <input class="form-control" type="text" name="status" value="{{$list->status}}" readonly>
                     </select>
                 </div>
@@ -52,7 +52,7 @@
             <div class="row">
                 <div class="col-xl-12 col-md-6 mb-4">
                     <div class="form-group">
-                        <label class="exampleFormControlInput1">Alamat Hotel</label>
+                        <label class="exampleFormControlInput1">Alamat Persewaan</label>
                         <input class="form-control" type="text" name="alamat" value="{{$list->alamat}}" readonly>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
             </div>  
             <div class="form-group">
                  <a href="{{url('/pengajuan/persewaan')}}" class="btn btn-primary" >Kembali</a>
-        </div>             
+            </div>             
             </div>
             
         </div>

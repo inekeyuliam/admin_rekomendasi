@@ -443,11 +443,12 @@ h4,
 
 h5,
 .heading-5 {
-	font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-	font-weight: 400;
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: 500;
 	font-size: 19px;
 	line-height: 1.5;
 	text-transform: none;
+	letter-spacing: .1rem;
 }
 
 @media (min-width: 768px) {
@@ -7232,7 +7233,7 @@ textarea.form-input.form-input-lg {
 		padding-top: 125px;
 	}
 	.section-variant-1 {
-		padding: 200px 0 200px;
+		padding: 100px 0 200px;
 	}
 	.section-variant-2 {
 		padding: 160px 0;
@@ -10813,10 +10814,9 @@ html[class*="ie"] .dtp-hand, html[class*="ie"] .dtp-hour-hand {
 }
 
 .rd-navbar-nav > li > a {
-	font-family: "Oswald", Helvetica, Arial, sans-serif;
+	font-family: 'Times New Roman', Times, serif;
 	font-weight: 400;
 	text-transform: uppercase;
-	letter-spacing: .1em;
 }
 
 .rd-navbar-aside-right .button {
