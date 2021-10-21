@@ -21,6 +21,11 @@
 		<![endif]--> 
 
     <style>
+      .my-active span{
+			background-color: #5cb85c !important;
+			color: white !important;
+			border-color: #5cb85c !important;
+		}
       .card_check{
         display: none;
       }
@@ -184,11 +189,8 @@
                         @endforeach   
                 </div>
                 <div class="col-xl-12 text-center">
-                <br> <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal">Bandingkan Wisata</a>
-
+                  <br> <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal">Bandingkan Wisata</a>
                 </div>
-
-             
               </div>
           <br><br>
         @foreach($ranking as $key=>$item)
@@ -246,7 +248,9 @@
           </div>
           @endforeach
         </div>
+
       </section>
+
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

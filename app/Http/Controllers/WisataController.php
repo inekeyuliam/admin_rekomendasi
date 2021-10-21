@@ -16,7 +16,10 @@ use App\Kelurahan;
 use App\DetailKriteriaWisata;
 use App\DetailKriteria;
 use App\Kriteria;
-use App\WisataPunyaDetailKriteria;
+use App\GoogleReviewWisata;
+use App\ReviewWisata;
+use App\KriteriaWisata;
+use App\HargaWisata;
 use App\Utilities\GoogleMaps;
 use GuzzleHttp\Client;
 use PDF;
@@ -79,6 +82,24 @@ class WisataController extends Controller
       
 
         $iduser = Auth::user()->id;
+        $rev_name0 = $request->get('review_nama0');
+        $rev_name1 = $request->get('review_nama1');
+        $rev_name2 = $request->get('review_nama2');
+        $rev_name3 = $request->get('review_nama3');
+        $rev_name4 = $request->get('review_nama4');
+        // dd($rev_name1);
+        $rev_text0 = $request->get('review_text0');
+        $rev_text1 = $request->get('review_text1');
+        $rev_text2 = $request->get('review_text2');
+        $rev_text3 = $request->get('review_text3');
+        $rev_text4 = $request->get('review_text4');
+        
+        $rev_rate0 = $request->get('review_rate0');
+        $rev_rate1 = $request->get('review_rate1');
+        $rev_rate2 = $request->get('review_rate2');
+        $rev_rate3 = $request->get('review_rate3');
+        $rev_rate4 = $request->get('review_rate4');
+        // dd($rev_rate0);
 
         $nama_wis = $request->get('nama');
         $tipe_wis = $request->get('tipe');
@@ -114,9 +135,44 @@ class WisataController extends Controller
         $wis->save();
         $id = $wis->id;
 
+
+        GoogleReviewWisata::create([
+            'wisata_id'=>$id,
+            'nama'=>  $rev_name0,
+            'review'=>$rev_text0,
+            'rate' =>$rev_rate0
+        ]);
+
+        GoogleReviewWisata::create([
+            'wisata_id'=>$id,
+            'nama'=>  $rev_name1,
+            'review'=>$rev_text1,
+            'rate' =>$rev_rate1
+        ]);
+
+        GoogleReviewWisata::create([
+            'wisata_id'=>$id,
+            'nama'=>  $rev_name2,
+            'review'=>$rev_text2,
+            'rate' =>$rev_rate2
+        ]);
+
+        GoogleReviewWisata::create([
+            'wisata_id'=>$id,
+            'nama'=>  $rev_name3,
+            'review'=>$rev_text3,
+            'rate' =>$rev_rate3
+        ]);
+
+        GoogleReviewWisata::create([
+            'wisata_id'=>$id,
+            'nama'=>  $rev_name4,
+            'review'=>$rev_text4,
+            'rate' =>$rev_rate4
+        ]);
         $nilais = $request->nilai_kriteria;
         foreach($request->input('nilai_kriteria') as $key => $value) {
-            DetailKriteriaWisata::create([
+            KriteriaWisata::create([
                 'nilai'=>  $request->input('nilai_kriteria')[$key],
                 'wisata_id'=>$id,
                 'kriteria_id'=>$key
@@ -126,7 +182,7 @@ class WisataController extends Controller
         $detail_krit =$request->get('fasi');
         // dd($detail_krit);
         foreach($request->input('fasi') as $key => $value) {
-            WisataPunyaDetailKriteria::create([
+            DetailKriteriaWisata::create([
                 'wisata_id'=>$id,
                 'detail_kriteria_id'=>$value
             ]);
@@ -306,8 +362,16 @@ class WisataController extends Controller
     public function destroy($id)
     {
         $wis = Wisata::find($id);
+        $gambarwisata = GambarWisata::with('wisatas')->where('wisata_id',$id)->delete();
+        $detailwisata = DetailKriteriaWisata::with('wisatas')->where('wisata_id',$id)->delete();
+        $googlewisata = GoogleReviewWisata::with('wisatas')->where('wisata_id',$id)->delete();
+        $reviewwisata = ReviewWisata::with('wisatas')->where('wisata_id',$id)->delete();
+        $googlewisata = GoogleReviewWisata::with('wisatas')->where('wisata_id',$id)->delete();
+        $hargawisata = HargaWisata::with('wisatas')->where('wisata_id',$id)->delete();
+        $kriteriawisata = KriteriaWisata::with('wisatas')->where('wisata_id',$id)->delete();
         $wis->delete();
         return redirect('wisata');
+
     }
     public function export() 
     {

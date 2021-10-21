@@ -104,6 +104,7 @@ Route::get('/index', 'RekomendasiWisataController@index');
 Route::get('/about', 'RekomendasiWisataController@aboutme');
 Route::get('/rekomendasi/wisata', 'RekomendasiWisataController@form');
 Route::get('/gethasil', 'RekomendasiWisataController@ambilhasil')->name('kirimbobot');
+Route::get('/getperhitungan', 'RekomendasiWisataController@lihatperhitungan')->name('lihatperhitungan');
 Route::get('/detailwisata/{id}', 'RekomendasiWisataController@show');
 Route::get('/daftar/wisata', 'RekomendasiWisataController@daftar');
 Route::post('/storekriteria', 'RekomendasiWisataController@kriteria');

@@ -83,8 +83,8 @@
 
                                     e.preventDefault();
                                     Swal.fire({
-                                        title: 'Anda Yakin Ingin Menghapus?',
-                                        text: "Data ini tidak dapat dikembalikan lagi!",
+                                        title: 'Peringatan!! <br>Anda Yakin Menghapus Data Ini?',
+                                        text: 'Data wisata ini terhubung dengan beberapa data lainnya, apabila dihapus maka seluruh data wisata ini akan terhapus!',
                                         icon: 'warning',
                                         showCancelButton: true,
                                         confirmButtonColor: '#3085d6',
@@ -96,7 +96,7 @@
                                             Swal.fire(
 
                                             'Terhapus!',
-                                                'Data berhasil dihapus!',
+                                                'Data wisata berhasil dihapus!',
                                                 'success'
                                             )
                                         }

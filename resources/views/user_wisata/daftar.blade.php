@@ -141,9 +141,7 @@
                       <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal" onclick="filterKota()">Filter Wisata</a><br><br>
                   </div>
                 </div>
-                <!-- <div class="col-xl-3 text-xl-right">
-                  <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal" onclick="filterKota()">&nbsp;&nbsp;Filter Wisata</a>
-                </div> -->
+               
             </div>
             <div class="row row-50">
             @foreach($wisata as $item)
@@ -188,176 +186,197 @@
               </div>
               <form method="POST" action="/filter/wisata">
               <input type="hidden" name="_token" value="{{ csrf_token() }}">                
-              <div class="modal-body">
-                <div id="accordion">
-                  <div class="card">
-                    <div class="card-header" id="headingOne">
-                      <h5 class="mb-0">
-                        <a style="color:blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Filter Berdasarkan Kota
-                        </a>
-                      </h5>
-                    </div>
-
-                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                      <div class="card-body">
-                        <div class="form-check">
-                          <label> Masukan Nama Kota Wisata </label> 
-                        </div>
-                        <input type="text" name="search" id="search" class="form-control" /><br>
-                        <div class="form-check checkkota">
-                        <br>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-header" id="headingTwo">
-                      <h5 class="mb-0">
-                        <a style="color:blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Filter Berdasarkan Tipe Wisata
-                        </a>
-                      </h5>
-                    </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                      <div class="card-body">
-                      <div class="form-check">
-                          <label> Pilih Tipe Wisata </label> 
-                        </div>
-                      <div class="form-check">
-                      <label><input type="checkbox" id="checkall" name="checkall">&nbsp;Pilih Semua</label><br>
+                <div class="modal-body">
+                  <div id="accordion">
+                    <div class="card">
+                      <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                          <a style="color: blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                          Filter Berdasarkan Kota
+                          </a>
+                        </h5>
                       </div>
 
-                      @foreach($tipewis as $item)
-                      <div class="form-check">
-                        <label><input type="checkbox" id="tipe_wisata" name="tipe_wisata[]" value="{{$item->id}}">
-                        {{$item->nama_tipe}}</label><br>
-                      </div>
-                      @endforeach
-                        <br>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-header" id="headingThree">
-                      <h5 class="mb-0">
-                        <a style="color:blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Filter Berdasarkan Harga Tiket Masuk
-                        </a>
-                      </h5>
-                    </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                      <div class="card-body">
-                      <div class="form-check">
-                          <label> Masukan Rentang Minimal dan Maximal Harga Tiket Masuk </label> 
-                      </div>
-                      <label for="exampleInputEmail1">Minimal Harga Tiket Rp </label>&nbsp;
-                      <input type="number" class="form-control" id="mintiket" name="mintiket" aria-describedby="mintiket" value="0">
-                      <label for="exampleInputEmail1"> - Maksimal Rp </label>
-                      <input type="number" class="form-control" id="maxtiket" name="maxtiket" aria-describedby="maxtiket" value="10000">
-          
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-header" id="headingThree">
-                      <h5 class="mb-0">
-                        <a style="color:blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        Filter Berdasarkan Jam Operasional
-                        </a>
-                      </h5>
-                    </div>
-                    <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                      <div class="card-body">
-                        <div class="form-check">
-                          <label> Pilih Jam Buka Wisata </label> 
-                        </div>
-                        <div class="form-check">
-                        <label><input type="radio" id="waktu" name="waktu" value="1"> Pagi (Mulai 08:00)</label>
-                        </div>
-                        <div class="form-check">
-                        <label><input type="radio" id="waktu" name="waktu" value="2"> Sore (Mulai 15:00)</label>
+                      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                          <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"> Masukan Nama Kota Wisata </label style="color:grey; font-size:20px;font-family:serif;"> 
+                          </div>
+                          <input type="text" name="search" id="search" class="form-control" /><br>
+                          <div class="form-check checkkota">
+                          <br>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-header" id="headingThree">
-                      <h5 class="mb-0">
-                        <a style="color:blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                        Filter Berdasarkan Rating
-                        </a>
-                      </h5>
-                    </div>
-                    <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                      <div class="card-body">
-                          <div class="form-check">
-                          <label> Pilih Rating Wisata </label> 
+                    <div class="card">
+                      <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                          <a style="color: blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          Filter Berdasarkan Tipe Wisata
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                        <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"> Pilih Tipe Wisata </label style="color:grey; font-size:20px;font-family:serif;"> 
                           </div>
-                          <div class="form-check">
-                          <label><input type="radio" id="rate" name="rate" value="5">
-                          <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> </label>
-                          </div>
-                          <div class="form-check">
-                          <label><input type="radio" id="rate" name="rate" value="4">
-                          <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span> ke atas</label>
-                          </div>
-                          <div class="form-check">
-                          <label><input type="radio" id="rate" name="rate" value="3">
-                          <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> ke atas</label>
-                          </div>
-                          <div class="form-check">
-                          <label><input type="radio" id="rate" name="rate" value="2">
-                          <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> ke atas</label>
-                          </div>
-                          <div class="form-check">
-                          <label><input type="radio" id="rate" name="rate" value="1">
-                          <span class="fa fa-star checked"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> ke atas</label>
-                          </div><br>
+                        <div class="form-check">
+                        <label style="color:grey; font-size:20px;font-family:serif;"><input type="checkbox" style="height:17px; width:17px;" id="checkall" name="checkall">&nbsp;Pilih Semua</label><br>
+                        </div>
 
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-header" id="headingThree">
-                      <h5 class="mb-0">
-                        <a style="color:blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                        Filter Wisata Terdekat
-                        </a>
-                      </h5>
-                    </div>
-                    <div id="collapseSix" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                      <div class="card-body"> 
+                        @foreach($tipewis as $item)
                         <div class="form-check">
-                          <label> Pilih Batas Jarak Wisata Terdekat </label> 
+                          <label style="color:grey; font-size:20px;font-family:serif;"><input type="checkbox" style="height:17px; width:17px;" id="tipe_wisata" name="tipe_wisata[]" value="{{$item->id}}">
+                          {{$item->nama_tipe}}</label style="color:grey; font-size:20px;font-family:serif;"><br>
                         </div>
-                        <div class="form-check">
-                          <label><input type="radio" id="jarak" name="jarak" value="1"> 1 Kilometer Terdekat</label>
-                        </div>
-                        <div class="form-check">
-                          <label><input type="radio" id="jarak" name="jarak" value="3"> 3 Kilometer Terdekat</label>
-                        </div>
-                        <div class="form-check">
-                          <label><input type="radio" id="jarak" name="jarak" value="5"> 5 Kilometer Terdekat</label>
-                        </div>
-                        <div class="form-check">
-                          <label><input type="radio" id="jarak" name="jarak" value="7"> 7 Kilometer Terdekat</label>
+                        @endforeach
+                          <br>
                         </div>
                       </div>
                     </div>
+                    <div class="card">
+                      <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                          <a style="color:blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                          Filter Berdasarkan Harga Tiket Masuk
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                        <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"> Masukan Rentang Minimal dan Maximal Harga Tiket Masuk </label style="color:grey; font-size:20px;font-family:serif;"> 
+                        </div>
+                        <label style="color:grey; font-size:20px;font-family:serif;"for="exampleInputEmail1">Minimal Harga Tiket Rp </label style="color:grey; font-size:20px;font-family:serif;">&nbsp;
+                        <input type="number" class="form-control" id="mintiket" name="mintiket" aria-describedby="mintiket" value="0">
+                        <label style="color:grey; font-size:20px;font-family:serif;"for="exampleInputEmail1"> - Maksimal Rp </label style="color:grey; font-size:20px;font-family:serif;">
+                        <input type="number" class="form-control" id="maxtiket" name="maxtiket" aria-describedby="maxtiket" value="10000">
+            
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                          <a style="color: blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                          Filter Berdasarkan Jam Operasional
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                          <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"> Pilih Jam Buka Wisata </label style="color:grey; font-size:20px;font-family:serif;"> 
+                          </div>
+                          <div class="form-check">
+                          <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="waktu" name="waktu" value="1"> Pagi (Mulai 08:00)</label style="color:grey; font-size:20px;font-family:serif;">
+                          </div>
+                          <div class="form-check">
+                          <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="waktu" name="waktu" value="2"> Sore (Mulai 15:00)</label style="color:grey; font-size:20px;font-family:serif;">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                          <a style="color: blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                          Filter Berdasarkan Rating
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"> Pilih Rating Wisata </label style="color:grey; font-size:20px;font-family:serif;"> 
+                            </div>
+                            <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="rate" name="rate" value="5">
+                            <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> </label style="color:grey; font-size:20px;font-family:serif;">
+                            </div>
+                            <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="rate" name="rate" value="4">
+                            <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span> ke atas</label style="color:grey; font-size:20px;font-family:serif;">
+                            </div>
+                            <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="rate" name="rate" value="3">
+                            <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> ke atas</label style="color:grey; font-size:20px;font-family:serif;">
+                            </div>
+                            <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="rate" name="rate" value="2">
+                            <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> ke atas</label style="color:grey; font-size:20px;font-family:serif;">
+                            </div>
+                            <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="rate" name="rate" value="1">
+                            <span class="fa fa-star checked"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> ke atas</label style="color:grey; font-size:20px;font-family:serif;">
+                            </div><br>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                          <a style="color: blue; font-weight:500; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                          Filter Berdasarkan Fasilitas 
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="collapseSeven" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                            <p style="color:grey; font-size:20px;font-family:serif;"> Pilih Fasilitas </p> <br>
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="checkbox" style="height:17px; width:17px;" id="checkallfasi" name="checkall">&nbsp;Pilih Semua</label>
+                            <div class="row" style="margin-top:10px">
+                                @foreach($detail as $item)
+                                <div class="col-md-4">
+                                  <div class="form-check form-check-inline">
+                                  <label style="color:grey; font-size:20px;font-family:serif;"><input type="checkbox" style="height:17px; width:17px;" id="fasi" name="fasi[]" value="{{$item->id}}"> {{$item->nama_detail}} </label style="color:grey; font-size:20px;font-family:serif;">
+                                  </div>
+                                </div>
+                                @endforeach 
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                          <a style="color: blue; font-family:serif; font-size:20px" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                            Wisata Terdekat
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="collapseSix" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body"> 
+                          <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"> Pilih Batas Jarak Wisata Terdekat </label style="color:grey; font-size:20px;font-family:serif;"> 
+                          </div>
+                          <!-- <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="jarak" name="jarak" value="1"> 1 Kilometer Terdekat</label style="color:grey; font-size:20px;font-family:serif;">
+                          </div>
+                          <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="jarak" name="jarak" value="3"> 3 Kilometer Terdekat</label style="color:grey; font-size:20px;font-family:serif;">
+                          </div>
+                          <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="jarak" name="jarak" value="5"> 5 Kilometer Terdekat</label style="color:grey; font-size:20px;font-family:serif;">
+                          </div>
+                          <div class="form-check">
+                            <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" id="jarak" name="jarak" value="7"> 7 Kilometer Terdekat</label style="color:grey; font-size:20px;font-family:serif;">
+                          </div> -->
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              
                   <div class="modal-footer">
                     <a type="button" class="btn btn-Secondary pull-left" href="daftar/wisata">Hapus</a>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                   </div>
                 </div>
-              </div>
-              </form>
+            </div></form>
+          </div>
         </div>
-       
-    </div>
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"> </div>
     <!-- Javascript-->
@@ -366,7 +385,14 @@
   </body>
 </html>
 <script>
+$("#checkall").change(function(){
+    $('input[name="tipe_wisata[]"]').not(this).prop('checked', this.checked);
+});
 
+$("#checkallfasi").change(function(){
+    $('input[name="fasi[]"]').not(this).prop('checked', this.checked);
+});
+// $('input:checkbox').prop('checked', true);
 $(".list-group-item").click(function() {
               
               // Select all list items
@@ -398,7 +424,7 @@ $(document).ready(function(){
         var response = JSON.parse(data);
         $('.checkkota').html(' ');
         response.forEach(element => {
-          $('.checkkota').append('<label><input type="checkbox" id="kota" name="kota[]" value="'+ element['id'] +'">'+ element['nama_kabupaten']+'</label><br><br>');
+          $('.checkkota').append('<label style="color:grey; font-size:20px;font-family:serif;"><input type="checkbox" style="height:17px; width:17px;" id="kota" name="kota[]" value="'+ element['id'] +'">'+ element['nama_kabupaten']+'</label style="color:grey; font-size:20px;font-family:serif;"><br><br>');
           });
       
       }

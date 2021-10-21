@@ -18,12 +18,21 @@ class Wisata extends Model
         return $this->belongsToMany("App\Kriteria",'kriteria_wisatas','wisata_id','kriteria_id');
     }
     public function gambar_wisatas(){
-        return $this->hasMany("App\WisataPunyaDetailKriteria");
+        return $this->hasMany("App\GambarWisata");
+    }
+    public function harga_wisatas(){
+        return $this->hasMany("App\HargaWisata");
     }
     public function review_wisatas(){
         return $this->hasMany("App\ReviewWisata");
     }
+    public function google_review_wisatas(){
+        return $this->hasMany("App\GoogleReviewWisata");
+    }
     public function detail_kriterias(){
         return $this->belongsToMany("App\DetailKriteria",'detail_kriteria_wisatas','wisata_id','detail_kriteria_id');
+    }
+    public function detail_kriteria_wisatas(){
+        return $this->hasMany("App\DetailKriteriaWisata");
     }
 }

@@ -24,7 +24,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script  defer src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyBqwxhpF3R8QeWPGUrTlsUzt_WXmnJGpns"  type="text/javascript"></script>
+    <script  defer src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyBtpoc4GeD2LSQ8CQ3WpYBCyT6ln6eylvY"  type="text/javascript"></script>
     <!-- <script type="text/javascript" src="{{ url('/') }}/assets/js/dataTables.bootstrap.min.js"></script> -->
     <!-- CSS Files -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

@@ -13,9 +13,12 @@ use App\DetailKriteriaWisata;
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use App\Traits\PaginationTrait;
 
 class RekomendasiWisataController extends Controller
 {
+  use PaginationTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -23,6 +26,7 @@ class RekomendasiWisataController extends Controller
      */
     public function ambilhasil(Request $request) 
     {
+      
       $arr = array();
       $resultbaru = array();
 
@@ -73,7 +77,7 @@ class RekomendasiWisataController extends Controller
       foreach ($idtipekriteria as $key=>$value) {
         $kriteria[$key] = ['id'=>$i, 'tipe_kriteria'=>$value->tipe_kriteria];
         $i++;
-      }
+        }
       $i=1;
       $count = count($result);
       $count = $count+1;
@@ -82,25 +86,25 @@ class RekomendasiWisataController extends Controller
 
       //////////////////////////////////// NORMALISASI MATRIKS KEPUTUSAN //////////////////////////////////// 
 
-      foreach ($akarkdrt as $idkrit) {
-        $id = $idkrit->kriteria_id;
-        foreach ($nilaikriteria as $idakarkrit) {
-          $id2 = $idakarkrit->kriteria_id;
-          $tipeid = $idakarkrit->tipe_kriteria;
-          if($id == $id2)
-          {
-            $nilai=$idakarkrit->nilai;
-            $jumlah=$idkrit->akarkuadrat;
-            // $normalisasi[] = $nilai/$jumlah;
-            $normalisasi[] = ['id'=>$id, 'tipe_kriteria'=>$tipeid, 'norm'=>$nilai/$jumlah];
+        foreach ($akarkdrt as $idkrit) {
+          $id = $idkrit->kriteria_id;
+          foreach ($nilaikriteria as $idakarkrit) {
+            $id2 = $idakarkrit->kriteria_id;
+            $tipeid = $idakarkrit->tipe_kriteria;
+            if($id == $id2)
+            {
+              $nilai=$idakarkrit->nilai;
+              $jumlah=$idkrit->akarkuadrat;
+              // $normalisasi[] = $nilai/$jumlah;
+              $normalisasi[] = ['id'=>$id, 'tipe_kriteria'=>$tipeid, 'norm'=>$nilai/$jumlah];
+            }
           }
         }
-      }
-    // dd($normalisasi);
+        // dd($normalisasi);
 
       //////////////////////////////////// PERKALIAN BOBOT DENGAN NILAI NORMALISASI //////////////////////////////////// 
     
-      for($x=0; $x<count($normalisasi); $x++)
+        for($x=0; $x<count($normalisasi); $x++)
         {
           $ids = $normalisasi[$x]['id'];
           $tipes = $normalisasi[$x]['tipe_kriteria'];
@@ -122,136 +126,136 @@ class RekomendasiWisataController extends Controller
        
         }
     
-      $result = array();
-      $arraybenefit = array();      
-      $arraycost = array();
+        $result = array();
+        $arraybenefit = array();      
+        $arraycost = array();
 
-      foreach ($hasil as $element) {
-          if($element['id'] && $element['tipe_kriteria'] == 'Benefit')
-          {
-            $arraybenefit[$element['id']][]= $element['hasil'];
-          }
-      }
-    
-      foreach ($hasil as $element) {
-        if($element['id'] && $element['tipe_kriteria'] == 'Cost')
-        {
-          $arraycost[$element['id']][]= $element['hasil'];
+        foreach ($hasil as $element) {
+            if($element['id'] && $element['tipe_kriteria'] == 'Benefit')
+            {
+              $arraybenefit[$element['id']][]= $element['hasil'];
+            }
         }
-      }
+      
+        foreach ($hasil as $element) {
+          if($element['id'] && $element['tipe_kriteria'] == 'Cost')
+          {
+            $arraycost[$element['id']][]= $element['hasil'];
+          }
+        }
 
       //////////////////////////////////// SOLUSI IDEAL POSITIF //////////////////////////////////// 
-      $costpositif=[];
-      $benefitpositif = [];
-      $costnegatif=[];
-      $benefitnegatif = [];
-      foreach($arraycost as $key=>$value){
-        $costpositif[]= [
-              'id' => $key,
-              'hasil' => min($value)
-            ];
-      }
-      foreach($arraybenefit as $key=>$value){
-        $benefitpositif[]= [
-          'id' => $key,
-          'hasil' => max($value)
-        ];
-      }
-  
-      $solusipositif = array_merge($costpositif, $benefitpositif);
-      usort($solusipositif, function($a, $b) {
-        return $a['id'] - $b['id'];
-      });
+        $costpositif=[];
+        $benefitpositif = [];
+        $costnegatif=[];
+        $benefitnegatif = [];
+        foreach($arraycost as $key=>$value){
+          $costpositif[]= [
+                'id' => $key,
+                'hasil' => min($value)
+              ];
+        }
+        foreach($arraybenefit as $key=>$value){
+          $benefitpositif[]= [
+            'id' => $key,
+            'hasil' => max($value)
+          ];
+        }
+    
+        $solusipositif = array_merge($costpositif, $benefitpositif);
+        usort($solusipositif, function($a, $b) {
+          return $a['id'] - $b['id'];
+        });
 
       ////////////////////////////////////  SOLUSI IDEAL NEGATIF //////////////////////////////////// 
 
-      foreach($arraycost as $key=>$value){
-        $costnegatif[]= [
-              'id' => $key,
-              'hasil' => max($value)
-            ];
-      }
-      foreach($arraybenefit as $key=>$value){
-        $benefitnegatif[]= [
-          'id' => $key,
-          'hasil' => min($value)
-        ];
-      }
-      $solusinegatif = array_merge($costnegatif, $benefitnegatif);
-      usort($solusinegatif, function($a, $b) {
-        return $a['id'] - $b['id'];
-      });
+        foreach($arraycost as $key=>$value){
+          $costnegatif[]= [
+                'id' => $key,
+                'hasil' => max($value)
+              ];
+        }
+        foreach($arraybenefit as $key=>$value){
+          $benefitnegatif[]= [
+            'id' => $key,
+            'hasil' => min($value)
+          ];
+        }
+        $solusinegatif = array_merge($costnegatif, $benefitnegatif);
+        usort($solusinegatif, function($a, $b) {
+          return $a['id'] - $b['id'];
+        });
 
       //////////////////////////////////// JARAK ALTERNATIF DENGAN SOLUSI IDEAL POSITIF //////////////////////////////////// 
-      $sum=0;
-      $akar=0;
-      $countkriteria = $count-1;
-      $arrakarpositif = [];
-      $arrsolusipositif = [];
-      foreach($hasil as $key=>$value){
-        $id1 = $value['id'];
-        $hasil1 = $value['hasil'];
-        foreach($solusipositif as $key2 => $value2)
-        {
-          $id2 = $value2['id'];
-          $hasil2 = $value2['hasil'];
-          if($id1 == $id2)
+        $sum=0;
+        $akar=0;
+        $countkriteria = $count-1;
+        $arrakarpositif = [];
+        $arrsolusipositif = [];
+        foreach($hasil as $key=>$value){
+          $id1 = $value['id'];
+          $hasil1 = $value['hasil'];
+          foreach($solusipositif as $key2 => $value2)
           {
-            $arrsolusipositif[]=[
-              'id' => $id1,
-              'hasil' => POW(($hasil1-$hasil2),2)
-            ];
+            $id2 = $value2['id'];
+            $hasil2 = $value2['hasil'];
+            if($id1 == $id2)
+            {
+              $arrsolusipositif[]=[
+                'id' => $id1,
+                'hasil' => POW(($hasil1-$hasil2),2)
+              ];
+            }
           }
         }
-      }
-      $bagiarraypos = array_chunk($arrsolusipositif,$jumwisata);
-      $sum=[];
-      foreach($bagiarraypos as $key=>$value){
-        foreach($value as $id => $val){
-            if(!array_key_exists($id, $sum)){
-                $sum[$id] = 0;
-            }
-            $sum[$id] += $val['hasil'];  
+        $bagiarraypos = array_chunk($arrsolusipositif,$jumwisata);
+        $sum=[];
+        foreach($bagiarraypos as $key=>$value){
+          foreach($value as $id => $val){
+              if(!array_key_exists($id, $sum)){
+                  $sum[$id] = 0;
+              }
+              $sum[$id] += $val['hasil'];  
+          }
         }
-      }
-      foreach($sum as $key=>$val)
-      {
-        $arrakarpositif[] = sqrt($val);
-      }
+        foreach($sum as $key=>$val)
+        {
+          $arrakarpositif[] = sqrt($val);
+        }
   
       //////////////////////////////////// JARAK ALTERNATIF DENGAN SOLUSI IDEAL NEGATIF //////////////////////////////////// 
-      $arrsolusinegatif = [];
-      foreach($hasil as $key=>$value){
-        $id1 = $value['id'];
-        $hasil1 = $value['hasil'];
-        foreach($solusinegatif as $key2 => $value2)
-        {
-          $id2 = $value2['id'];
-          $hasil2 = $value2['hasil'];
-          if($id1 == $id2)
+        $arrsolusinegatif = [];
+        foreach($hasil as $key=>$value){
+          $id1 = $value['id'];
+          $hasil1 = $value['hasil'];
+          foreach($solusinegatif as $key2 => $value2)
           {
-            $arrsolusinegatif[]=[
-              'id' => $id1,
-              'hasil' => POW(($hasil1-$hasil2),2)
-            ];
+            $id2 = $value2['id'];
+            $hasil2 = $value2['hasil'];
+            if($id1 == $id2)
+            {
+              $arrsolusinegatif[]=[
+                'id' => $id1,
+                'hasil' => POW(($hasil1-$hasil2),2)
+              ];
+            }
           }
         }
-      }
-      $arrakarnegatif = [];
-      $bagiarrayneg = array_chunk($arrsolusinegatif,$jumwisata);
-      $sum=[];
-      foreach($bagiarrayneg as $key=>$value){
-        foreach($value as $id => $val){
-            if(!array_key_exists($id, $sum)){
-                $sum[$id] = 0;
-            }
-            $sum[$id] += $val['hasil'];  
+        $arrakarnegatif = [];
+        $bagiarrayneg = array_chunk($arrsolusinegatif,$jumwisata);
+        $sum=[];
+        foreach($bagiarrayneg as $key=>$value){
+          foreach($value as $id => $val){
+              if(!array_key_exists($id, $sum)){
+                  $sum[$id] = 0;
+              }
+              $sum[$id] += $val['hasil'];  
+          }
         }
-      }
-      foreach($sum as $key=>$val)
-      {
-        $arrakarnegatif[] = sqrt($val);
-      }
+        foreach($sum as $key=>$val)
+        {
+          $arrakarnegatif[] = sqrt($val);
+        }
       //////////////////////////////////// NILAI PREFERENSI ALTERNATIF //////////////////////////////////// 
       
       $nilaipref = array_map(function($x, $y) { return $x/($x + $y); },
@@ -286,13 +290,295 @@ class RekomendasiWisataController extends Controller
         }
       }
       $result = collect($result);
-      $sorted = $result->sortByDesc('pref')->toArray();
-      // dd($sorted);
+      $users = $result->sortByDesc('pref')->toArray();
+      $sorted = $this->paginate($users, 3); // 3 data per page.
       $kriteriadipilih = DB::table('kriterias')
       ->whereIn('id', $idkriteria)->get();
       return view('user_wisata.hasil',['ranking'=>$sorted, 'kritwis'=>$kriteriadipilih]);
     }
  
+
+    public function lihatperhitungan(Request $request) 
+    {
+      
+      $arr = array();
+      $resultbaru = array();
+
+      $result = json_decode($request->data);
+      // dd($result);
+
+      foreach ($result as $key=>$value) {
+        $id_kriteria[] = [$value->id];
+      }
+      foreach ($result as $key=>$value) {
+        $idkriteria[] = $value->id;
+      }
+      foreach ($result as $key=>$value) {
+        $resultbaru[] = [
+          "id"=>$value->id,
+          "tipe_kriteria"=>$value->tipe_kriteria,
+          "bobot"=>$value->bobot,
+        ];
+      }
+          // dd($idkriteria);
+      // $object = (object) $normalisasi;
+        // dd($object);
+      $arrid = array_flatten($id_kriteria);
+      // dd($arrid);
+      $nilaikriteria = DB::table('kriteria_wisatas')
+      ->join('wisatas','kriteria_wisatas.wisata_id','=','wisatas.id')
+      ->join('kriterias','kriteria_wisatas.kriteria_id','=','kriterias.id')
+      ->whereIn('kriteria_id',$arrid)
+      ->get();
+          // dd($arrid);
+      $akarkdrt = DB::table('kriteria_wisatas')
+          ->select(DB::raw('kriteria_id, SQRT(SUM(POW(nilai,2))) as akarkuadrat'))
+          ->whereIn('kriteria_id',$arrid)
+          ->groupby('kriteria_id')
+          ->get();
+      
+          // dd($akarkdrt);
+
+      $total = array();
+      $normalisasi= array();
+      $hasil= array();
+      $kriteria= array();
+      $i = 1;
+      $idtipekriteria = DB::table('kriterias')
+      ->select('id', 'tipe_kriteria')
+      ->where("jenis_kriteria_id",1)
+      ->get();
+
+      $idtipekriteria = $idtipekriteria->toArray();
+      foreach ($idtipekriteria as $key=>$value) {
+        $kriteria[$key] = ['id'=>$i, 'tipe_kriteria'=>$value->tipe_kriteria];
+        $i++;
+        }
+      $i=1;
+      $count = count($result);
+      $count = $count+1;
+      $jumwisata = DB::table('wisatas')->count();
+
+
+      //////////////////////////////////// NORMALISASI MATRIKS KEPUTUSAN //////////////////////////////////// 
+
+        foreach ($akarkdrt as $idkrit) {
+          $id = $idkrit->kriteria_id;
+          foreach ($nilaikriteria as $idakarkrit) {
+            $id2 = $idakarkrit->kriteria_id;
+            $tipeid = $idakarkrit->tipe_kriteria;
+            if($id == $id2)
+            {
+              $nilai=$idakarkrit->nilai;
+              $jumlah=$idkrit->akarkuadrat;
+              // $normalisasi[] = $nilai/$jumlah;
+              $normalisasi[] = ['id'=>$id, 'tipe_kriteria'=>$tipeid, 'norm'=>round($nilai/$jumlah, 4)];
+            }
+          }
+        }
+      
+        // dd($normalisasi);
+        // dd($normalisasi);
+        // $object = (object) $normalisasi;
+        // dd($object);
+      //////////////////////////////////// PERKALIAN BOBOT DENGAN NILAI NORMALISASI //////////////////////////////////// 
+    
+        for($x=0; $x<count($normalisasi); $x++)
+        {
+          $ids = $normalisasi[$x]['id'];
+          $tipes = $normalisasi[$x]['tipe_kriteria'];
+          $hsil = $normalisasi[$x]['norm'];
+          for($y=0; $y<count($resultbaru); $y++)
+          {
+            $ids2 = $resultbaru[$y]['id'];
+            if($ids == $ids2)
+            {
+              $hasil[] = 
+              [
+                'id' => $ids,
+                'tipe_kriteria' => $tipes,
+                'hasil' => round($hsil*$resultbaru[$y]['bobot'],4)
+              ];
+            }
+
+          }
+       
+        }
+        // dd($hasil);
+        $result = array();
+        $arraybenefit = array();      
+        $arraycost = array();
+
+        foreach ($hasil as $element) {
+            if($element['id'] && $element['tipe_kriteria'] == 'Benefit')
+            {
+              $arraybenefit[$element['id']][]= $element['hasil'];
+            }
+        }
+      
+        foreach ($hasil as $element) {
+          if($element['id'] && $element['tipe_kriteria'] == 'Cost')
+          {
+            $arraycost[$element['id']][]= $element['hasil'];
+          }
+        }
+
+      //////////////////////////////////// SOLUSI IDEAL POSITIF //////////////////////////////////// 
+        $costpositif=[];
+        $benefitpositif = [];
+        $costnegatif=[];
+        $benefitnegatif = [];
+        foreach($arraycost as $key=>$value){
+          $costpositif[]= [
+                'id' => $key,
+                'hasil' => min($value)
+              ];
+        }
+        foreach($arraybenefit as $key=>$value){
+          $benefitpositif[]= [
+            'id' => $key,
+            'hasil' => max($value)
+          ];
+        }
+    
+        $solusipositif = array_merge($costpositif, $benefitpositif);
+        usort($solusipositif, function($a, $b) {
+          return $a['id'] - $b['id'];
+        });
+        // dd($solusipositif);
+
+      ////////////////////////////////////  SOLUSI IDEAL NEGATIF //////////////////////////////////// 
+
+        foreach($arraycost as $key=>$value){
+          $costnegatif[]= [
+                'id' => $key,
+                'hasil' => max($value)
+              ];
+        }
+        foreach($arraybenefit as $key=>$value){
+          $benefitnegatif[]= [
+            'id' => $key,
+            'hasil' => min($value)
+          ];
+        }
+        $solusinegatif = array_merge($costnegatif, $benefitnegatif);
+        usort($solusinegatif, function($a, $b) {
+          return $a['id'] - $b['id'];
+        });
+
+      //////////////////////////////////// JARAK ALTERNATIF DENGAN SOLUSI IDEAL POSITIF //////////////////////////////////// 
+        $sum=0;
+        $akar=0;
+        $countkriteria = $count-1;
+        $arrakarpositif = [];
+        $arrsolusipositif = [];
+        foreach($hasil as $key=>$value){
+          $id1 = $value['id'];
+          $hasil1 = $value['hasil'];
+          foreach($solusipositif as $key2 => $value2)
+          {
+            $id2 = $value2['id'];
+            $hasil2 = $value2['hasil'];
+            if($id1 == $id2)
+            {
+              $arrsolusipositif[]=[
+                'id' => $id1,
+                'hasil' => POW(($hasil1-$hasil2),2)
+              ];
+            }
+          }
+        }
+        $bagiarraypos = array_chunk($arrsolusipositif,$jumwisata);
+        $sum=[];
+        foreach($bagiarraypos as $key=>$value){
+          foreach($value as $id => $val){
+              if(!array_key_exists($id, $sum)){
+                  $sum[$id] = 0;
+              }
+              $sum[$id] += $val['hasil'];  
+          }
+        }
+        foreach($sum as $key=>$val)
+        {
+          $arrakarpositif[] = round(sqrt($val),4);
+        }
+        // dd($arrakarpositif);
+      //////////////////////////////////// JARAK ALTERNATIF DENGAN SOLUSI IDEAL NEGATIF //////////////////////////////////// 
+        $arrsolusinegatif = [];
+        foreach($hasil as $key=>$value){
+          $id1 = $value['id'];
+          $hasil1 = $value['hasil'];
+          foreach($solusinegatif as $key2 => $value2)
+          {
+            $id2 = $value2['id'];
+            $hasil2 = $value2['hasil'];
+            if($id1 == $id2)
+            {
+              $arrsolusinegatif[]=[
+                'id' => $id1,
+                'hasil' => POW(($hasil1-$hasil2),2)
+              ];
+            }
+          }
+        }
+        $arrakarnegatif = [];
+        $bagiarrayneg = array_chunk($arrsolusinegatif,$jumwisata);
+        $sum=[];
+        foreach($bagiarrayneg as $key=>$value){
+          foreach($value as $id => $val){
+              if(!array_key_exists($id, $sum)){
+                  $sum[$id] = 0;
+              }
+              $sum[$id] += $val['hasil'];  
+          }
+        }
+        foreach($sum as $key=>$val)
+        {
+          $arrakarnegatif[] = round(sqrt($val),4);
+        }
+      //////////////////////////////////// NILAI PREFERENSI ALTERNATIF //////////////////////////////////// 
+      
+      $nilaipref = array_map(function($x, $y) { return $x/($x + $y); },
+                   $arrakarnegatif, $arrakarpositif);
+
+      //////////////////////////////////// SORT NILAI PREFERENSI ////////////////////////////////////    
+      // dd($nilaipref);
+      $wisata =Wisata::with('gambar_wisatas')->get();
+     
+      $result = [];
+      $rank = 1;
+      // dd($wisata);
+
+      foreach ($wisata as $key => $w) {
+        $result[$key]['id'] = $w->id;
+        $result[$key]['nama'] = $w->nama_wisata;
+        $result[$key]['rating'] = $w->rating;
+        $result[$key]['alamat'] = $w->alamat;
+        $result[$key]['jam_buka'] = $w->jam_buka;
+        $result[$key]['jam_tutup'] = $w->jam_tutup;
+        $result[$key]['pref'] = $nilaipref[$key];
+        foreach($w->gambar_wisatas as $gambar)
+        {
+          if($gambar->wisata_id == $w->id)
+          {
+            $result[$key]['filename'] = $gambar->filename;
+          }
+          else
+          {
+            break;
+          }
+        }
+      }
+      $result = collect($result);
+      $sorted = $result->sortByDesc('pref')->toArray();
+      // $sorted = $this->paginate($users, 3); // 3 data per page.
+      $kriteriadipilih = DB::table('kriterias')
+      ->whereIn('id', $idkriteria)->get();
+      return view('user_wisata.perhitungan',['nilaipref'=>$nilaipref,'wisata'=>$wisata,'arrakarpos'=>$arrakarpositif,'arrakarneg'=>$arrakarnegatif,'solusineg' => $solusinegatif,'solusipos' => $solusipositif,'terboboti'=>$hasil,'id'=>$idkriteria,'normalisasi'=>$normalisasi, 'resultahp'=>$result,'ranking'=>$sorted, 'kritwis'=>$kriteriadipilih]);
+    
+    }
+
+
     public function form()
     {
         $allkriteria = DB::table('kriterias')->where("jenis_kriteria_id",1)->get();
@@ -334,6 +620,7 @@ class RekomendasiWisataController extends Controller
         return view('user_wisata.form', ['kabupaten'=>$kabupaten, 'allkritwis'=>$allkriteria,'kritwis'=>$kriteria,'count'=>$count, 'nilai' =>$arr,'cost'=>$cost]);  
     }
     
+
     public function result() 
     {
       $result = $_POST['data'];
@@ -359,6 +646,7 @@ class RekomendasiWisataController extends Controller
 
     }
     
+
     public function showWisata(Request $request)
     {
         $iddipilih = $request->get('wisata');
@@ -542,9 +830,10 @@ class RekomendasiWisataController extends Controller
       $wisata = Wisata::with('gambar_wisatas')->whereHas('kelurahans.kecamatans.kabupatens',
       function ($q){
           $q->select('*');
-      })->simplePaginate(9);
+      })->simplePaginate(3);
       $tipewis = DB::table('tipe_wisatas')->get();
-      return view('user_wisata.daftar',['wisata'=>$wisata, 'tipewis'=>$tipewis]);
+      $detailwisata = DB::table('detail_kriterias')->where('kriteria_id',1)->get();
+      return view('user_wisata.daftar',['wisata'=>$wisata, 'tipewis'=>$tipewis, 'detail'=>$detailwisata]);
     }
 
     public function filter(Request $request)
@@ -555,23 +844,24 @@ class RekomendasiWisataController extends Controller
       $min = $request->get('mintiket');
       $max = $request->get('maxtiket');
       $waktu = $request->get('waktu');
+      $fasi = $request->get('fasi');
 
       $kabupaten = KotaKabupaten::all();
-      $wisata = Wisata::with(['kelurahans.kecamatans.kabupatens','gambar_wisatas'])->whereHas('tipe_wisatas',
-      function ($q) use($tipe_id,$kota,$rate_,$min,$max,$waktu){
+      $wisata = Wisata::with(['kelurahans.kecamatans.kabupatens','gambar_wisatas','detail_kriteria_wisatas'])->whereHas('tipe_wisatas',
+      function ($q) use($fasi,$tipe_id,$kota,$rate_,$min,$max,$waktu){
 
         //semua dipilih
-        if(!empty($tipe_id) && !empty($rate_) && !empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
+        if(!empty($tipe_id) && !empty($fasi) &&  !empty($rate_) && !empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
         {
           if($waktu==1)
           {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)
-          ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','08:00')->where('wisatas.rating','>=',(float)$rate_);
+            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)->whereIn('detail_kriteria_wisatas.detail_kriteria_id',$fasi)
+            ->whereBetween('wisatas.harga_masuk', [$min, $max])->where('wisatas.jam_buka','>=','08:00')->where('wisatas.rating','>=',(float)$rate_);
           }
           else
           {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)
-            ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','15:00')->where('wisatas.rating','>=',(float)$rate_);
+            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)->whereIn('detail_kriteria_wisatas.detail_kriteria_id',$fasi)
+            ->whereBetween('wisatas.harga_masuk', [$min, $max])->where('wisatas.jam_buka','>=','15:00')->where('wisatas.rating','>=',(float)$rate_);
           }
         }
 

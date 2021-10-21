@@ -82,20 +82,6 @@
                           </div>
                         </div>
                       </div>
-                      <!-- <div class="row"> -->
-                        <!-- <div class="col-md-6">
-                          <div class="form-group">
-                          <label class="exampleFormControlInput1">Longitude</label>
-                          <input class="form-control" type="text" name="long" placeholder="Masukan longitude tempat wisata" required>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                          <label class="exampleFormControlInput1">Latitude</label>
-                          <input class="form-control" type="text" name="lat" placeholder="Masukan latitude tempat wisata" required>
-                          </div>
-                        </div>
-                        </div> -->
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group">
@@ -156,6 +142,25 @@
                               </div>
                       @endforeach
                       </div>
+                      <input type="hidden" name="review_nama0" id="review_nama0">
+                      <input type="hidden" name="review_text0" id="review_text0">
+                      <input type="hidden" name="review_rate0" id="review_rate0">
+
+                      <input type="hidden" name="review_nama1" id="review_nama1">
+                      <input type="hidden" name="review_text1" id="review_text1">
+                      <input type="hidden" name="review_rate1" id="review_rate1">
+
+                      <input type="hidden" name="review_nama2" id="review_nama2">
+                      <input type="hidden" name="review_text2" id="review_text2">
+                      <input type="hidden" name="review_rate2" id="review_rate2">
+
+                      <input type="hidden" name="review_nama3" id="review_nama3">
+                      <input type="hidden" name="review_text3" id="review_text3">
+                      <input type="hidden" name="review_rate3" id="review_rate3">
+
+                      <input type="hidden" name="review_nama4" id="review_nama4">
+                      <input type="hidden" name="review_text4" id="review_text4">
+                      <input type="hidden" name="review_rate4" id="review_rate4">
 
                       <button class="btn btn-primary pull-right" type="submit">Simpan</button>
                       <div class="clearfix"></div>
@@ -197,6 +202,7 @@
                 <div class="col-sm-4">
                   <div id="map" style="height: 400px; width: 450px" ></div>
                 </div> 
+                <br><br>
                 <div class="row">
                   <div class="slider">
                     <ul id="frames" class="frames"></ul>
@@ -374,7 +380,7 @@ $(function() {
             })
             const succesfulLooku = (position) => {
                       const {latitude, longitude} = position.coords;
-                      fetch('https://api.opencagedata.com/geocode/v1/json?q=LAT+LNG&key=AIzaSyBqwxhpF3R8QeWPGUrTlsUzt_WXmnJGpns')
+                      fetch('https://api.opencagedata.com/geocode/v1/json?q=LAT+LNG&key=AIzaSyBtpoc4GeD2LSQ8CQ3WpYBCyT6ln6eylvY')
                       .then(response => response.json())
                       .then(data => console.log(data));
             }
@@ -397,15 +403,39 @@ $(function() {
                 longitude=from_place.geometry.location.lng();
                 $('#long').val(longitude);
                 $('#lat').val(latitude);
-          
+
+                var rev = from_place.reviews;
+                $('#review_text0').val(from_place.reviews[0].text);
+                $('#review_nama0').val(from_place.reviews[0].author_name);
+                $('#review_rate0').val(from_place.reviews[0].rating);
+
+                $('#review_text1').val(from_place.reviews[1].text);
+                $('#review_nama1').val(from_place.reviews[1].author_name);
+                $('#review_rate1').val(from_place.reviews[1].rating);
+
+                $('#review_text2').val(from_place.reviews[2].text);
+                $('#review_nama2').val(from_place.reviews[2].author_name);
+                $('#review_rate2').val(from_place.reviews[2].rating);
+
+                $('#review_text3').val(from_place.reviews[3].text);
+                $('#review_nama3').val(from_place.reviews[3].author_name);
+                $('#review_rate3').val(from_place.reviews[3].rating);
+
+                $('#review_text4').val(from_place.reviews[4].text);
+                $('#review_nama4').val(from_place.reviews[4].author_name);
+                $('#review_rate4').val(from_place.reviews[4].rating);
+                console.log($('#review_rate4').val())
                 // $('#rating').text('Rating : ' + from_place.rating);
                 // $('#reviews').text('Reviews : ' + from_place.reviews[0].text);
+                var phone_number = from_place.formatted_phone_number;
                 var from_address = from_place.formatted_address;
                 var name = from_place.name;
                 var rating = from_place.rating;
                 $('#from_places').val(from_address);
                 $('#rating').val(rating);
                 $('#nama').val(name)
+                // $('#telp').val(phone_number)
+                
                 initMap();
             });
 

@@ -21,6 +21,20 @@
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"> </script>
 		<![endif]--> 
+    <style>
+    #myDIV {
+      width: 100%;
+      padding: 50px 160px;
+      text-align: center;
+      background-color: white;
+      margin-top: 20px;
+      margin-bottom:50px;
+      color:black;
+      font-family: "Times New Roman", Times, serif;
+      font-size:20px;
+    }
+  
+    </style>
   </head>
 
   <body>
@@ -163,7 +177,7 @@
             </div>
           </div>
         </div><br><br>
-            <div class="row row-fix justify-content-sm-center">
+          <div class="row row-fix justify-content-sm-center">
             <div class="col-lg-14 col-xxl-10">
                 <div class="col-md-6 col-lg-5 col-xl-4 col-xxl-12  text-center">
                   <label style=" font-family:serif; font-size:25px; font-weight: 100px;"><b>KRITERIA DIPILIH : </b></label><br>
@@ -182,7 +196,7 @@
                   <form class="rd-mailform form-fix" id="hitung" method="POST">
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   <div class="form-wrap form-button text-center">
-                  <label class="text-center" style="font-size:30px;color:black;font-family:serif;font-weight: 300;"><b>Masukan Nilai Perbandingan Kriteria Wisata</b></label><br>
+                  <label class="text-center" style="font-size:32px;color:black;font-family:serif;font-weight: 600;"><b>Masukan Nilai Perbandingan Kriteria Wisata</b></label><br>
                   <div class="divider divider-secondary"></div>               
 
                   <br><br><br>
@@ -260,14 +274,250 @@
                       <br>
                     </div>
                     <div class="form-wrap form-button text-center">
-                      <a class="button button-secondary" type="submit" id="cari">Cari Rekomendasi</a>
+                      <a class="button button-secondary" type="submit" id="cari">Cari Rekomendasi</a> &nbsp;&nbsp;&nbsp;&nbsp;
                     </div>
+                    <div class="form-wrap form-button text-center">
+                      <a class="button button-secondary" type="submit" onclick="myFunction()">Lihat Perhitungan</a>
+                    </div>
+                    <!-- <button class="button button-secondary pull-right" type="submit" id="lihat">Lihat Perhitungan</button> -->
                   </form>
               </div>
             </div>
          </div>
       </section>
-    
+      <div class="row row-fix">
+        <div id="myDIV">
+          <label style="font-family: 'Times New Roman', Times, serif; font-weight:600; font-size:35px">METODE - AHP</label><br>
+          <hr class="divider divider-secondary"><br>
+          <br><br>
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-2">
+                  <p style="font-size:25px;font-weight:600; ">Kriteria</p>
+                  </div>
+                  <div class="col-md-6">
+                  <p style="font-size:25px;font-weight:600; "> Step 1. Matriks Perbandingan Berpasangan</p>
+                  </div>
+                  <!-- <div class="col-md-3">
+                  <p style="font-weight:600; font-size:25px"> Step 2. Normalisasi Matriks Perbandingan</p>
+                  </div>
+                  <div class="col-md-2">
+                  <p style="font-weight:600; font-size:25px">Step 3. Hitung Jumlah Perbaris</p>
+                  </div>
+                  <div class="col-md-2">
+                  <p style="font-weight:600; font-size:25px">Step 4. Hitung Bobot Prioritas</p>
+                  </div> -->
+              </div>
+              <div class="row">
+                  <div class="col-md-2">
+                    @foreach($kritwis as $kriteria)
+                    <p style="font-size:25px">{{$kriteria->kriteria}}</p>
+                    @endforeach
+                  </div>
+                  <div class="col-md-6">
+                    <p id="line" style="font-size:32px"></p>
+                  </div>
+                  <!-- <div class="col-md-3">
+                    <p style="font-size:32px"  id="normalisasi"></p>
+                  </div>
+                  <div class="col-md-2">
+                    <p style="font-size:32px"  id="jumlah"></p>
+                  </div>
+                  <div class="col-md-2">
+                    <p style="font-size:32px"  id="bobot"></p>
+                  </div> -->
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                    <p style="font-size:25px; font-weight:600;">Jumlah kolom</p>
+                </div>
+                <div class="col-md-6">
+                    <p style="font-size:32px" id="total"></p>
+                </div>
+              </div>
+
+              <br><br><br>
+              <div class="row">
+                  <div class="col-md-2">
+                  <p style="font-size:25px;font-weight:600; ">Kriteria</p>
+                  </div>
+                  <!-- <div class="col-md-6">
+                  <p style="font-size:25px;font-weight:600; "> Step 1. Matriks Perbandingan Berpasangan</p>
+                  </div> -->
+                  <div class="col-md-6">
+                  <p style="font-weight:600; font-size:25px"> Step 2. Normalisasi Matriks Perbandingan</p>
+                  </div>
+                  <div class="col-md-4">
+                  <p style="font-weight:600; font-size:25px">Step 3.  Jumlah Perbaris</p>
+                  </div>
+                  <!-- <div class="col-md-2">
+                  <p style="font-weight:600; font-size:25px">Step 4. Hitung Bobot Prioritas</p>
+                  </div> -->
+              </div>
+              <div class="row">
+                  <div class="col-md-2">
+                    @foreach($kritwis as $kriteria)
+                    <p style="font-size:25px">{{$kriteria->kriteria}}</p>
+                    @endforeach
+                  </div>
+                  <!-- <div class="col-md-6">
+                    <p id="line" style="font-size:32px"></p>
+                  </div> -->
+                  <div class="col-md-6">
+                    <p style="font-size:32px"  id="normalisasi"></p>
+                  </div>
+                  <div class="col-md-4">
+                    <p style="font-size:32px"  id="jumlah"></p>
+                  </div>
+                  <!-- <div class="col-md-2">
+                    <p style="font-size:32px"  id="bobot"></p>
+                  </div> -->
+              </div>
+
+              <br><br><br>
+              <div class="row">
+                  <div class="col-md-2">
+                  <p style="font-size:25px;font-weight:600; ">Kriteria</p>
+                  </div>
+                  <!-- <div class="col-md-6">
+                  <p style="font-size:25px;font-weight:600; "> Step 1. Matriks Perbandingan Berpasangan</p>
+                  </div> -->
+                  <!-- <div class="col-md-6">
+                  <p style="font-weight:600; font-size:25px"> Step 2. Normalisasi Matriks Perbandingan</p>
+                  </div>
+                  <div class="col-md-4">
+                  <p style="font-weight:600; font-size:25px">Step 3.  Jumlah Perbaris</p>
+                  </div> -->
+                  <div class="col-md-6">
+                  <p style="font-weight:600; font-size:25px">Step 4. Hitung Bobot Prioritas</p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-2">
+                    @foreach($kritwis as $kriteria)
+                    <p style="font-size:25px">{{$kriteria->kriteria}}</p>
+                    @endforeach
+                  </div>
+                  <!-- <div class="col-md-6">
+                    <p id="line" style="font-size:32px"></p>
+                  </div> -->
+                  <!-- <div class="col-md-6">
+                    <p style="font-size:32px"  id="normalisasi"></p>
+                  </div>
+                  <div class="col-md-4">
+                    <p style="font-size:32px"  id="jumlah"></p>
+                  </div> -->
+                  <div class="col-md-6">
+                    <p style="font-size:32px"  id="bobot"></p>
+                  </div>
+              </div>
+
+              <br><br><br>
+              <div class="row">
+                  <div class="col-md-2">
+                  <p style="font-size:25px;font-weight:600; ">Kriteria</p>
+                  </div>
+                  <div class="col-md-6">
+                  <p style="font-weight:600; font-size:25px">Step 5. Kalikan Bobot Prioritas dengan Nilai Kriteria</p>
+                  </div>
+                  <div class="col-md-4">
+                  <p style="font-weight:600; font-size:25px">Step 6. Jumlah Perbaris</p>
+                  </div>
+                  <!-- <div class="col-md-6">
+                  <p style="font-weight:600; font-size:25px">Step 4. Hitung Bobot Prioritas</p>
+                  </div> -->
+              </div>
+              <div class="row">
+                  <div class="col-md-2">
+                    @foreach($kritwis as $kriteria)
+                    <p style="font-size:25px">{{$kriteria->kriteria}}</p>
+                    @endforeach
+                  </div>
+                  <!-- <div class="col-md-6">
+                    <p id="line" style="font-size:32px"></p>
+                  </div> -->
+                  <div class="col-md-6">
+                    <p id="matriks" style="font-size:32px"></p>
+                  </div>
+                  <div class="col-md-4">
+                    <p style="font-size:32px"  id="baris"></p>
+                  </div>
+                  <!-- <div class="col-md-6">
+                    <p style="font-size:32px"  id="bobot"></p>
+                  </div> -->
+              </div>
+
+              <br><br><br>
+              <div class="row">
+                  <div class="col-md-2">
+                  <p style="font-size:25px;font-weight:600; ">Kriteria</p>
+                  </div>
+                  <div class="col-md-6">
+                  <p style="font-weight:600; font-size:25px">Step 7. Hitung CR </p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-2">
+                    @foreach($kritwis as $kriteria)
+                    <p style="font-size:25px">{{$kriteria->kriteria}}</p>
+                    @endforeach
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size:32px"  id="lambda"></p>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                    <p style="font-size:28px; font-weight:600;">Total</p>
+                </div>
+                <div class="col-md-6">
+                    <p style="font-size:28px"  id="tot"></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                    <p style="font-size:28px; font-weight:600;">Lambda Max</p>
+                </div>
+                <div class="col-md-6">
+                    <p style="font-size:28px"  id="nilai"></p>
+                </div>
+             
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                    <p style="font-size:28px; font-weight:600;">Nilai CI</p>
+                </div>
+                <div class="col-md-6">
+                <p style="font-size:28px"  id="ci"></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                    <p style="font-size:28px; font-weight:600;">Nilai CR</p>
+                </div>
+                <div class="col-md-6">
+                    <p style="font-size:28px"  id="cr"></p>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-2">
+                <p style="font-size:32px;color:red" id="konsisten"></p>
+                </div>
+                <div id="topsis" class="col-md-6">
+                    <!-- <p style="font-size:32px;color:red" id="button"></p> -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                    <p style="font-size:32px;color:red" id="ulang"></p>
+                </div>
+              </div>
+          </div>
+          <br><br>
+        
+        </div>
+      </div>
       <footer class="section page-footer page-footer-minimal novi-background bg-cover text-center bg-gray-darker">
         <div class="container container-wide">
           <div class="row row-fix justify-content-sm-center align-items-md-center row-30">
@@ -290,6 +540,416 @@
 </html>
 <script type='text/javascript'>
  
+ function myFunction() {
+  const list  = document.getElementById('list');
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      const list  = document.getElementById('list');
+      var myArray = [];
+      var arrayall = [];
+      var kritid = [];
+      var tipekrit = [];
+
+      form.querySelectorAll('#kritid').forEach(function (input) {
+          var ids = parseInt(input.value)
+          kritid.push(ids);
+      })
+      console.log("id kriteira");
+      console.log(kritid);
+      Loop1:         // The first for loop is labeled "Loop1"
+      for (var item in kritid) {
+        Loop2:       // The second for loop is labeled "Loop2"
+        for(var item2 in kritid){
+          if(kritid[item] != kritid[item2]){
+            var name = "prioritas"+kritid[item]+kritid[2]
+            var getSelectedValue = form.querySelector('input[name="prioritas' +kritid[item]+kritid[item2] +'"]:checked');   
+            arrayall.push(getSelectedValue);
+            // console.log("prioritas"+kritid[item]+kritid[item2])
+          }
+        }        
+      }
+      var arrayfilt = arrayall.filter(function (el) {
+        return el != null;
+      });
+      for (var item in arrayfilt) {
+         myArray.push(parseInt(arrayfilt[item].value));
+      }
+      console.log(myArray)
+
+      form.querySelectorAll('#tipe_krit').forEach(function (input) {
+          var tipe = input.value
+          tipekrit.push(tipe);
+      })
+      console.log("tipe kriteira");
+      console.log(tipekrit);
+    
+      // form.querySelectorAll('#prioritas').forEach(function (input) {
+      //     myArray.push(parseInt(input.value));
+      // })
+      console.log(myArray.length)
+      var sum = 0;
+      for (var item in myArray) {
+        if(myArray[item] == 19){
+          myArray[item] = Math.round((1/9) * 100) / 100
+        }
+        else if(myArray[item] == 17){
+          myArray[item] = Math.round((1/7) * 100) / 100
+        }
+        else if(myArray[item] == 15){
+          myArray[item] = Math.round((1/5) * 100) / 100
+        }
+        else if(myArray[item] == 13){
+          myArray[item] = Math.round((1/3) * 100) / 100
+        }
+
+        else{
+          myArray[item] = myArray[item]
+        }
+        console.log(myArray[item]); 
+        sum = sum + parseFloat(myArray[item]); // => total dari nilai bobot
+      }
+      // alert("Sum = " + sum);
+      var jumlah_kriteria = $('#count').val();
+      // alert(jumlah_kriteria);
+      var arrayHolder = [];
+      var arrayHolder2 = [];
+      var arrayMatriks = [];
+      var akhir = 1;
+      var awal = 0;
+      var i,j, temporary, selisih, chunk = 0;
+      for (i = 0,j = jumlah_kriteria; i < j; i ++) {
+        if(selisih==0)
+        {
+          temporary = myArray.slice(awal,akhir);
+          selisih = temporary.length;
+          // console.log(selisih)
+        }else
+        {
+          akhir=awal+selisih;
+          temporary = myArray.slice(awal,akhir);
+          selisih = temporary.length;
+          // console.log(selisih);
+        }   
+        var x = parseInt(temporary, 10)
+        arrayHolder.push(temporary);
+        arrayMatriks.push(temporary);
+        awal = awal+selisih;
+        akhir++;
+        selisih++;
+
+      }
+      console.log("array segitiga bawah");
+      console.log(arrayHolder);
+      arrayKosong=[];
+
+      for(var i = 0; i < arrayHolder.length; i++) {
+          var baris = arrayHolder[i];
+          baris.push(1);
+          for(var j = 0; j < baris.length; j++) {
+              var kebalikan = 1/baris[j];
+              arrayKosong.push(kebalikan);
+              //  console.log("data baris ke [" + i + "], index ke [" + j + "] = " + kebalikan)
+          }
+          arrayHolder2.push(arrayKosong)
+          arrayKosong=[];          
+      }
+      
+      function transpose(args){
+      let newArgs = [];
+      for (let i = 0; i < args.length; ++i) {
+          for (let j = 0; j < args[i].length; ++j) {
+          if (args[i][j] === undefined) continue;
+          if (newArgs[j] === undefined) newArgs[j] = [];
+          newArgs[j][i] = args[i][j];
+          }
+      }
+      return newArgs;
+      }
+      const transposed = transpose(arrayHolder2);
+      const filtered = transposed.map(val => val.filter(Number.isFinite));
+      for (let i=0; i<filtered.length; i++){
+          filtered[i].shift();
+      }
+      console.log(filtered);
+     
+      ////////////////////////////////////////////// MATRIKS KOLOM TOTAL //////////////////////////////////////////
+
+      let merge = arrayHolder.map(function(e, i) {
+          return [e, filtered[i]];
+      });
+      let mergeflat = merge.flat();
+      console.log(mergeflat)
+
+      arrBaru = []
+      for (k=0; k<mergeflat.length; k++){
+        arrBaru.push(mergeflat[k].concat(mergeflat[k+1]))
+        k++;
+      }
+      console.log(arrBaru) //Array Baru = matriks yg lengkap berpasangan
+      for(var itembaru in arrBaru)
+      {
+        var counter= 0;
+
+        console.log(arrBaru[itembaru]);
+        var baris = arrBaru[itembaru]
+        for(let i = 0; i < baris.length; i++)
+        {
+          counter++;
+
+          console.log(baris[i])
+          var div = document.getElementById('line');
+          div.innerHTML += Number((baris[i]).toFixed(4))+ '&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp';
+          var count = jumlah_kriteria-1;
+          console.log(count)
+          if ( counter==jumlah_kriteria)
+          {
+            div.innerHTML += '<br>'
+            counter =0;
+          }
+        }
+      }
+
+      let array = arrBaru,
+      totalKolom = array.reduce((a, b) => b.map((x, i) => Number((a[i] + x).toFixed(4))));
+      console.log(totalKolom)
+      for(var item in totalKolom)
+      {
+        var div = document.getElementById('total');
+        div.innerHTML += totalKolom[item]+ '&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp';
+      }
+      // total.innerHTML = totalKolom.map(i => `${i}`).join(' ');
+     
+      arrayNormalisasi = []
+      for (k=0; k<array.length; k++){
+        baris = array[k];
+        const diffNumber = (arr1, arr2) => arr1.map(function (num, idx) { return Number((num/arr2[idx]).toFixed(4))});
+        arrayNormalisasi.push(diffNumber(baris,totalKolom))
+      }
+      console.log(arrayNormalisasi)
+      for(var itembaru in arrayNormalisasi)
+      {
+        var counter= 0;
+
+        console.log(arrayNormalisasi[itembaru]);
+        var baris = arrayNormalisasi[itembaru]
+        for(let i = 0; i < baris.length; i++)
+        {
+          counter++;
+
+          console.log(baris[i])
+          var div = document.getElementById('normalisasi');
+          div.innerHTML += Number((baris[i]).toFixed(4))+ '&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp';
+          var count = jumlah_kriteria-1;
+          console.log(count)
+          if ( counter==jumlah_kriteria)
+          {
+            div.innerHTML += '<br>'
+            counter =0;
+          }
+          // list.innerHTML = baris[item].map(i => `<li style="font-size:23px">${i}</li>`).join(' ');
+        }
+      }
+      // normalisasi.innerHTML = arrayNormalisasi.map(i => `<li style="font-size:25px">${i}</li>`).join(' ');
+
+
+      ////////////////////////////////////////////// BOBOT PRIORITAS //////////////////////////////////////////
+      var arrayBobotPrioritas = arrayNormalisasi.map((y) => y.reduce((a, b) => Number((a + b).toFixed(4))));    
+      console.log('sum bobot prioritas');
+      console.log(arrayBobotPrioritas);
+      for(var item in arrayBobotPrioritas)
+      {
+        var div = document.getElementById('jumlah');
+        div.innerHTML += arrayBobotPrioritas[item]+ '<br>';
+      }
+
+      var BobotPrioritas = arrayBobotPrioritas.map(function(x) { return Number((x / jumlah_kriteria).toFixed(4)) });
+      console.log('bobot prioritas');
+      const hasilBobotId = [];
+      for(x = 0; x<kritid.length; x++)
+      {
+        hasilBobotId[x] = {
+          id: kritid[x],
+          tipe_kriteria: tipekrit[x],
+          bobot:BobotPrioritas[x]
+        } 
+      }
+      console.log(hasilBobotId);
+      for(var item in hasilBobotId)
+      {
+        var div = document.getElementById('bobot');
+        div.innerHTML += hasilBobotId[item].bobot+ '<br>';
+      }
+
+      arrayHasil = []
+      arraySum = []
+      arrayitem = []
+      for (k=0; k<array.length; k++){
+        baris = array[k];
+        const multipleNumber = (arr1, arr2) => arr1.map(function (num, idx) { return num * arr2[idx] });
+        arrayitem.push(multipleNumber(baris,arrayBobotPrioritas))
+      }
+      console.log('Matriks Konsistensi (Hasil perkalian matriks berpasangan dengan bobot prioritas)')
+      console.log(arrayitem)
+      for(var itembaru in arrayitem)
+      {
+        var counter= 0;
+
+        console.log(arrayitem[itembaru]);
+        var baris = arrayitem[itembaru]
+        for(let i = 0; i < baris.length; i++)
+        {
+          counter++;
+
+          console.log(baris[i])
+          var div = document.getElementById('matriks');
+          div.innerHTML += Number((baris[i]).toFixed(4))+ '&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp';
+          var count = jumlah_kriteria-1;
+          console.log(count)
+          if ( counter==jumlah_kriteria)
+          {
+            div.innerHTML += '<br>'
+            counter =0;
+          }
+          // list.innerHTML = baris[item].map(i => `<li style="font-size:23px">${i}</li>`).join(' ');
+        }
+      }
+
+      for (i=0; i<arrayitem.length; i++){
+        baris = arrayitem[i];
+        const arrSum = baris => baris.reduce((a,b) => Number((a + b).toFixed(4)), 0)
+        let bobot = (arrSum(baris));
+        arraySum.push(bobot)
+      }
+      console.log('Jumlah per baris matriks konsistensi');
+      console.log(arraySum);
+      for(var item in arraySum)
+      {
+        var div = document.getElementById('baris');
+        div.innerHTML += arraySum[item]+ '<br>';
+      }
+
+      const dividedNumber = (arr1, arr2) => arr1.map(function (num, idx) { return parseFloat(num/arr2[idx]).toFixed(4) });
+      arrayHasil.push(dividedNumber(arraySum,arrayBobotPrioritas))
+      console.log(arrayHasil)
+      for(var itembaru in arrayHasil)
+      {
+        var counter= 0;
+
+        console.log(arrayHasil[itembaru]);
+        var baris = arrayHasil[itembaru]
+        for(let i = 0; i < baris.length; i++)
+        {
+          counter++;
+
+          console.log(baris[i])
+          var div = document.getElementById('lambda');
+          div.innerHTML += baris[i]+ '<br>';
+          
+        }
+      }
+      
+      let lambdamax = 0;
+      var total=0;
+      for(i=0; i<arrayHasil.length; i++){
+        baris = arrayHasil[i];
+        for(var j in baris) { 
+            total += parseFloat(baris[j]);
+        }
+      }
+      total = Number((total).toFixed(4))
+      console.log(total); 
+      var divtot = document.getElementById('tot');
+      divtot.innerHTML += total;
+
+      lambdamax = Number((total/jumlah_kriteria).toFixed(4));
+      
+      var divlambda = document.getElementById('nilai');
+      divlambda.innerHTML += total+' / '+jumlah_kriteria+' = '+lambdamax;
+
+      console.log('lambdamax : ', lambdamax);
+
+      ////////////////////////////////////////////// KONSISTENSI RASIO  //////////////////////////////////////////
+
+      let ci = Number(((lambdamax-jumlah_kriteria)/(jumlah_kriteria - 1)).toFixed(4));
+      console.log(ci)
+      var divci = document.getElementById('ci');
+      divci.innerHTML += '('+lambdamax+'-'+jumlah_kriteria+ ') / ('+jumlah_kriteria+'-1) = '+ci;
+      
+      let ordo = jumlah_kriteria;
+      let ri = 0;
+      if (ordo == 1 || ordo == 2)
+      {
+        ri = 0;
+      }
+      else if(ordo == 3)
+      {
+        ri = 0.58;
+      }
+      else if(ordo == 4)
+      {
+        ri = 0.9;
+      }
+      else if(ordo == 5)
+      {
+        ri = 1.12;
+      }
+      else if(ordo == 6)
+      {
+        ri = 1.24;
+      }
+      else if(ordo == 7)
+      {
+        ri = 1.32;
+      }
+      else if(ordo == 8)
+      {
+        ri = 1.41;
+      }
+      else if(ordo == 9)
+      {
+        ri = 1.46;
+      }
+      else{
+        ri = 1.49
+      }
+
+      let cr = ci/ri;
+      cr = Number((parseFloat(cr).toFixed(4)))
+      console.log(cr)
+      var divcr = document.getElementById('cr');
+      divcr.innerHTML += ci+' / '+ri+ ' = ' + cr;
+      if(cr <= 0.1)
+      {
+        // console.log('konsisten')
+        var divKONS = document.getElementById('konsisten');
+        divKONS.innerHTML += 'Nilai CR <= 0.1<br><br>MATRIKS KONSISTEN';
+        var divtp = document.getElementById('topsis');
+        var link = JSON.stringify(hasilBobotId)
+        console.log(link)
+        divtp.innerHTML += "<a class='button button-info button-nina' href='/getperhitungan?data="+ link+"'>Step selanjutnya</a><br><br><br>";
+
+        // $(this).prop('href', '/getperhitungan?data='+ JSON.stringify(hasilBobotId));
+      }
+      else
+      {
+        // console.log('tidak konsisten, masukan ulang')
+        var divKONS = document.getElementById('konsisten');
+        divKONS.innerHTML += 'Nilai CR > 0.1 <br><br>MATRIKS TIDAK KONSISTEN';
+        // $("#hitung")[0].reset();
+        var divulang = document.getElementById('ulang');
+        divulang.innerHTML += 'Masukan kembali nilai matriks perbandingan';
+      
+        // alert("Matriks Tidak Konsisten, Masukan Perbandingan Lagi");
+
+      }
+    } else {
+      x.style.display = "none";
+    }
+  }
+
+
+
     function handleChange(src) {
       $("#info").html(src.value);
       var val = src.value
@@ -339,6 +999,312 @@
    
     var form = document.getElementById('hitung');
     $('#cari').click(function(e) {
+      var myArray = [];
+      var arrayall = [];
+      var kritid = [];
+      var tipekrit = [];
+
+      form.querySelectorAll('#kritid').forEach(function (input) {
+          var ids = parseInt(input.value)
+          kritid.push(ids);
+      })
+      console.log("id kriteira");
+      console.log(kritid);
+      Loop1:         // The first for loop is labeled "Loop1"
+      for (var item in kritid) {
+        Loop2:       // The second for loop is labeled "Loop2"
+        for(var item2 in kritid){
+          if(kritid[item] != kritid[item2]){
+            var name = "prioritas"+kritid[item]+kritid[2]
+            var getSelectedValue = form.querySelector('input[name="prioritas' +kritid[item]+kritid[item2] +'"]:checked');   
+            arrayall.push(getSelectedValue);
+            // console.log("prioritas"+kritid[item]+kritid[item2])
+          }
+        }        
+      }
+      var arrayfilt = arrayall.filter(function (el) {
+        return el != null;
+      });
+      for (var item in arrayfilt) {
+         myArray.push(parseInt(arrayfilt[item].value));
+      }
+      console.log(myArray)
+
+      form.querySelectorAll('#tipe_krit').forEach(function (input) {
+          var tipe = input.value
+          tipekrit.push(tipe);
+      })
+      console.log("tipe kriteira");
+      console.log(tipekrit);
+    
+      // form.querySelectorAll('#prioritas').forEach(function (input) {
+      //     myArray.push(parseInt(input.value));
+      // })
+      console.log(myArray.length)
+      var sum = 0;
+      for (var item in myArray) {
+        if(myArray[item] == 19){
+          myArray[item] = Math.round((1/9) * 100) / 100
+        }
+        else if(myArray[item] == 17){
+          myArray[item] = Math.round((1/7) * 100) / 100
+        }
+        else if(myArray[item] == 15){
+          myArray[item] = Math.round((1/5) * 100) / 100
+        }
+        else if(myArray[item] == 13){
+          myArray[item] = Math.round((1/3) * 100) / 100
+        }
+        // else if(myArray[item] == 1){
+        //   myArray[item] = Math.round((1) * 100) / 100
+        // }
+        // else if(myArray[item] == 15){
+        //   myArray[item] = Math.round((1/4) * 100) / 100
+        // }
+        // else if(myArray[item] == 16){
+        //   myArray[item] = Math.round((1/3) * 100) / 100
+        // }
+        // else if(myArray[item] == 17){
+        //   myArray[item] = Math.round((1/2) * 100) / 100
+        // }
+        else{
+          myArray[item] = myArray[item]
+        }
+        console.log(myArray[item]); 
+        sum = sum + parseFloat(myArray[item]); // => total dari nilai bobot
+      }
+      // alert("Sum = " + sum);
+      var jumlah_kriteria = $('#count').val();
+      // alert(jumlah_kriteria);
+      var arrayHolder = [];
+      var arrayHolder2 = [];
+      var arrayMatriks = [];
+      var akhir = 1;
+      var awal = 0;
+      var i,j, temporary, selisih, chunk = 0;
+      for (i = 0,j = jumlah_kriteria; i < j; i ++) {
+        if(selisih==0)
+        {
+          temporary = myArray.slice(awal,akhir);
+          selisih = temporary.length;
+          // console.log(selisih)
+        }else
+        {
+          akhir=awal+selisih;
+          temporary = myArray.slice(awal,akhir);
+          selisih = temporary.length;
+          // console.log(selisih);
+        }   
+        var x = parseInt(temporary, 10)
+        arrayHolder.push(temporary);
+        arrayMatriks.push(temporary);
+        awal = awal+selisih;
+        akhir++;
+        selisih++;
+
+      }
+      console.log("array segitiga bawah");
+      console.log(arrayHolder);
+      arrayKosong=[];
+
+      for(var i = 0; i < arrayHolder.length; i++) {
+          var baris = arrayHolder[i];
+          baris.push(1);
+          for(var j = 0; j < baris.length; j++) {
+              var kebalikan = 1/baris[j];
+              arrayKosong.push(kebalikan);
+              //  console.log("data baris ke [" + i + "], index ke [" + j + "] = " + kebalikan)
+          }
+          arrayHolder2.push(arrayKosong)
+          arrayKosong=[];          
+      }
+      
+      function transpose(args){
+      let newArgs = [];
+      for (let i = 0; i < args.length; ++i) {
+          for (let j = 0; j < args[i].length; ++j) {
+          if (args[i][j] === undefined) continue;
+          if (newArgs[j] === undefined) newArgs[j] = [];
+          newArgs[j][i] = args[i][j];
+          }
+      }
+      return newArgs;
+      }
+      const transposed = transpose(arrayHolder2);
+      const filtered = transposed.map(val => val.filter(Number.isFinite));
+      for (let i=0; i<filtered.length; i++){
+          filtered[i].shift();
+         
+      }
+      console.log(filtered);
+     
+      ////////////////////////////////////////////// MATRIKS KOLOM TOTAL //////////////////////////////////////////
+
+      let merge = arrayHolder.map(function(e, i) {
+          return [e, filtered[i]];
+      });
+      let mergeflat = merge.flat();
+      arrBaru = []
+      console.log(mergeflat)
+      for (k=0; k<mergeflat.length; k++){
+        arrBaru.push(mergeflat[k].concat(mergeflat[k+1]))
+        k++;
+      }
+      console.log(arrBaru) //Array Baru = matriks yg lengkap berpasangan
+
+      let array = arrBaru,
+      totalKolom = array.reduce((a, b) => b.map((x, i) => a[i] + x));
+      console.log(totalKolom)
+
+      ////////////////////////////////////////////// NORMALISASI MATRIKS //////////////////////////////////////////
+
+      arrayNormalisasi = []
+      for (k=0; k<array.length; k++){
+        baris = array[k];
+        const diffNumber = (arr1, arr2) => arr1.map(function (num, idx) { return (num/arr2[idx])});
+        arrayNormalisasi.push(diffNumber(baris,totalKolom))
+      }
+      console.log(arrayNormalisasi)
+
+      ////////////////////////////////////////////// BOBOT PRIORITAS //////////////////////////////////////////
+      var arrayBobotPrioritas = arrayNormalisasi.map((y) => y.reduce((a, b) => a + b));    
+      console.log('sum bobot prioritas');
+      console.log(arrayBobotPrioritas);
+
+      var BobotPrioritas = arrayBobotPrioritas.map(function(x) { return x / jumlah_kriteria; });
+      console.log('bobot prioritas');
+      const hasilBobotId = [];
+      for(x = 0; x<kritid.length; x++)
+      {
+        hasilBobotId[x] = {
+          id: kritid[x],
+          tipe_kriteria: tipekrit[x],
+          bobot:BobotPrioritas[x]
+        } 
+      }
+      console.log(hasilBobotId);
+     
+
+      ////////////////////////////////////////////// LAMBDA MAKS  //////////////////////////////////////////
+      arrayHasil = []
+      arraySum = []
+      arrayitem = []
+      for (k=0; k<array.length; k++){
+        baris = array[k];
+        const multipleNumber = (arr1, arr2) => arr1.map(function (num, idx) { return num * arr2[idx] });
+        arrayitem.push(multipleNumber(baris,arrayBobotPrioritas))
+      }
+      console.log('Matriks Konsistensi (Hasil perkalian matriks berpasangan dengan bobot prioritas)')
+      console.log(arrayitem)
+
+      for (i=0; i<arrayitem.length; i++){
+        baris = arrayitem[i];
+        const arrSum = baris => baris.reduce((a,b) => a + b, 0)
+        let bobot = (arrSum(baris));
+        arraySum.push(bobot)
+      }
+      console.log('Jumlah per baris matriks konsistensi');
+      console.log(arraySum);
+
+      const dividedNumber = (arr1, arr2) => arr1.map(function (num, idx) { return parseFloat(num/arr2[idx]).toFixed(4) });
+      arrayHasil.push(dividedNumber(arraySum,arrayBobotPrioritas))
+      console.log(arrayHasil)
+
+      let lambdamax = 0;
+      var total=0;
+      for(i=0; i<arrayHasil.length; i++){
+        baris = arrayHasil[i];
+        for(var j in baris) { 
+            total += parseFloat(baris[j]);
+        }
+      }
+      console.log(total); 
+      lambdamax = total/jumlah_kriteria;
+      console.log('lambdamax : ', lambdamax);
+
+      ////////////////////////////////////////////// KONSISTENSI RASIO  //////////////////////////////////////////
+
+      let ci = (lambdamax-jumlah_kriteria)/(jumlah_kriteria - 1);
+      console.log(ci)
+
+      let ordo = jumlah_kriteria;
+      let ri = 0;
+      if (ordo == 1 || ordo == 2)
+      {
+        ri = 0;
+      }
+      else if(ordo == 3)
+      {
+        ri = 0.58;
+      }
+      else if(ordo == 4)
+      {
+        ri = 0.9;
+      }
+      else if(ordo == 5)
+      {
+        ri = 1.12;
+      }
+      else if(ordo == 6)
+      {
+        ri = 1.24;
+      }
+      else if(ordo == 7)
+      {
+        ri = 1.32;
+      }
+      else if(ordo == 8)
+      {
+        ri = 1.41;
+      }
+      else if(ordo == 9)
+      {
+        ri = 1.46;
+      }
+      else{
+        ri = 1.49
+      }
+
+      let cr = ci/ri;
+      cr = parseFloat(cr).toFixed(4)
+      console.log(cr)
+      if(cr <= 0.1)
+      {
+        console.log('konsisten')
+        // $(this).prop('href', '/gethasil?data='+ JSON.stringify(hasilBobotId));
+      }
+      else
+      {
+        alert('tidak konsisten, masukan ulang')
+        // $("#hitung")[0].reset();
+        // alert("Matriks Tidak Konsisten, Masukan Perbandingan Lagi");
+
+      }
+    })
+      ////////////////////////////////////////////// KIRIM DATA AHP ////////////////////////////////////////////// 
+      
+      // function kirim() {
+      
+      // $.ajax({
+      //           headers:{    
+      //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //           },
+      //           url: 'getperhitungan',
+      //           type: 'POST',
+      //           data: { code: myArray, userid: tipekrit }
+      //           success: function(response){ // What to do if we succeed
+      //               if(data == "success")
+      //                 alert(response); 
+      //               },
+      //           error: function(response){
+      //               alert('Error'+response);
+      //               }
+      //       });
+
+      // }
+ 
+  
+      $('#lihat').click(function(e) {
       var myArray = [];
       var arrayall = [];
       var kritid = [];
@@ -609,7 +1575,7 @@
       if(cr <= 0.1)
       {
         console.log('konsisten')
-        $(this).prop('href', '/gethasil?data='+ JSON.stringify(hasilBobotId));
+        $(this).prop('href', '/getperhitungan?data='+ JSON.stringify(hasilBobotId));
       }
       else
       {
@@ -655,29 +1621,5 @@
 
 
     })
-      ////////////////////////////////////////////// KIRIM DATA AHP ////////////////////////////////////////////// 
-      
-      // function getData() {
-      
-      // $.ajax({
-      //           headers:{    
-      //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      //           },
-      //           url: 'gethasil',
-      //           type: 'POST',
-      //           data: {
-      //              data: arrayHasil 
-      //           },
-      //           success: function(response)
-      //           {
-      //             //  $('#something').html(response);
-      //             //  window.location = "{{ url('/hasilwisata') }}";
-      //           }
-      //       });
-
-      // }
- 
-  
- 
 
 </script>
