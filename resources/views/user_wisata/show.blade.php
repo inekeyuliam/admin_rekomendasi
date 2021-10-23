@@ -244,11 +244,38 @@
               <button class="w3-button w3-yellow w3-display-right" style="color:#ffa900" onclick="plusDivs(1)">&#10095;</button>
             
               </div>
-
+              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenter">Google Review Wisata</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" style="height:38vh">
+                  <div class="container">
+                  @foreach($google as $item)
+                    <div class="form-group">
+                      <p style="font-size:20px;font-weight:200; font-family:serif"> Nama : {{$item->nama}} memberikan rating <b> {{$item->rate}}</b></p>
+                      <p style="font-size:20px;font-weight:200"></p>
+                      <p style="font-size:20px;font-family:serif""><b>Review :</b> <i>" {{$item->review}} "</i> </p>
+                      <hr>
+                    </div>
+                  @endforeach
+                  </div>
+                 
+                    <div class="modal-footer">
+                      <button id="tutup" class="btn btn-primary">Tutup</button>
+                    </div>
+                  
+                  </div>
+              </div>
+            </div>
           </div>
         </div>        
       </section>
-
+      
       <section class="section section-lg bg-default text-center">
         <div class="container container-wide">
           <div class="row row-fix row-50 row-custom-bordered">
@@ -323,6 +350,52 @@
         </div>
       </section>
    
+      <section class="section section-lg text-center novi-background bg-cover">
+        <div class="container container-wide">
+          <h3>Oleh-oleh & Restoran Terdekat Wisata</h3>
+          <div class="divider divider-secondary"></div>
+          <div class="row row-50 row-xxl-90 justify-content-sm-center offset-custom-2">
+            <div class="col-sm-6 col-md-6 col-xl-3">
+              <article class="box-minimal box-minimal-border" style="padding:40px 45px 45px">
+                @foreach($oleh as $oleh2)
+                <p class="big box-minimal-title"> {{$oleh2->nama_toko}}</p>
+                <p class="team-classic-job-position" style="font-size:20px;color:black">Alamat : {{$oleh2->alamat}} </p>
+                @endforeach
+
+                @foreach($kriteria as $item)
+                @if($item->kriteria_id == 6)
+                <p class="team-classic-job-position" style="font-size:20px;color:black" >Jarak oleh-oleh dengan wisata : {{$item->nilai}} km</p>
+                @endif
+                @endforeach
+                <a class="button button-info button-nina" onclick="LocOleh2()">Petunjuk Jalan</a>
+
+              </article>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xl-3">
+            <article class="box-minimal box-minimal-border" style="padding:40px 45px 45px">
+                @foreach($resto as $item)
+                <p class="big box-minimal-title"> {{$item->nama_resto}}</p>
+                <p class="team-classic-job-position" style="font-size:20px;color:black">Alamat : {{$item->alamat}} </p>
+                <input type="hidden" value="{{$item->longitude}}" id="longres" name="longres"/>
+                <input type="hidden" value="{{$item->latitude}}" id="latres" name="latres"/>
+                @endforeach
+
+                @foreach($kriteria as $item)
+                @if($item->kriteria_id == 7)
+                <p class="team-classic-job-position" style="font-size:20px;color:black">Jarak restoran / tempat makan dengan wisata : {{$item->nilai}} km</p>
+                @endif
+                @endforeach
+                <a class="button button-info button-nina" onclick="LocResto()">Petunjuk Jalan</a>
+
+              </article>
+
+            </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section section-lg bg-default text-center">
         <div class="container container-bigger">
           <div class="row row-fix justify-content-xl-end row-30 text-center text-xl-left">
@@ -392,25 +465,28 @@
             </article>
           @endforeach
           </div>
-        </div>      <br><br><br><br>
+        </div>      
+        <br><br><br><br>
       </section>
-
+      <section class="section section-lg text-center novi-background bg-cover">
+        <a class="button button-info button-nina" onclick="LocOleh2()"> Petunjuk Jalan</a>
+      </section>
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Review Wisata</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Masukan Review Wisata</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form class="rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="{{url('review/wisata/'.$list['id'])}}">
+            <form class="rd-mailform" style="margin-top:0px"data-form-output="form-output-global" data-form-type="contact" method="post" action="{{url('review/wisata/'.$list['id'])}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <div class="modal-body">
+            <div class="modal-body" style="height:38vh">
               <div class="row row-20 row-fix">
                 <div class="col-lg-12">
                   <div class="form-wrap form-wrap-validation">
-                    <div class="form-check">Rate : </div>
+                    <label class="form-check">Rating : </label>
                     <div class="rate">
                       <input type="radio" id="star5" name="rate" value="5" />
                       <label for="star5" title="text">5 stars</label>
@@ -442,7 +518,7 @@
         </div>
       </div>
       </form>
-
+    
 
      
     </div>
@@ -455,6 +531,13 @@
 </html>
 
 <script>
+
+function LocOleh() {
+  showDivs(slideIndex += n);
+}
+function LocResto() {
+  showDivs(slideIndex += n);
+}
 var slideIndex = 1;
 showDivs(slideIndex);
 
@@ -484,4 +567,7 @@ $('.stars a').on('click', function(){
   $(this).addClass('active');
   $('.stars span').addClass('active');
 });
+
+$('#tutup').modal('hide');
+
 </script>

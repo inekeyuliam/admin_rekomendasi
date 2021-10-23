@@ -162,6 +162,17 @@
                       <input type="hidden" name="review_text4" id="review_text4">
                       <input type="hidden" name="review_rate4" id="review_rate4">
 
+                      <input type="hidden" name="oleh_nama" id="oleh_nama">
+                      <input type="hidden" name="oleh_alamat" id="oleh_alamat">
+                      <input type="hidden" name="oleh_long" id="oleh_long">
+                      <input type="hidden" name="oleh_lat" id="oleh_lat">
+
+                      <input type="hidden" name="resto_nama" id="resto_nama">
+                      <input type="hidden" name="resto_alamat" id="resto_alamat">
+                      <input type="hidden" name="resto_long" id="resto_long">
+                      <input type="hidden" name="resto_lat" id="resto_lat">
+
+
                       <button class="btn btn-primary pull-right" type="submit">Simpan</button>
                       <div class="clearfix"></div>
                   </div>
@@ -321,7 +332,8 @@ $(function() {
           
           var request = {
             location: pyrmont,
-            type: ['restaurant'],
+            query: "restoran",
+            type: ['restaurant','food'],
             rankBy: google.maps.places.RankBy.DISTANCE
 
           };
@@ -351,6 +363,12 @@ $(function() {
           }
           var long =  parseFloat($('#long').val());
           var lat =  parseFloat($('#lat').val());
+          console.log(results[0])
+          $('#resto_nama').val(results[0].name)
+          $('#resto_alamat').val(results[0].vicinity)
+          $('#resto_long').val(long)
+          $('#resto_lat').val(lat)
+        
           latlngfood = results[0].geometry.location.lat() +', '+results[0].geometry.location.lng();
           latlngorigin = lat + ', '+ long;
           calculateDistance1(latlngorigin, latlngfood)
@@ -368,6 +386,13 @@ $(function() {
           }
           var long =  parseFloat($('#long').val());
           var lat =  parseFloat($('#lat').val());
+          console.log(results[0].name)
+
+          $('#oleh_nama').val(results[0].name)
+          $('#oleh_alamat').val(results[0].vicinity)
+          $('#oleh_long').val(long)
+          $('#oleh_lat').val(lat)
+
           latlngfood = results[0].geometry.location.lat() +', '+results[0].geometry.location.lng();
           latlngorigin = lat + ', '+ long;
           calculateDistance2(latlngorigin, latlngfood)

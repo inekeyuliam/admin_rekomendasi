@@ -268,7 +268,7 @@ a[href*='callto'], a[href*='mailto'] {
 img {
 	display: inline-block;
 	max-width: 100%;
-	height: auto;
+	/* height: auto; */
 }
 
 hr {

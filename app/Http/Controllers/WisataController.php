@@ -18,6 +18,9 @@ use App\DetailKriteria;
 use App\Kriteria;
 use App\GoogleReviewWisata;
 use App\ReviewWisata;
+use App\OlehOlehWisata;
+use App\RestoWisata;
+
 use App\KriteriaWisata;
 use App\HargaWisata;
 use App\Utilities\GoogleMaps;
@@ -80,27 +83,10 @@ class WisataController extends Controller
         
         $client = new Client(); //GuzzleHttp\Client
       
-
         $iduser = Auth::user()->id;
-        $rev_name0 = $request->get('review_nama0');
-        $rev_name1 = $request->get('review_nama1');
-        $rev_name2 = $request->get('review_nama2');
-        $rev_name3 = $request->get('review_nama3');
-        $rev_name4 = $request->get('review_nama4');
-        // dd($rev_name1);
-        $rev_text0 = $request->get('review_text0');
-        $rev_text1 = $request->get('review_text1');
-        $rev_text2 = $request->get('review_text2');
-        $rev_text3 = $request->get('review_text3');
-        $rev_text4 = $request->get('review_text4');
         
-        $rev_rate0 = $request->get('review_rate0');
-        $rev_rate1 = $request->get('review_rate1');
-        $rev_rate2 = $request->get('review_rate2');
-        $rev_rate3 = $request->get('review_rate3');
-        $rev_rate4 = $request->get('review_rate4');
-        // dd($rev_rate0);
-
+        $weekend = $request->get('weekend');
+        $weekdays = $request->get('weekdays');
         $nama_wis = $request->get('nama');
         $tipe_wis = $request->get('tipe');
         $alamat = $request->get('alamat');
@@ -135,6 +121,37 @@ class WisataController extends Controller
         $wis->save();
         $id = $wis->id;
 
+        HargaWisata::create([
+            'wisata_id'=>$id,
+            'jenis_harga'=>'Weekday',
+            'harga_masuk'=>$weekdays
+        ]);
+
+        HargaWisata::create([
+            'wisata_id'=>$id,
+            'jenis_harga'=>'Weekend',
+            'harga_masuk'=>$weekend
+        ]);
+
+        //5 reviews google
+
+        $rev_name0 = $request->get('review_nama0');
+        $rev_name1 = $request->get('review_nama1');
+        $rev_name2 = $request->get('review_nama2');
+        $rev_name3 = $request->get('review_nama3');
+        $rev_name4 = $request->get('review_nama4');
+
+        $rev_text0 = $request->get('review_text0');
+        $rev_text1 = $request->get('review_text1');
+        $rev_text2 = $request->get('review_text2');
+        $rev_text3 = $request->get('review_text3');
+        $rev_text4 = $request->get('review_text4');
+        
+        $rev_rate0 = $request->get('review_rate0');
+        $rev_rate1 = $request->get('review_rate1');
+        $rev_rate2 = $request->get('review_rate2');
+        $rev_rate3 = $request->get('review_rate3');
+        $rev_rate4 = $request->get('review_rate4');
 
         GoogleReviewWisata::create([
             'wisata_id'=>$id,
@@ -187,7 +204,35 @@ class WisataController extends Controller
                 'detail_kriteria_id'=>$value
             ]);
         }
-        
+        $oleh_lat =$request->get('oleh_lat');
+        $oleh_long =$request->get('oleh_long');
+        $oleh_alamat =$request->get('oleh_alamat');
+        $oleh_nama =$request->get('oleh_nama');
+        // dd($oleh_nama);
+        // dd($detail_krit);
+        OlehOlehWisata::create([
+                'wisata_id'=>$id,
+                'nama_toko'=>$oleh_nama,
+                'alamat'=>$oleh_alamat,
+                'longitude'=>$oleh_long,
+                'latitude'=>$oleh_lat,
+        ]);
+
+        $resto_lat =$request->get('resto_lat');
+        $resto_long =$request->get('resto_long');
+        $resto_alamat =$request->get('resto_alamat');
+        $resto_nama =$request->get('resto_nama');
+        // dd($detail_krit);
+   
+        RestoWisata::create([
+                'wisata_id'=>$id,
+                'nama_resto'=>$resto_nama,
+                'alamat'=>$resto_alamat,
+                'longitude'=>$resto_long,
+                'latitude'=>$resto_lat,
+        ]);
+     
+
         $files = $request->file('filename');
         if(! is_null(request('filename')))
         {
@@ -208,6 +253,7 @@ class WisataController extends Controller
                 $entry->save();
           }
         }
+
         return redirect('wisata')->withSuccessMessage('Wisata Berhasil ditambahkan!');
     }
 
@@ -369,6 +415,9 @@ class WisataController extends Controller
         $googlewisata = GoogleReviewWisata::with('wisatas')->where('wisata_id',$id)->delete();
         $hargawisata = HargaWisata::with('wisatas')->where('wisata_id',$id)->delete();
         $kriteriawisata = KriteriaWisata::with('wisatas')->where('wisata_id',$id)->delete();
+        $olehawisata = OlehOlehWisata::with('wisatas')->where('wisata_id',$id)->delete();
+        $restowisata = RestoWisata::with('wisatas')->where('wisata_id',$id)->delete();
+
         $wis->delete();
         return redirect('wisata');
 
@@ -385,4 +434,6 @@ class WisataController extends Controller
         $pdf = PDF::loadview('wisata.laporan_pdf',['listwis'=>$list])->setPaper('a4', 'landscape');;
         return $pdf->download('laporan-wisata-pdf');
     }
+
+    
 }

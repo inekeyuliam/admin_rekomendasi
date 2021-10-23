@@ -380,7 +380,9 @@
                   <h4 style="text-align:center;font-family:serif;font-size:24px;font-weight:500 ">{{ $item->nama_wisata }}</h4><br>
                   <div class="col-md-10 col-lg-6 mx-auto d-block">
                     @foreach($gambar1 as $key => $item2)
+                    @if($key==0)
                         <img src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt=''"/>
+                    @endif
                     @endforeach
                   </div>                 <br>
 
@@ -433,7 +435,10 @@
                   <h4 style="text-align:center;font-family:serif;font-size:25px;font-weight:500 ">{{ $item->nama_wisata }}</h4><br>
                   <div class="col-md-10 col-lg-6 mx-auto d-block">
                     @foreach($gambar2 as $key => $item2)
+                    @if($key==0)
+
                         <img  src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt=''"/>
+                    @endif
                     @endforeach
                   </div>                 <br>
 
@@ -486,7 +491,9 @@
                   <h4 style="text-align:center;font-family:serif;font-size:24px;font-weight:500 ">{{ $item->nama_wisata }}</h4><br>
                   <div class="col-md-10 col-lg-6 mx-auto d-block">
                     @foreach($gambar3 as $key => $item2)
+                    @if($key==0)
                         <img src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt=''"/>
+                    @endif
                     @endforeach
                   </div>                 <br>
 
@@ -645,59 +652,7 @@
         <div class="row row-100 justify-content-md-center align-items-lg-center flex-lg-row-reverse">
             <div class="col-xl-10"></div>
         </div>
-          <!-- <div class="row row-50 justify-content-md-center align-items-lg-center justify-content-xl-between flex-lg-row-reverse">
-            <div class="col-md-10 col-lg-6 col-xl-5">
-              <h3><a href="{{url('wisata/'.$item->id)}}">{{ $item->nama_wisata }}</a></h3>
-              <div class="divider divider-decorate" ></div>
-             @if($item->rating == 4.5 || $item->rating > 4.5 )
-              <p class="heading-5">  
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                {{$item->rating}} / 5</p>
-              @elseif($item->rating == 4.0 || $item->rating < 4.5  )
-                <p class="heading-5">  
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  {{$item->rating}} / 5</p>
-              @elseif($item->rating == 3.0 || $item->rating < 4.0  )
-                <p class="heading-5">  
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  {{$item->rating}} / 5</p> 
-              @elseif($item->rating == 2.0 || $item->rating < 3.0  )
-                <p class="heading-5">  
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  {{$item->rating}} / 5</p> 
-              @elseif($item->rating == 1.0 || $item->rating < 2.0  )
-                <p class="heading-5">  
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  {{$item->rating}} / 5</p>              
-              @endif
-              <p class="text-spacing-sm">Alamat : {{$item->alamat}}</p><br>
-              <a class="button button-default-outline button-nina" href="{{url('wisata/'.$item->id)}}">Lihat Wisata</a>
-              <a class="button button-secondary-outline pull-right compare_card{{$item->id}}" id="compare" rel="{{$item->id}}" ><span class="fa fa-plus checked"></span> Bandingkan</a>
-
-            </div>
-            <div class="col-md-10 col-lg-6"><img src="{{asset('images/about-us-1-720x459.jpg')}}" alt="" width="720" height="459"/>
-            </div>
-          </div> -->
+       
         </div><br><br>
       </section>
       

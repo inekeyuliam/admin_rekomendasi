@@ -4228,7 +4228,7 @@ button.close {
 	position: relative;
 	flex: 1 1 auto;
 	padding: 15px;
-	height: 50vh;
+	height: 45vh;
 	max-width: 100% !important;
     overflow-y: auto;
 }

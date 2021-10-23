@@ -8,6 +8,7 @@ use App\KotaKabupaten;
 use App\Wisata;
 use App\TipeWisata;
 use App\Kriteria;
+use App\TrenWisata;
 use App\ReviewWisata;
 use App\DetailKriteriaWisata;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -17,6 +18,8 @@ use App\Traits\PaginationTrait;
 
 class RekomendasiWisataController extends Controller
 {
+  use \Znck\Eloquent\Traits\BelongsToThrough;
+
   use PaginationTrait;
 
     /**
@@ -290,8 +293,8 @@ class RekomendasiWisataController extends Controller
         }
       }
       $result = collect($result);
-      $users = $result->sortByDesc('pref')->toArray();
-      $sorted = $this->paginate($users, 3); // 3 data per page.
+      $sorted = $result->sortByDesc('pref')->toArray();
+      // $sorted = $this->paginate($users, 3); // 3 data per page.
       $kriteriadipilih = DB::table('kriterias')
       ->whereIn('id', $idkriteria)->get();
       return view('user_wisata.hasil',['ranking'=>$sorted, 'kritwis'=>$kriteriadipilih]);
@@ -705,19 +708,19 @@ class RekomendasiWisataController extends Controller
           ->where('detail_kriteria_wisatas.wisata_id','=',$iddipilih[2])->get();
           $kriteriawis1 = DB::table('wisatas')
           ->join('kriteria_wisatas', 'kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
-          ->join('kriterias', 'kriteria_wisatas.wisata_id', '=', 'kriterias.id')          
+          ->join('kriterias', 'kriteria_wisatas.kriteria_id', '=', 'kriterias.id')          
           ->orderBy('kriteria_wisatas.kriteria_id', 'ASC')
           ->where('wisatas.id', '=',$iddipilih[0])
           ->get();
           $kriteriawis2 = DB::table('wisatas')
           ->join('kriteria_wisatas', 'kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
-          ->join('kriterias', 'kriteria_wisatas.wisata_id', '=', 'kriterias.id')
+          ->join('kriterias', 'kriteria_wisatas.kriteria_id', '=', 'kriterias.id')
           ->orderBy('kriteria_wisatas.kriteria_id', 'ASC')
           ->where('wisatas.id', '=', $iddipilih[1])
           ->get();
           $kriteriawis3 = DB::table('wisatas')
           ->join('kriteria_wisatas', 'kriteria_wisatas.wisata_id', '=', 'wisatas.id')            
-          ->join('kriterias', 'kriteria_wisatas.wisata_id', '=', 'kriterias.id')
+          ->join('kriterias', 'kriteria_wisatas.kriteria_id', '=', 'kriterias.id')
           ->orderBy('kriteria_wisatas.kriteria_id', 'ASC')
           ->where('wisatas.id', '=', $iddipilih[2])
           ->get();
@@ -733,6 +736,7 @@ class RekomendasiWisataController extends Controller
           ->join('wisatas', 'gambar_wisatas.wisata_id','=','wisatas.id')
           ->where('wisatas.id', '=', $iddipilih[2])
           ->get();
+          // dd($kriteriawis3);
           return view('user_wisata.compare',['gambar1'=>$gambar1, 'gambar2' => $gambar2,'gambar3' =>$gambar3,'detwis1'=>$detwis1, 'detwis2' => $detwis2,'detwis3' =>$detwis3,
           'kriteria'=>$kriteria,'countwis'=>$countwis,'wis1'=>$wis1 , 'wis2' =>$wis2, 'wis3' =>$wis3,  
           'kriteriawis1'=>$kriteriawis1 , 'kriteriawis2' =>$kriteriawis2, 'kriteriawis3' =>$kriteriawis3]);
@@ -771,13 +775,27 @@ class RekomendasiWisataController extends Controller
       ->join('wisatas', 'review_wisatas.wisata_id','=','wisatas.id')
       ->where('wisatas.id','=',$wis->id)
       ->get();
+      $googlereviewwisata = DB::table('google_review_wisatas')
+      ->join('wisatas', 'google_review_wisatas.wisata_id','=','wisatas.id')
+      ->where('wisatas.id','=',$wis->id)
+      ->get();
       $fasiwisata = DB::table('detail_kriteria_wisatas')
       ->join('wisatas', 'detail_kriteria_wisatas.wisata_id','=','wisatas.id')
       ->join('detail_kriterias','detail_kriteria_wisatas.detail_kriteria_id','=','detail_kriterias.id')
       ->where('wisatas.id','=',$wis->id)
       ->get();
-      return view('user_wisata.show',['list' => $wis, 'fasilitas' => $fasiwisata,
-      'gambar' => $gambarwisata, 'harga' => $hargawisata, 'review' => $reviewwisata]);
+      $olehwisata = DB::table('oleh_oleh_terdekats')
+      ->where('wisata_id',$wis->id)
+      ->get();
+      $kritwisata = DB::table('kriteria_wisatas')
+      ->where('wisata_id',$wis->id)
+      ->get();
+      $restowisata = DB::table('restoran_terdekats')
+      ->where('wisata_id',$wis->id)
+      ->get();
+      // dd($kritwisata);
+      return view('user_wisata.show',['kriteria'=>$kritwisata,'oleh'=>$olehwisata,'resto'=>$restowisata,'list' => $wis, 'fasilitas' => $fasiwisata,
+      'gambar' => $gambarwisata, 'harga' => $hargawisata, 'review' => $reviewwisata,'google' => $googlereviewwisata]);
     }
     /**
      * Show the form for editing the specified resource.
@@ -830,9 +848,10 @@ class RekomendasiWisataController extends Controller
       $wisata = Wisata::with('gambar_wisatas')->whereHas('kelurahans.kecamatans.kabupatens',
       function ($q){
           $q->select('*');
-      })->simplePaginate(3);
+      })->get();
       $tipewis = DB::table('tipe_wisatas')->get();
       $detailwisata = DB::table('detail_kriterias')->where('kriteria_id',1)->get();
+      // dd($wisata);
       return view('user_wisata.daftar',['wisata'=>$wisata, 'tipewis'=>$tipewis, 'detail'=>$detailwisata]);
     }
 
@@ -845,169 +864,707 @@ class RekomendasiWisataController extends Controller
       $max = $request->get('maxtiket');
       $waktu = $request->get('waktu');
       $fasi = $request->get('fasi');
-
       $kabupaten = KotaKabupaten::all();
-      $wisata = Wisata::with(['kelurahans.kecamatans.kabupatens','gambar_wisatas','detail_kriteria_wisatas'])->whereHas('tipe_wisatas',
-      function ($q) use($fasi,$tipe_id,$kota,$rate_,$min,$max,$waktu){
+      $tipewis = DB::table('tipe_wisatas')->get();
+      $detailwisata = DB::table('detail_kriterias')->where('kriteria_id',1)->get();
 
-        //semua dipilih
-        if(!empty($tipe_id) && !empty($fasi) &&  !empty($rate_) && !empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
-        {
+      //dipilih semua
+      if($tipe_id != null && $fasi != null && $rate_ != null && $kota!= null && $waktu!= null && $min!= null && $max!= null)
+      {
           if($waktu==1)
           {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)->whereIn('detail_kriteria_wisatas.detail_kriteria_id',$fasi)
-            ->whereBetween('wisatas.harga_masuk', [$min, $max])->where('wisatas.jam_buka','>=','08:00')->where('wisatas.rating','>=',(float)$rate_);
+            $wisata =  Wisata::with('gambar_wisatas' )->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+              $q->whereIn('id',$tipe_id);
+            })->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+              $q->whereIn('detail_kriteria_id', $fasi);
+            })->whereHas('kotas', function ($q) use ($kota){
+              $q->whereIn('kabupatens.id', $kota);
+            })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+              $q->whereBetween('harga_masuk', [$min,$max]);
+            })->where([
+              ['jam_buka','>=', '08:00'],
+              ['rating','>=',(float)$rate_]
+            ])->get();         
           }
           else
           {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)->whereIn('detail_kriteria_wisatas.detail_kriteria_id',$fasi)
-            ->whereBetween('wisatas.harga_masuk', [$min, $max])->where('wisatas.jam_buka','>=','15:00')->where('wisatas.rating','>=',(float)$rate_);
+            $wisata =  Wisata::with('gambar_wisatas' )->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+              $q->whereIn('id',$tipe_id);
+            })->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+              $q->whereIn('detail_kriteria_id', $fasi);
+            })->whereHas('kotas', function ($q) use ($kota){
+              $q->whereIn('kabupatens.id', $kota);
+            })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+              $q->whereBetween('harga_masuk', [$min,$max]);
+            })->where([
+              ['jam_buka','>=', '15:00'],
+              ['rating','>=',(float)$rate_]
+            ])->get();  
           }
-        }
+      }
 
-        //jika satu tidak diisi
-        else if(empty($tipe_id) && !empty($rate_) && !empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
-        {
-          if($waktu==1)
-          {
-            $q->whereIn('kabupatens.id',$kota)
-          ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','08:00')->where('wisatas.rating','>=',(float)$rate_);
-          }
-          else
-          {
-            $q->whereIn('kabupatens.id',$kota)
-            ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','15:00')->where('wisatas.rating','>=',(float)$rate_);
-          }
-        }
-        else if(!empty($tipe_id) && empty($rate_) && !empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
-        {
-          if($waktu==1)
-          {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)
-          ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','08:00');
-          }
-          else
-          {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)
-            ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','15:00');
-          }
-        }
-        else if(!empty($tipe_id) && !empty($rate_) && empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
-        {
-          if($waktu==1)
-          {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)
-          ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','08:00')->where('wisatas.rating','>=',(float)$rate_);
-          }
-          else
-          {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)
-            ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','15:00')->where('wisatas.rating','>=',(float)$rate_);
-          }
-        }
-        else if(!empty($tipe_id) && !empty($rate_) && !empty($kota) && empty($waktu) && !empty($min) && !empty($max))
-        {
-         
-          $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)
-          ->whereBetween('harga_masuk', [$min, $max])->where('wisatas.rating','>=',(float)$rate_);
-        }
-
-        //jika dua tidak diisi
-        else if(empty($tipe_id) && empty($rate_) && !empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
-        {
-          if($waktu==1)
-          {
-            $q->whereIn('kabupatens.id',$kota)
-          ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','08:00');
-          }
-          else
-          {
-            $q->whereIn('kabupatens.id',$kota)
-            ->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','15:00');
-          }
-        }
-        else if(empty($tipe_id) && !empty($rate_) && empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
-        {
-          if($waktu==1)
-          {
-            $q->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','08:00')->where('wisatas.rating','>=',(float)$rate_);
-          }
-          else
-          {
-            $q->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','15:00')->where('wisatas.rating','>=',(float)$rate_);
-          }
-        }
-        else if(empty($tipe_id) && !empty($rate_) && !empty($kota) && empty($waktu) && !empty($min) && !empty($max))
-        {
-          $q->whereIn('kabupatens.id',$kota)->whereBetween('harga_masuk', [$min, $max])->where('wisatas.rating','>=',(float)$rate_);
-        }
-        else if(!empty($tipe_id) && empty($rate_) && empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
-        {
-          if($waktu==1)
-          {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','08:00');
-          }
-          else
-          {
-            $q->whereIn('tipe_wisatas.id', $tipe_id)->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','15:00');
-          }
-        }
-        else if(!empty($tipe_id) && empty($rate_) && !empty($kota) && empty($waktu) && !empty($min) && !empty($max))
-        {
-          $q->whereIn('tipe_wisatas.id', $tipe_id)->whereIn('kabupatens.id',$kota)->whereBetween('harga_masuk', [$min, $max]);
-        }
-        else if(!empty($tipe_id) && !empty($rate_) && empty($kota) && empty($waktu) && !empty($min) && !empty($max))
-        {
-          $q->whereIn('tipe_wisatas.id', $tipe_id)->whereBetween('harga_masuk', [$min, $max])->where('wisatas.rating','>=',(float)$rate_);
-        }
-
-        //jika tiga tidak diisi
-        else if(empty($tipe_id) && empty($rate_) && empty($kota) && !empty($waktu) && !empty($min) && !empty($max))
-        {
-          if($waktu==1)
-          {
-            $q->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','08:00');
-          }
-          else
-          {
-            $q->whereBetween('harga_masuk', [$min, $max])->where('jam_buka','>=','15:00');
-          }
-        }
-        else if(empty($tipe_id) && empty($rate_) && !empty($kota) && empty($waktu) && !empty($min) && !empty($max))
-        {
+      //pilih 1 filter 
+      else if($tipe_id != null && $fasi == null  && $rate_ == null && $kota== null && $waktu== null && $min != null && $max != null)
+      {
+        $wisata =  Wisata::with('gambar_wisatas')
+        ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+          $q->whereIn('id',$tipe_id);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id == null && $fasi != null  && $rate_ == null && $kota== null && $waktu== null && $min != null && $max != null)
+      {
+  
+        $wisata =  Wisata::with('gambar_wisatas' )
+        ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+          $q->whereIn('detail_kriteria_id', $fasi);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id == null && $fasi == null  && $rate_ != null && $kota== null && $waktu== null && $min != null && $max != null)
+      {
         
-          $q->whereIn('kabupatens.id',$kota)->whereBetween('harga_masuk', [$min, $max]);
-         
-        }
-        else if(empty($tipe_id) && !empty($rate_) && empty($kota) && empty($waktu) && !empty($min) && !empty($max))
+        $wisata =  Wisata::with('gambar_wisatas' )
+        ->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->where([
+          ['rating','>=',(float)$rate_]
+        ])->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id == null && $fasi == null  && $rate_ == null && $kota!= null && $waktu== null && $min != null && $max != null)
+      {
+    
+        $wisata =  Wisata::with('gambar_wisatas' )
+        ->whereHas('kotas', function ($q) use ($kota){
+          $q->whereIn('kabupatens.id', $kota);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id == null && $fasi == null  && $rate_ == null && $kota== null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu==1)
         {
-          
-          $q->whereBetween('harga_masuk', [$min, $max])->where('wisatas.rating','>=',(float)$rate_);
-         
-        }
-        else if(!empty($tipe_id) && empty($rate_) && empty($kota) && empty($waktu) && !empty($min) && !empty($max))
-        {
-          $q->whereIn('tipe_wisatas.id', $tipe_id)->whereBetween('harga_masuk', [$min, $max]);
+          $wisata =  Wisata::with('gambar_wisatas' )
+          ->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '08:00']
+          ])->get();  
         }
         else
         {
-          $q->whereBetween('harga_masuk', [$min, $max]);
+          $wisata =  Wisata::with('gambar_wisatas' )
+          ->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '15:00']
+          ])->get();  
+        }       
+      }
+
+      //pilih 2 filter (1 tipe 1 lain)
+      else if($tipe_id != null && $fasi != null  && $rate_ == null && $kota== null && $waktu== null && $min != null && $max != null)
+      {
+        $wisata =  Wisata::with('gambar_wisatas')
+        ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+          $q->whereIn('id',$tipe_id);
+        })->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+          $q->whereIn('detail_kriteria_id', $fasi);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id != null && $fasi == null  && $rate_ != null && $kota== null && $waktu== null && $min != null && $max != null)
+      {
+        $wisata =  Wisata::with('gambar_wisatas')
+        ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+          $q->whereIn('id',$tipe_id);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->where([
+          ['rating','>=',(float)$rate_]
+        ])->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id != null && $fasi == null  && $rate_== null && $kota!= null && $waktu== null && $min != null && $max != null)
+      {
+        $wisata =  Wisata::with('gambar_wisatas')
+        ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+          $q->whereIn('id',$tipe_id);
+        })->whereHas('kotas', function ($q) use ($kota){
+          $q->whereIn('kabupatens.id', $kota);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id != null && $fasi == null  && $rate_== null && $kota== null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu==1)
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '08:00']
+          ])->get(); 
         }
-      })->simplePaginate(9);
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '15:00']
+          ])->get(); 
+        } 
+        // dd($wisata);
+      }
+
+      // 2 filter (1 fasi 1 lain)
+      else if($tipe_id == null && $fasi != null  && $rate_ != null && $kota== null && $waktu== null && $min != null && $max != null)
+      {
+  
+        $wisata =  Wisata::with('gambar_wisatas' )
+        ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+          $q->whereIn('detail_kriteria_id', $fasi);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->where([
+          ['rating','>=',(float)$rate_]
+        ])->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id == null && $fasi != null  && $rate_ == null && $kota!= null && $waktu== null && $min != null && $max != null)
+      {
+  
+        $wisata =  Wisata::with('gambar_wisatas' )
+        ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+          $q->whereIn('detail_kriteria_id', $fasi);
+        })->whereHas('kotas', function ($q) use ($kota){
+          $q->whereIn('kabupatens.id', $kota);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id == null && $fasi != null  && $rate_ == null && $kota== null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu==1)
+        {
+          $wisata =  Wisata::with('gambar_wisatas' )
+          ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('detail_kriteria_id', $fasi);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '08:00']
+          ])->get();  
+        }
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas' )
+          ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('detail_kriteria_id', $fasi);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '15:00']
+          ])->get();   
+        }
+        // dd($wisata);
+      }
+
+      // 2 filter (1 rate 1 lain)
+      else if($tipe_id == null && $fasi == null  && $rate_ != null && $kota!= null && $waktu== null && $min != null && $max != null)
+      {
+        
+        $wisata =  Wisata::with('gambar_wisatas' )
+        ->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->whereHas('kotas', function ($q) use ($kota){
+          $q->whereIn('kabupatens.id', $kota);
+        })->where([
+          ['rating','>=',(float)$rate_]
+        ])->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id == null && $fasi == null  && $rate_ != null && $kota== null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu == 1)
+        {
+          $wisata =  Wisata::with('gambar_wisatas' )
+          ->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '08:00']
+          ])->get(); 
+        }
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas' )
+          ->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '15:00']
+          ])->get(); 
+        }
+         
+        // dd($wisata);
+      }
+
+      // 2 filter (1 kota 1 lain)
+      else if($tipe_id == null && $fasi == null  && $rate_ == null && $kota!= null && $waktu!= null && $min != null && $max != null)
+      {
+        if( $waktu == 1)
+        {
+          $wisata =  Wisata::with('gambar_wisatas' )
+          ->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '08:00']
+          ])->get(); 
+        }
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas' )
+          ->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '15:00']
+          ])->get(); 
+        }
+        
+        // dd($wisata);
+      }
+
+
+      //3 filter (1 tipe 1 fasi dan 1 lain)
+      else if($tipe_id != null && $fasi != null  && $rate_ != null && $kota== null && $waktu== null && $min != null && $max != null)
+      {
+        $wisata =  Wisata::with('gambar_wisatas')
+        ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+          $q->whereIn('id',$tipe_id);
+        })->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+          $q->whereIn('detail_kriteria_id', $fasi);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->where([
+          ['rating','>=',(float)$rate_]
+        ])->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id != null && $fasi != null  && $rate_ == null && $kota!= null && $waktu== null && $min != null && $max != null)
+      {
+        $wisata =  Wisata::with('gambar_wisatas')
+        ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+          $q->whereIn('id',$tipe_id);
+        })->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+          $q->whereIn('detail_kriteria_id', $fasi);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->whereHas('kotas', function ($q) use ($kota){
+          $q->whereIn('kabupatens.id', $kota);
+        })->get();  
+        // dd($wisata);
+      }
+      else if($tipe_id != null && $fasi != null  && $rate_ == null && $kota== null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu==1)
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('detail_kriteria_id', $fasi);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '08:00']
+          ])->get();
+        }
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('detail_kriteria_id', $fasi);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '015:00']
+          ])->get();
+        }
+          
+        // dd($wisata);
+      }
+
+      //3 filter (1 tipe 1 rate dan 1 lain)
+      else if($tipe_id != null && $fasi == null  && $rate_ != null && $kota!= null && $waktu== null && $min != null && $max != null)
+      {
+        
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+          ])->get();  
+        
+          
+        // dd($wisata);
+      }
+      else if($tipe_id != null && $fasi == null  && $rate_ != null && $kota== null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu == 1)
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '08:00']
+          ])->get();  
+        }
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '08:00']
+          ])->get();  
+        }
+       
+      }
+      else if($tipe_id != null && $fasi == null  && $rate_ == null && $kota!= null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu == 1)
+          {
+            $wisata =  Wisata::with('gambar_wisatas')
+            ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+              $q->whereIn('id',$tipe_id);
+            })->whereHas('kotas', function ($q) use ($kota){
+              $q->whereIn('kabupatens.id', $kota);
+            })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+              $q->whereBetween('harga_masuk', [$min,$max]);
+            })->where([
+              ['jam_buka','>=', '08:00']
+            ])->get();  
+          }
+          else
+          {
+            $wisata =  Wisata::with('gambar_wisatas')
+            ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+              $q->whereIn('id',$tipe_id);
+            })->whereHas('kotas', function ($q) use ($kota){
+              $q->whereIn('kabupatens.id', $kota);
+            })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+              $q->whereBetween('harga_masuk', [$min,$max]);
+            })->where([
+              ['jam_buka','>=', '15:00']
+            ])->get();  
+          }
+       
+      }
+
+      //3 filter (1 fasi 1 rate dan 1 lain)
+      else if($tipe_id == null && $fasi != null  && $rate_!= null && $kota!= null && $waktu== null && $min != null && $max != null)
+      {
+        $wisata =  Wisata::with('gambar_wisatas')
+        ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+          $q->whereIn('id',$fasi);
+        })->whereHas('kotas', function ($q) use ($kota){
+          $q->whereIn('kabupatens.id', $kota);
+        })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->where([
+          ['rating','>=',(float)$rate_]
+        ])->get();   
+        // dd($wisata);
+      }
+      else if($tipe_id == null && $fasi != null  && $rate_!= null && $kota== null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu == 0)
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('id',$fasi);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '08:00']
+          ])->get(); 
+        }
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('id',$fasi);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '15:00']
+          ])->get(); 
+        }
+          
+        // dd($wisata);
+      }
+
+      //3 filter (1 fasi 1 kota dan 1 lain)
+      else if($tipe_id == null && $fasi != null  && $rate_ == null && $kota!= null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu == 1)
+          {
+            $wisata =  Wisata::with('gambar_wisatas')
+            ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+              $q->whereIn('id',$fasi);
+            })->whereHas('kotas', function ($q) use ($kota){
+              $q->whereIn('kabupatens.id', $kota);
+            })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+              $q->whereBetween('harga_masuk', [$min,$max]);
+            })->where([
+              ['jam_buka','>=', '08:00']
+            ])->get();  
+          }
+          else
+          {
+            $wisata =  Wisata::with('gambar_wisatas')
+            ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+              $q->whereIn('id',$fasi);
+            })->whereHas('kotas', function ($q) use ($kota){
+              $q->whereIn('kabupatens.id', $kota);
+            })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+              $q->whereBetween('harga_masuk', [$min,$max]);
+            })->where([
+              ['jam_buka','>=', '15:00']
+            ])->get();  
+          }
+       
+      }
+
+      //3 filter (1 rate 1 kota dan 1 lain)
+      else if($tipe_id == null && $fasi == null  && $rate_ != null && $kota!= null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu == 1)
+          {
+            $wisata =  Wisata::with('gambar_wisatas')
+            ->whereHas('kotas', function ($q) use ($kota){
+              $q->whereIn('kabupatens.id', $kota);
+            })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+              $q->whereBetween('harga_masuk', [$min,$max]);
+            })->where([
+              ['rating','>=',(float)$rate_],
+              ['jam_buka','>=', '08:00']
+            ])->get();  
+          }
+          else
+          {
+            $wisata =  Wisata::with('gambar_wisatas')
+            ->whereHas('kotas', function ($q) use ($kota){
+              $q->whereIn('kabupatens.id', $kota);
+            })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+              $q->whereBetween('harga_masuk', [$min,$max]);
+            })->where([
+              ['rating','>=',(float)$rate_],
+              ['jam_buka','>=', '15:00']
+            ])->get();  
+          }
+       
+      }
+
+      //4 filter (tipe,fasi,rate, lain)
+      else if($tipe_id != null && $fasi != null  && $rate_!= null && $kota!= null && $waktu== null && $min != null && $max != null)
+      {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('id',$fasi);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+          ])->get(); 
+        // dd($wisata);
+      }
+      else if($tipe_id != null && $fasi != null  && $rate_!= null && $kota== null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu==1)
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('id',$fasi);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '08:00']
+          ])->get(); 
+        }
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('id',$fasi);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '15:00']
+          ])->get(); 
+        } 
+        // dd($wisata);
+      }
+      //4 filter (tipe,fasi,kota, lain)
+      else if($tipe_id != null && $fasi != null  && $rate_== null && $kota!= null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu==1)
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('id',$fasi);
+          })->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '08:00']
+          ])->get(); 
+        }
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+            $q->whereIn('id',$fasi);
+          })->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['jam_buka','>=', '15:00']
+          ])->get(); 
+        }
+        // dd($wisata);
+      }
+
+      //4 filter (tipe,rate,kota, lain)
+      else if($tipe_id != null && $fasi == null  && $rate_!= null && $kota!= null && $waktu!= null && $min != null && $max != null)
+      {
+        if($waktu==1)
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '08:00']
+          ])->get(); 
+        }
+        else
+        {
+          $wisata =  Wisata::with('gambar_wisatas')
+          ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+            $q->whereIn('id',$tipe_id);
+          })->whereHas('kotas', function ($q) use ($kota){
+            $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+            $q->whereBetween('harga_masuk', [$min,$max]);
+          })->where([
+            ['rating','>=',(float)$rate_],
+            ['jam_buka','>=', '15:00']
+          ])->get(); 
+        } 
+        // dd($wisata);
+      }
+       //4 filter (fasi,rate,kota, lain)
+      else if($tipe_id == null && $fasi != null  && $rate_!= null && $kota!= null && $waktu!= null && $min != null && $max != null)
+      {
+         if($waktu==1)
+         {
+           $wisata =  Wisata::with('gambar_wisatas')
+           ->whereHas('detail_kriteria_wisatas', function ($q) use ($fasi){
+             $q->whereIn('id',$fasi);
+          })->whereHas('kotas', function ($q) use ($kota){
+              $q->whereIn('kabupatens.id', $kota);
+          })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+             $q->whereBetween('harga_masuk', [$min,$max]);
+           })->where([
+            ['rating','>=',(float)$rate_],
+             ['jam_buka','>=', '08:00']
+           ])->get(); 
+         }
+         else
+         {
+           $wisata =  Wisata::with('gambar_wisatas')
+           ->whereHas('tipe_wisatas', function ($q) use ($tipe_id){
+             $q->whereIn('id',$tipe_id);
+           })->whereHas('harga_wisatas', function ($q) use ($min, $max){
+             $q->whereBetween('harga_masuk', [$min,$max]);
+           })->where([
+             ['jam_buka','>=', '15:00']
+           ])->get(); 
+         } 
+         // dd($wisata);
+      }
 
       $tipewis = DB::table('tipe_wisatas')->get();
-      return view('user_wisata.daftar',['wisata'=>$wisata, 'tipewis'=>$tipewis]);
+      return view('user_wisata.filter',['rate'=>$rate_,'wisata'=>$wisata, 'tipewis'=>$tipewis, 'detail'=>$detailwisata]);
     }
 
     public function index()
     {
-      
-      // $output_data = shell_exec('python scrape_instagram.py');
-
-      // // $output_data = shell_exec('python Users/inekeyuliamargareta/Downloads/scrape_instagram.py');
-      // dd($output_data);
-
-      return view('user_wisata.index');  
+      $wis = TrenWisata::all();
+      return view('user_wisata.index',['wis' => $wis]);  
     }
     
     public function kriteria(Request $request)

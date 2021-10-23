@@ -41,6 +41,7 @@ Route::resource('kamar.gambarkamar', 'GambarKamarController', ['middleware' => '
 Route::resource('/gambarwisata', 'GambarWisataController', ['middleware' => 'auth']);
 Route::resource('wisata.gambarwisata', 'GambarWisataController', ['middleware' => 'auth']);
 Route::resource('/gambarsewa', 'GambarPersewaanController', ['middleware' => 'auth']);
+Route::resource('/tren/wisata','TrenWisataController', ['middleware' => 'auth'] );
 
 Route::get('export/hotel/terverifikasi', 'HotelController@export_terverifikasi');
 Route::get('cetak_pdf/hotel/terverifikasi', 'HotelController@cetak_pdf_terverifikasi');
@@ -58,6 +59,9 @@ Route::post('/ubah/hotel/{id}', 'HotelController@ubah');
 Route::post('/ubahbobot/hotel', 'HotelController@ubahbobot');
 Route::get('/alasan/tolak/hotel/{id}', 'HotelController@createalasan');
 Route::post('/store/tolak/hotel/{id}', 'HotelController@storealasan');
+// Route::get('/tren/wisata', 'WisataController@daftartren');
+Route::post('update/tren/wisata', 'WisataController@updatetren');
+Route::get('update/tren/wisata', 'WisataController@updatetren');
 
 Route::get('export/persewaan/terverifikasi', 'PersewaanController@export_terverifikasi');
 Route::get('cetak_pdf/persewaan/terverifikasi', 'PersewaanController@cetak_pdf_terverifikasi');

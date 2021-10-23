@@ -139,7 +139,13 @@
                       <h4 style=" font-family:serif; font-size:40px; font-weight: 100px;" >Daftar Wisata di Jawa Timur</h4>
                       <hr class="divider divider-secondary"><br>
                       <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal" onclick="filterKota()">Filter Wisata</a><br><br>
-                  </div>
+						@if(!empty($rate))
+						{
+							<p> {{$rate}}</p>
+						} 
+						@endif
+				
+					</div>
                 </div>
                
             </div>
@@ -354,7 +360,7 @@
                     </div> -->
                   </div>
                   <div class="modal-footer">
-                  <a type="button" class="btn btn-Secondary pull-left" href="{{url('daftar/wisata')}}">Hapus filter</a>
+                    <a type="button" class="btn btn-Secondary pull-left" href="{{url('daftar/wisata')}}">Hapus filter</a>
                     <button type="submit" class="btn btn-primary">Simpan Filter</button>
                   </div>
                 </div>

@@ -10,56 +10,54 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                 <label class="exampleFormControlInput1">Cari </label>
                                 <input type="text" id="myCustomSearchBox" class="form-control pull-right" placeholder="Cari wisata"name="cari" required>
                                 </div>
                             </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Download Laporan
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item"  href="{{url('export/wisata')}}"> Laporan Excel</a>
-                            <a class="dropdown-item" href="cetak_pdf/wisata" target="_blank"> Laporan PDF</a>
+							
+                            <div class="col-md-4">
+							<form class="mt-2" action='{{url("update/tren/wisata")}}' method="post" enctype="multipart/form-data">
+                  			<input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        
+							<input type="hidden" name="nama" id="nama">
+							<input type="hidden" name="linkgambar" id="linkgambar">
+
+                            <button class="btn btn-primary btn-md pull-right" type="submit">Update tren Wisata</button> 
                             </div>
-                            <div class="col-md-2">
-                            <a class="btn btn-primary btn-md pull-right" href="{{url('wisata/create')}}">Tambah Wisata</a> 
                             </div>
-                            <div class="col-md-2">
-                            <a class="btn btn-primary btn-md pull-right" href="{{url('tren/wisata')}}">Lihat tren Wisata</a> 
-                            </div>
-                            </div><br>
+							</form>							
+							
                             <table class="table table-striped table-no-bordered table-hover dataTable dtr-inline" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama Wisata</th>
-                                        <th>Jenis Wisata</th>
-                                        <th>Kabupaten / Kota</th>
+                                        <th>Gambar Wisata</th>
                                         <th>Action Edit</th>
                                         <th>Action Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($listwisata as $key=>$item)
-                                    <tr>
+									@foreach($wisata as $key => $item)
+									<tr>
                                         <td>{{$key+1}}</td>
-                                        <td><a href="{{url('wisata/'.$item->id)}}">{{$item->nama_wisata}}</a></td>
-                                        <td>{{$item->tipe_wisatas->nama_tipe}}</td>
-                                        <td>{{$item->kelurahans->kecamatans->kabupatens->nama_kabupaten}}</td>
+                                        <td>{{$item->nama_top_wisata}}</td>
+                                        <td>{{$item->link_gambar}}</td>
                                         <td>
-                                        <a href="{{url('wisata/'.$item->id.'/edit')}}"><i class="fa fa-edit fa-2x"></i></a>
+                                        <a href="{{url('tren/wisata/'.$item->id.'/edit')}}"><i class="fa fa-edit fa-2x"></i></a>
                                         </td>                         
                                         <td>
-                                        <form method="POST" action="{{ url('wisata/'.$item->id) }}" id="form-hapus-{{ $item->id }}">
+                                        <form method="POST" action="{{ url('tren/wisata/'.$item->id) }}" id="form-hapus-{{ $item->id }}">
                                             {{ method_field("DELETE") }}
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <a href="#" class="button" data-id="{{$item->id}}"><i class="fa fa-trash fa-2x"></i></a>
                                             </form>
                                         </td>
                                     </tr>
-                                    @endforeach
+									@endforeach
+                               
                                 </tbody>
                             </table>
                             <script>

@@ -1271,12 +1271,12 @@
       if(cr <= 0.1)
       {
         console.log('konsisten')
-        // $(this).prop('href', '/gethasil?data='+ JSON.stringify(hasilBobotId));
+        $(this).prop('href', '/gethasil?data='+ JSON.stringify(hasilBobotId));
       }
       else
       {
         alert('tidak konsisten, masukan ulang')
-        // $("#hitung")[0].reset();
+        $("#hitung")[0].reset();
         // alert("Matriks Tidak Konsisten, Masukan Perbandingan Lagi");
 
       }

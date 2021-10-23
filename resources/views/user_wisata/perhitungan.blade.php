@@ -253,48 +253,7 @@
               </div><br><br>
             </div>
           </div>
-          <div class="row row-fix row-50 justify-content-xl-center text-center">
-            <div class="col-md-10 col-lg-10 col-xl-8">
-              <p style="font-size:25px;font-weight:600;"> Step 5. Menghitung Nilai Preferensi Setiap Alternatif </p>
-              <hr class="divider divider-secondary"><br>
-              <br><br><br>
-              <div class="container ">
-                <div class="row text-center">
-                    <div class="col-md-4">
-                      <div class="row">
-                        <p style="font-size:25px;text-align:center;font-weight:400;"> Alternatif</p>
-                      </div>    
-                      @foreach($wisata as $item)
-                      <div class="row">
-                      <p style="font-size:25px; "> {{ $item->nama_wisata }}</p>
-                      </div>
-                      @endforeach                
-                    </div>
-                    <div class="col-md-4">
-                      <div class="row">
-                      <p style="font-size:25px;text-align:center;font-weight:400;"> Nilai Preferensi </p>
-                      </div>
-                      @foreach($nilaipref as $item)
-                      <div class="row">
-                      <p style="font-size:25px; "> {{ $item }}</p>
-                      </div>
-                      @endforeach
-                    </div>
-                    <div class="col-md-4">
-                      <div class="row">
-                      <p style="font-size:25px;text-align:center;font-weight:400;"> Urutan </p>
-                      </div>
-                      @foreach($ranking as $item)
-                      <div class="row">
-                      <p style="font-size:25px; "> {{ $item['nama'] }}</p>
-                      </div>
-                      @endforeach
-                    </div>
-                </div>
-              </div><br><br>
-              <a class="button button-secondary-outline button-nina" href="{{ url()->previous() }}"> Kembali</a>
-            </div>
-          </div>
+       
            <div class="row row-fix row-50 justify-content-xl-center text-center">
             <div class="col-md-10 col-lg-10 col-xl-8">
               <p style="font-size:25px;font-weight:600;"> Step 5. Menghitung Nilai Preferensi Setiap Alternatif </p>
