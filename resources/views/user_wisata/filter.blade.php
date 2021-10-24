@@ -139,16 +139,113 @@
                       <h4 style=" font-family:serif; font-size:40px; font-weight: 100px;" >Daftar Wisata di Jawa Timur</h4>
                       <hr class="divider divider-secondary"><br>
                       <a class="button button-secondary button-nina"  data-toggle="modal" data-target="#exampleModal" href="#exampleModal" onclick="filterKota()">Filter Wisata</a><br><br>
-						@if(!empty($rate))
-						{
-							<p> {{$rate}}</p>
-						} 
-						@endif
-				
-					</div>
+                      <p style="font-weight:400;font-size:24px;font-family:serif"> Filter Wisata Berdasarkan</p><br>
+					        </div>
                 </div>
-               
             </div>
+            <div class="container">
+              @if(count($kota) > 0)
+                <div class="row" > 
+                    <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                          <i>  Lokasi Wisata : </i>
+                    </div>
+                    @foreach($kab as $item)
+                          @if(in_array($item->id,$kota))
+                          <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                          <i>{{$item->nama_kabupaten}}</i>
+                          </div>
+                          @endif
+                    @endforeach
+                </div>
+              @endif
+              @if($max > 50000)
+                <div class="row" style="margin-top:10px"> 
+                    <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                            <i>Harga Wisata :  </i>
+                    </div>
+                    <div class="col-4" style="margin-right:-120px;font-weight:600;font-size:20px">
+                          <i> Rp {{number_format($min,2)}} - Rp {{number_format($max,2)}} </i>
+                    </div>
+                </div>
+              @else
+                <div class="row" style="margin-top:10px"> 
+                    <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                            <i>Harga Wisata :  </i>
+                    </div>
+                    <div class="col-4" style="margin-right:-120px;font-weight:600;font-size:20px">
+                          <i>  Rp {{number_format($min,2)}} - Rp {{number_format($max,2)}} </i>
+                    </div>
+                </div>
+              @endif
+              @if($waktu == 1)
+                <div class="row" style="margin-top:10px"> 
+                    <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                            <i>Jam Buka Wisata:  </i>
+                    </div>
+                    <div class="col-4" style="margin-right:-120px;font-weight:600;font-size:20px">
+                          <i> 07:00 (Pagi)</i>
+                    </div>
+                </div>
+              @else
+                <div class="row" style="margin-top:10px"> 
+                    <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                    <i>Jam Buka Wisata:  </i>
+                    </div>
+                    <div class="col-4" style="margin-right:-120px;font-weight:600;font-size:20px">
+                          <i> 15:00 (Sore)</i>
+                    </div>
+                </div>
+              @endif
+              @if(!empty($rate))
+                <div class="row" style="margin-top:10px"> 
+                    <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                    <i>Rating Wisata:  </i>
+                    </div>
+                    <div class="col-4" style="margin-right:-120px;font-weight:600;font-size:20px">
+                        @if($rate == 5)
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                      
+                        @endif
+                    </div>
+                </div>
+              @endif
+              @if(count($tipe_id) > 0)
+                <div class="row" style="margin-top:10px"> 
+                    <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                            <i>Tipe Wisata : </i>
+                    </div>
+                    @foreach($tipewis as $item)
+                          @if(in_array($item->id,$tipe_id))
+                          <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                          <i>{{$item->nama_tipe}}</i>
+                          </div>
+                          @endif
+                    @endforeach
+                </div>
+              @endif
+              @if(count($fasi) > 0)
+                <div class="row" style="margin-top:10px"> 
+                    <div class="col-2" style="margin-right:-120px;font-weight:600;font-size:20px">
+                            <i>Fasilitas Wisata : </i>
+                    </div>
+                    </div>
+                    <div class="row" style="margin-top:10px"> 
+
+                    @foreach($detail as $item)
+                          @if(in_array($item->id,$fasi))
+                          <div class="col-2" style="font-weight:600;font-size:20px">
+                          <i>{{$item->nama_detail}}</i>
+                          </div>
+                          @endif
+                    @endforeach
+                </div>
+              @endif
+            </div>
+          
             <div class="row row-50">
             @foreach($wisata as $item)
                 <div class="col-md-6 col-xl-4">
@@ -253,7 +350,7 @@
                         <label style="color:grey; font-size:20px;font-family:serif;"for="exampleInputEmail1">Minimal Harga Tiket Rp </label style="color:grey; font-size:20px;font-family:serif;">&nbsp;
                         <input type="number" class="form-control" id="mintiket" name="mintiket" aria-describedby="mintiket" value="0">
                         <label style="color:grey; font-size:20px;font-family:serif;"for="exampleInputEmail1"> - Maksimal Rp </label style="color:grey; font-size:20px;font-family:serif;">
-                        <input type="number" class="form-control" id="maxtiket" name="maxtiket" aria-describedby="maxtiket" value="50000">
+                        <input type="number" class="form-control" id="maxtiket" name="maxtiket" aria-describedby="maxtiket" value="500000">
             
                         </div>
                       </div>
@@ -272,7 +369,7 @@
                             <label style="color:grey; font-size:20px;font-family:serif;"> Pilih Jam Buka Wisata </label style="color:grey; font-size:20px;font-family:serif;"> 
                           </div>
                           <div class="form-check">
-                          <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" style="height:20px; width:20px;"  id="waktu" name="waktu" value="1"> Pagi (Mulai 08:00)</label style="color:grey; font-size:20px;font-family:serif;">
+                          <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" style="height:20px; width:20px;"  id="waktu" name="waktu" value="1"> Pagi (Mulai 07:00)</label style="color:grey; font-size:20px;font-family:serif;">
                           </div>
                           <div class="form-check">
                           <label style="color:grey; font-size:20px;font-family:serif;"><input type="radio" style="height:20px; width:20px;"  id="waktu" name="waktu" value="2"> Sore (Mulai 15:00)</label style="color:grey; font-size:20px;font-family:serif;">

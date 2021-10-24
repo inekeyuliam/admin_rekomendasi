@@ -440,7 +440,8 @@
                         <img  src="{{ asset('images/'.$item2->filename) }}" style="width:570;height:370;cursor:pointer;alt=''"/>
                     @endif
                     @endforeach
-                  </div>                 <br>
+                  </div>                 
+                  <br>
 
                   @if( $item->rating  == 4.5 || $item->rating > 4.5 )
                     <p style="text-align:center;font-size:23px;font-weight:300;font-family:serif;color:black "class="heading-5">  Rating :  
@@ -546,7 +547,7 @@
               <div class="row">
                 <div class="col-md" style="text-align:center">  
                 @foreach($wis1 as $key=>$item)
-                 
+                
                   <p style="text-align:center;font-family:serif;font-size:25px;font-weight:600;color:black " class="heading-5"  >Fasilitas</p>  <hr class="divider divider-secondary" align="center;"width="50%"size="10">
                   @foreach($detwis1 as $key=>$item)
                         <p style="text-align:center;font-family:serif;font-size:23px;font-weight:100;color:black" >- {{ $item->nama_detail }}</p>

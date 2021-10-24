@@ -867,7 +867,7 @@ class RekomendasiWisataController extends Controller
       $kabupaten = KotaKabupaten::all();
       $tipewis = DB::table('tipe_wisatas')->get();
       $detailwisata = DB::table('detail_kriterias')->where('kriteria_id',1)->get();
-
+    
       //dipilih semua
       if($tipe_id != null && $fasi != null && $rate_ != null && $kota!= null && $waktu!= null && $min!= null && $max!= null)
       {
@@ -882,7 +882,8 @@ class RekomendasiWisataController extends Controller
             })->whereHas('harga_wisatas', function ($q) use ($min, $max){
               $q->whereBetween('harga_masuk', [$min,$max]);
             })->where([
-              ['jam_buka','>=', '08:00'],
+              ['jam_buka','>=', '07:00'],
+              ['jam_tutup','<', '15:00'],          
               ['rating','>=',(float)$rate_]
             ])->get();         
           }
@@ -904,6 +905,14 @@ class RekomendasiWisataController extends Controller
       }
 
       //pilih 1 filter 
+      else if($tipe_id == null && $fasi == null  && $rate_ == null && $kota== null && $waktu== null && $min != null && $max != null)
+      {
+        $wisata =  Wisata::with('gambar_wisatas')
+        ->whereHas('harga_wisatas', function ($q) use ($min, $max){
+          $q->whereBetween('harga_masuk', [$min,$max]);
+        })->get();  
+        // dd($wisata);
+      }
       else if($tipe_id != null && $fasi == null  && $rate_ == null && $kota== null && $waktu== null && $min != null && $max != null)
       {
         $wisata =  Wisata::with('gambar_wisatas')
@@ -955,7 +964,7 @@ class RekomendasiWisataController extends Controller
           ->whereHas('harga_wisatas', function ($q) use ($min, $max){
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
-            ['jam_buka','>=', '08:00']
+            ['jam_buka','>=', '07:00']
           ])->get();  
         }
         else
@@ -1016,7 +1025,8 @@ class RekomendasiWisataController extends Controller
           })->whereHas('harga_wisatas', function ($q) use ($min, $max){
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
-            ['jam_buka','>=', '08:00']
+            ['jam_buka','>=', '07:00']
+            
           ])->get(); 
         }
         else
@@ -1070,8 +1080,8 @@ class RekomendasiWisataController extends Controller
           })->whereHas('harga_wisatas', function ($q) use ($min, $max){
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
-            ['jam_buka','>=', '08:00']
-          ])->get();  
+            ['jam_buka','>=', '07:00']
+            ])->get();  
         }
         else
         {
@@ -1112,7 +1122,7 @@ class RekomendasiWisataController extends Controller
             $q->whereIn('kabupatens.id', $kota);
           })->where([
             ['rating','>=',(float)$rate_],
-            ['jam_buka','>=', '08:00']
+            ['jam_buka','>=', '07:00']           
           ])->get(); 
         }
         else
@@ -1142,7 +1152,7 @@ class RekomendasiWisataController extends Controller
           })->whereHas('harga_wisatas', function ($q) use ($min, $max){
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
-            ['jam_buka','>=', '08:00']
+            ['jam_buka','>=', '07:00']           
           ])->get(); 
         }
         else
@@ -1202,8 +1212,7 @@ class RekomendasiWisataController extends Controller
           })->whereHas('harga_wisatas', function ($q) use ($min, $max){
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
-            ['jam_buka','>=', '08:00']
-          ])->get();
+            ['jam_buka','>=', '07:00']           ])->get();
         }
         else
         {
@@ -1215,7 +1224,7 @@ class RekomendasiWisataController extends Controller
           })->whereHas('harga_wisatas', function ($q) use ($min, $max){
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
-            ['jam_buka','>=', '015:00']
+            ['jam_buka','>=', '15:00']
           ])->get();
         }
           
@@ -1251,8 +1260,7 @@ class RekomendasiWisataController extends Controller
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
             ['rating','>=',(float)$rate_],
-            ['jam_buka','>=', '08:00']
-          ])->get();  
+            ['jam_buka','>=', '07:00']           ])->get();  
         }
         else
         {
@@ -1263,7 +1271,7 @@ class RekomendasiWisataController extends Controller
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
             ['rating','>=',(float)$rate_],
-            ['jam_buka','>=', '08:00']
+            ['jam_buka','>=', '15:00']
           ])->get();  
         }
        
@@ -1280,7 +1288,7 @@ class RekomendasiWisataController extends Controller
             })->whereHas('harga_wisatas', function ($q) use ($min, $max){
               $q->whereBetween('harga_masuk', [$min,$max]);
             })->where([
-              ['jam_buka','>=', '08:00']
+              ['jam_buka','>=', '07:00']
             ])->get();  
           }
           else
@@ -1327,8 +1335,8 @@ class RekomendasiWisataController extends Controller
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
             ['rating','>=',(float)$rate_],
-            ['jam_buka','>=', '08:00']
-          ])->get(); 
+            ['jam_buka','>=', '07:00'],
+['jam_tutup','<', '15:00']                    ])->get(); 
         }
         else
         {
@@ -1361,7 +1369,7 @@ class RekomendasiWisataController extends Controller
             })->whereHas('harga_wisatas', function ($q) use ($min, $max){
               $q->whereBetween('harga_masuk', [$min,$max]);
             })->where([
-              ['jam_buka','>=', '08:00']
+              ['jam_buka','>=', '07:00']
             ])->get();  
           }
           else
@@ -1392,8 +1400,7 @@ class RekomendasiWisataController extends Controller
               $q->whereBetween('harga_masuk', [$min,$max]);
             })->where([
               ['rating','>=',(float)$rate_],
-              ['jam_buka','>=', '08:00']
-            ])->get();  
+              ['jam_buka','>=', '07:00']])->get();  
           }
           else
           {
@@ -1438,8 +1445,7 @@ class RekomendasiWisataController extends Controller
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
             ['rating','>=',(float)$rate_],
-            ['jam_buka','>=', '08:00']
-          ])->get(); 
+            ['jam_buka','>=', '07:00']])->get(); 
         }
         else
         {
@@ -1472,8 +1478,7 @@ class RekomendasiWisataController extends Controller
           })->whereHas('harga_wisatas', function ($q) use ($min, $max){
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
-            ['jam_buka','>=', '08:00']
-          ])->get(); 
+            ['jam_buka','>=', '07:00']])->get(); 
         }
         else
         {
@@ -1507,8 +1512,7 @@ class RekomendasiWisataController extends Controller
             $q->whereBetween('harga_masuk', [$min,$max]);
           })->where([
             ['rating','>=',(float)$rate_],
-            ['jam_buka','>=', '08:00']
-          ])->get(); 
+            ['jam_buka','>=', '07:00']])->get(); 
         }
         else
         {
@@ -1540,8 +1544,7 @@ class RekomendasiWisataController extends Controller
              $q->whereBetween('harga_masuk', [$min,$max]);
            })->where([
             ['rating','>=',(float)$rate_],
-             ['jam_buka','>=', '08:00']
-           ])->get(); 
+            ['jam_buka','>=', '07:00']])->get(); 
          }
          else
          {
@@ -1556,9 +1559,12 @@ class RekomendasiWisataController extends Controller
          } 
          // dd($wisata);
       }
+      // dd($tipe_id);
 
       $tipewis = DB::table('tipe_wisatas')->get();
-      return view('user_wisata.filter',['rate'=>$rate_,'wisata'=>$wisata, 'tipewis'=>$tipewis, 'detail'=>$detailwisata]);
+      // dd($tipewis);
+      return view('user_wisata.filter',['rate'=>$rate_,'tipe_id'=>$tipe_id,'fasi'=>$fasi,'kota'=>$kota,'kab'=>$kabupaten,
+      'waktu'=>$waktu,'max'=>$max,'min'=>$min,'wisata'=>$wisata, 'tipewis'=>$tipewis, 'detail'=>$detailwisata]);
     }
 
     public function index()
@@ -1626,7 +1632,7 @@ class RekomendasiWisataController extends Controller
       function ($q) use($waktu){
         if($waktu==1)
         {
-          $q->where('jam_buka','>=','08:00');
+          $q->where('jam_buka','>=','07:00');
         }
         else
         {

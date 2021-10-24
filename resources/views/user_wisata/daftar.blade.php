@@ -247,7 +247,7 @@
                         <label style="color:grey; font-size:20px;font-family:serif;"for="exampleInputEmail1">Minimal Harga Tiket Rp </label style="color:grey; font-size:20px;font-family:serif;">&nbsp;
                         <input type="number" class="form-control" id="mintiket" name="mintiket" aria-describedby="mintiket" value="0">
                         <label style="color:grey; font-size:20px;font-family:serif;"for="exampleInputEmail1"> - Maksimal Rp </label style="color:grey; font-size:20px;font-family:serif;">
-                        <input type="number" class="form-control" id="maxtiket" name="maxtiket" aria-describedby="maxtiket" value="50000">
+                        <input type="number" class="form-control" id="maxtiket" name="maxtiket" aria-describedby="maxtiket" value="500000">
             
                         </div>
                       </div>

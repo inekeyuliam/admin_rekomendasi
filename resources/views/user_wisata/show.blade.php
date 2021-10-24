@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/fonts.css')}}">
     <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script defer
+            src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyBtpoc4GeD2LSQ8CQ3WpYBCyT6ln6eylvY"
+            type="text/javascript"></script>
 
 		<!--[if lt IE 10]>
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
@@ -351,46 +355,44 @@
       </section>
    
       <section class="section section-lg text-center novi-background bg-cover">
-        <div class="container container-wide">
-          <h3>Oleh-oleh & Restoran Terdekat Wisata</h3>
-          <div class="divider divider-secondary"></div>
-          <div class="row row-50 row-xxl-90 justify-content-sm-center offset-custom-2">
-            <div class="col-sm-6 col-md-6 col-xl-3">
-              <article class="box-minimal box-minimal-border" style="padding:40px 45px 45px">
-                @foreach($oleh as $oleh2)
-                <p class="big box-minimal-title"> {{$oleh2->nama_toko}}</p>
-                <p class="team-classic-job-position" style="font-size:20px;color:black">Alamat : {{$oleh2->alamat}} </p>
-                @endforeach
+          <div class="container container-wide">
+            <h3>Oleh-oleh & Restoran Terdekat Wisata</h3>
+            <div class="divider divider-secondary"></div>
+            <div class="row row-50 row-xxl-90 justify-content-sm-center offset-custom-2">
+                <div class="col-sm-6 col-xl-4 col-xl-3">
+                  <article class="box-minimal box-minimal-border" style="padding:40px 45px 45px">
+                    @foreach($oleh as $oleh2)
+                    <p class="big box-minimal-title"> {{$oleh2->nama_toko}}</p>
+                    <p class="team-classic-job-position" style="font-size:20px;color:black">Alamat : {{$oleh2->alamat}} </p>
+                    @endforeach
+                    <hr>
+                    @foreach($kriteria as $item)
+                    @if($item->kriteria_id == 6)
+                    <p class="team-classic-job-position" style="font-size:20px;color:black" >Jarak oleh-oleh dengan wisata : {{$item->nilai}} km</p>
+                    @endif
+                    @endforeach
+                    <a class="button button-info button-nina" onclick="LocOleh2()">Petunjuk Jalan</a>
+                  </article>
+                </div>
+                <div class="col-sm-6 col-xl-4 col-xl-3">
+                  <article class="box-minimal box-minimal-border" style="padding:40px 45px 45px">
+                    @foreach($resto as $item)
+                    <p class="big box-minimal-title"> {{$item->nama_resto}}</p>
+                    <p class="team-classic-job-position" style="font-size:20px;color:black">Alamat : {{$item->alamat}} </p>
+                    <input type="hidden" value="{{$item->longitude}}" id="longres" name="longres"/>
+                    <input type="hidden" value="{{$item->latitude}}" id="latres" name="latres"/>
+                    @endforeach
+                    <hr>
+                    @foreach($kriteria as $item)
+                    @if($item->kriteria_id == 7)
+                    <p class="team-classic-job-position" style="font-size:20px;color:black">Jarak restoran / tempat makan dengan wisata : {{$item->nilai}} km</p>
+                    @endif
+                    @endforeach
+                    <a class="button button-info button-nina"  onclick="LocResto()">Petunjuk Jalan</a>
+                  </article>
 
-                @foreach($kriteria as $item)
-                @if($item->kriteria_id == 6)
-                <p class="team-classic-job-position" style="font-size:20px;color:black" >Jarak oleh-oleh dengan wisata : {{$item->nilai}} km</p>
-                @endif
-                @endforeach
-                <a class="button button-info button-nina" onclick="LocOleh2()">Petunjuk Jalan</a>
-
-              </article>
-            </div>
-            <div class="col-sm-6 col-md-6 col-xl-3">
-            <article class="box-minimal box-minimal-border" style="padding:40px 45px 45px">
-                @foreach($resto as $item)
-                <p class="big box-minimal-title"> {{$item->nama_resto}}</p>
-                <p class="team-classic-job-position" style="font-size:20px;color:black">Alamat : {{$item->alamat}} </p>
-                <input type="hidden" value="{{$item->longitude}}" id="longres" name="longres"/>
-                <input type="hidden" value="{{$item->latitude}}" id="latres" name="latres"/>
-                @endforeach
-
-                @foreach($kriteria as $item)
-                @if($item->kriteria_id == 7)
-                <p class="team-classic-job-position" style="font-size:20px;color:black">Jarak restoran / tempat makan dengan wisata : {{$item->nilai}} km</p>
-                @endif
-                @endforeach
-                <a class="button button-info button-nina" onclick="LocResto()">Petunjuk Jalan</a>
-
-              </article>
-
-            </div>
-            </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -469,7 +471,45 @@
         <br><br><br><br>
       </section>
       <section class="section section-lg text-center novi-background bg-cover">
-        <a class="button button-info button-nina" onclick="LocOleh2()"> Petunjuk Jalan</a>
+        <a class="button button-secondary button-nina" data-toggle="modal" data-target="#exampleModalWisata""> Petunjuk Jalan</a>
+        <div class="modal fade" id="exampleModalWisata" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalResto">Petunjuk Jalan Wisata {{ $list->nama_wisata }}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="height:58vh">      
+                <div class="row">
+                  <div class="col-sm-4">
+                    <form id="distance_form">
+                      <div class="form-group"><label>Origin</label>
+                            <input class="form-control" id="from_places" />
+                            <input id="start" name="start" required="" type="hidden"/>
+                            <a class="form-control" onclick="getCurrentPosition()">Set Current Location</a>
+                        </div>
+                        <div class="form-group"><label>Longlat</label>
+                          <input id="end" name="end" required="" type="hidden" value="{{$list->alamat}}"/>
+                        </div>
+
+                        <input type="hidden" name="long" id="long" value="{{$list->longitude}}" />
+                        <input type="hidden" name="lat" id="lat" value="{{$list->latitude}}" />
+                        <input class="btn btn-primary" type="submit" value="calculate_btn"/>
+
+                    </form>
+                  </div>
+                  <div class="col-sm-6">
+                    <div id="map" style="height: 400px; width: 500px" ></div>
+                    <div id="sidebar"></div>
+                  </div> 
+                </div>   
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  </div>
+            </div>
+          </div>
       </section>
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -561,13 +601,84 @@ $('#closemodal').click(function() {
 
 });
 
-$('.stars a').on('click', function(){
-  $('.stars span, .stars a').removeClass('active');
+  $('.stars a').on('click', function(){
+    $('.stars span, .stars a').removeClass('active');
 
-  $(this).addClass('active');
-  $('.stars span').addClass('active');
-});
+    $(this).addClass('active');
+    $('.stars span').addClass('active');
+  });
 
-$('#tutup').modal('hide');
+  $('#tutup').modal('hide');
+  $("#exampleModalWisata").click(function(){
+  // get latitude and longitude that pass from open modal button
+
+      initMap();
+
+      function initMap() {
+          const directionsRenderer = new google.maps.DirectionsRenderer();
+          const directionsService = new google.maps.DirectionsService();
+          const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 7,
+            center: { lat: 41.85, lng: -87.65 },
+            disableDefaultUI: true,
+          });
+
+          directionsRenderer.setMap(map);
+          directionsRenderer.setPanel(document.getElementById("sidebar"));
+
+          const control = document.getElementById("floating-panel");
+
+          map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+
+          const onChangeHandler = function () {
+            calculateAndDisplayRoute(directionsService, directionsRenderer);
+          };
+
+          document.getElementById("start").addEventListener("change", onChangeHandler);
+          document.getElementById("end").addEventListener("change", onChangeHandler);
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+          const start = document.getElementById("start").value;
+          const end = document.getElementById("end").value;
+
+          directionsService
+            .route({
+              origin: start,
+              destination: end,
+              travelMode: google.maps.TravelMode.DRIVING,
+            })
+            .then((response) => {
+              directionsRenderer.setDirections(response);
+            })
+            .catch((e) => window.alert("Directions request failed due to " + status));
+        }
+  });
+  
+
+   // get current Position
+    function getCurrentPosition() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setCurrentPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.")
+        }
+    }
+
+    // get formatted address based on current position and set it to input
+    function setCurrentPosition(pos) {
+        var geocoder = new google.maps.Geocoder();
+        var latlng = {lat: parseFloat(pos.coords.latitude), lng: parseFloat(pos.coords.longitude)};
+        geocoder.geocode({ 'location' :latlng  }, function (responses) {
+            console.log(responses);
+            if (responses && responses.length > 0) {
+                $("#origin").val(responses[1].formatted_address);
+                $("#from_places").val(responses[1].formatted_address);
+                //    console.log(responses[1].formatted_address);
+            } else {
+                alert("Cannot determine address at this location.")
+            }
+        });
+    }
 
 </script>
